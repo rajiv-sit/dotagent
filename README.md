@@ -34,9 +34,40 @@ Optional:
 
 `dotcodex` does not require Jira, Confluence, or Zephyr to work. Those systems are integration targets around the workflow, not hard dependencies of the pack.
 
-## Start A New Project
+## Getting Started
 
-**New to dotcodex?** Start here: [Quick Start Guide](docs/quick-start.md) (5-10 minutes to a working project)
+**Not sure where to begin?** → [Go to Navigation Hub](docs/index.md) (1 min to find the right guide for you)
+
+**Starting a new project?** → [Quick Start Guide](docs/quick-start.md) (10 min setup + first task)
+
+**Adopting dotcodex in existing project?** → [Migration Guide](docs/migration-guide.md) (60 min adaptation plan)
+
+**Want to see a real example?** → [Case Study](docs/case-study.md) (How team "Acme Analytics" used dotcodex)
+
+---
+
+## Complete Documentation
+
+| Guide | Best For | Time |
+|-------|----------|------|
+| [Navigation Hub](docs/index.md) | Finding the right doc | 5 min |
+| [Quick Start](docs/quick-start.md) | New projects | 10 min |
+| [Migration Guide](docs/migration-guide.md) | Existing projects | 60 min |
+| [FAQ](docs/faq.md) | Common questions | 15 min |
+| [Customize for Your Stack](docs/customize-for-your-stack.md) | Language-specific rules | 30 min |
+| [Rule Hierarchy](docs/rule-hierarchy.md) | Understanding rule conflicts | 20 min |
+| [Using Skills](docs/using-skills.md) | TDD, debugging, testing | 30 min |
+| [Troubleshooting](docs/troubleshooting.md) | Solving problems | As needed |
+| [Obsidian Integration](docs/obsidian-integration.md) | Using Obsidian for docs | 25 min |
+| [GitHub Actions Integration](docs/github-actions-integration.md) | CI/CD validation | 30 min |
+| [Starter Templates](docs/starter-templates.md) | Copy-paste doc templates | 10 min |
+| [Case Study](docs/case-study.md) | Learning by example | 15 min |
+
+**[→ Start with Navigation Hub if you're lost](docs/index.md)**
+
+---
+
+## Start A New Project
 
 This is the normal setup flow for a real project.
 
