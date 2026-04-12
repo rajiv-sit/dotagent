@@ -29,12 +29,14 @@ Codex should use the project-local `AGENTS.md` and `your-project\.codex\...` fil
 Optional:
 
 - `graphify` for graph-based repo summaries
-- Obsidian for linked markdown navigation
+- Obsidian for linked markdown navigation (see [Obsidian Integration Guide](docs/obsidian-integration.md))
 - GitHub, GitLab, Azure DevOps, Jira, Confluence, Zephyr, or similar team systems
 
 `dotcodex` does not require Jira, Confluence, or Zephyr to work. Those systems are integration targets around the workflow, not hard dependencies of the pack.
 
 ## Start A New Project
+
+**New to dotcodex?** Start here: [Quick Start Guide](docs/quick-start.md) (5-10 minutes to a working project)
 
 This is the normal setup flow for a real project.
 
@@ -174,6 +176,100 @@ powershell -ExecutionPolicy Bypass -File .\.codex\scripts\dotcodex.ps1 result -I
 ```
 
 Local job state is stored under `.dotcodex-state/` in the project root.
+
+## When to Use Each Agent
+
+- **default-agent** (everyday work)
+  - Use for implementation, milestone completion, and architecture-aligned development
+  - Reads root docs first, applies project rules, updates CONTEXT.md and PLAN.md
+  
+- **code-reviewer** (pre-merge validation)
+  - Use for PRs, code changes, and behavioral regressions
+  - Checks correctness, missing validation, missing tests, risky assumptions
+
+- **security-reviewer** (security audit)
+  - Use when implementing auth, data handling, input processing, or integrations
+  - Focuses on exploitability, attack paths, secrets handling, least privilege
+
+- **performance-reviewer** (post-merge optimization)
+  - Use after a feature is merged to identify measurable bottlenecks
+  - Looks for repeated work, blocking I/O, N+1 patterns, large payload movement
+
+- **doc-reviewer** (documentation accuracy)
+  - Use to verify commands, file paths, assumptions in documentation
+  - Flags stale or contradictory guidance
+
+- **frontend-designer** (UI/UX work)
+  - Use when building user interfaces or design systems
+  - Ensures deliberate interfaces, accessibility, responsiveness, design system consistency
+
+## When to Use Each Skill
+
+- **setupdotcodex**
+  - Run after installing dotcodex to document build, test, lint commands and refine project rules
+  
+- **tdd** (test-driven development)
+  - Use to drive changes through small failing tests and minimum implementation
+  
+- **debug-fix** (defect investigation)
+  - Use when a bug is reported; reproduce → trace root cause → fix → test
+  
+- **refactor** (structural improvement)
+  - Use to improve code structure when behavior must remain stable
+  - Establish safety net with tests first
+  
+- **explain** (code understanding)
+  - Use to document existing code before making changes
+  - Explains purpose, data flow, non-obvious behavior, modification risks
+  
+## When to Use Each Skill
+
+- **setupdotcodex**
+  - Run after installing dotcodex to document build, test, lint commands and refine project rules
+  
+- **tdd** (test-driven development)
+  - Use to drive changes through small failing tests and minimum implementation
+  
+- **debug-fix** (defect investigation)
+  - Use when a bug is reported; reproduce → trace root cause → fix → test
+  
+- **refactor** (structural improvement)
+  - Use to improve code structure when behavior must remain stable
+  - Establish safety net with tests first
+  
+- **explain** (code understanding)
+  - Use to document existing code before making changes
+  - Explains purpose, data flow, non-obvious behavior, modification risks
+  
+- **test-writer** (test coverage)
+  - Use to add focused tests for new or changed behavior
+  - Covers happy path, edge cases, error paths, integration boundaries
+
+## Customize Rules for Your Stack
+
+dotcodex rules are generic by design. Learn how to add stack-specific rules without modifying dotcodex itself: [Customize for Your Stack](docs/customize-for-your-stack.md)
+
+Examples:
+- Python projects: add pytest, type hints, virtual env rules
+- JavaScript/TypeScript: add ESLint, TypeScript strictness, Prettier rules
+- Java projects: add Maven/Gradle, spotbugs, JUnit 5 rules
+- Full-stack: add API contract, deployment pipeline rules
+
+## Understand Rule Precedence
+
+When generic, stack-specific, and domain rules exist, which one applies? See [Rule Hierarchy & Conflicts](docs/rule-hierarchy.md) for:
+- How rules at different levels interact
+- Resolving conflicts between rules
+- Creating complementary (not conflicting) rules across teams
+
+## Troubleshooting
+
+Having issues? Check [Troubleshooting Guide](docs/troubleshooting.md) for:
+- Installation & setup problems (AGENTS.md not found, scripts won't run, etc.)
+- Rules not being followed
+- Hooks not firing
+- Context/documentation issues
+- Multi-team governance
 
 ## Required Project Docs
 
