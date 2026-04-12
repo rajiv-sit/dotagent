@@ -73,6 +73,9 @@ Optional:
 
 **Component Graph** → [GRAPH.md](GRAPH.md) — Visual architecture showing connections (works with Obsidian graph view)
 
+![Obsidian Graph Visualization](docs/obsidan.png)
+*Interactive graph view in Obsidian showing dotcodex component connections. Open GRAPH.md in Obsidian and press Ctrl+G to see this live — click nodes to navigate, drag to pan, scroll to zoom.*
+
 **Weekly Reminder** → GitHub Action runs every Monday reminding teams to update PLAN.md
 
 ---
