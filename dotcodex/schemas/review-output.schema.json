@@ -1,0 +1,41 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "dotcodex review output",
+  "type": "object",
+  "required": ["verdict", "findings"],
+  "properties": {
+    "verdict": {
+      "type": "string",
+      "enum": ["approve", "comment", "needs_changes"]
+    },
+    "findings": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["severity", "summary"],
+        "properties": {
+          "severity": {
+            "type": "string",
+            "enum": ["high", "medium", "low"]
+          },
+          "summary": {
+            "type": "string"
+          },
+          "file": {
+            "type": "string"
+          }
+        },
+        "additionalProperties": true
+      }
+    },
+    "open_questions": {
+      "type": "array",
+      "items": { "type": "string" }
+    },
+    "verification_gaps": {
+      "type": "array",
+      "items": { "type": "string" }
+    }
+  },
+  "additionalProperties": true
+}

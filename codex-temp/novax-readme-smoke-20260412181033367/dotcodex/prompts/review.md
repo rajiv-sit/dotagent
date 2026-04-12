@@ -1,0 +1,20 @@
+<task>
+Review the requested change set or implementation target.
+</task>
+
+<review_target>
+{{TARGET}}
+</review_target>
+
+<review_contract>
+- Prioritize correctness, regressions, security, performance, and missing tests.
+- Ground findings in the provided context and inspected files.
+- Prefer real findings over style commentary.
+</review_contract>
+
+<output_contract>
+- Verdict
+- Findings by severity
+- Open questions
+- Verification gaps
+</output_contract>

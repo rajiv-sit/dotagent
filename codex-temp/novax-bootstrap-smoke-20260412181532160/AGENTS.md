@@ -1,0 +1,54 @@
+# Project Instructions
+
+## Default Agent
+
+The default operating profile for this project is `.codex/agents/default-agent.md` when present.
+
+If `.codex/agents/default-agent.md` is not present, follow these rules directly.
+
+## Root Docs First
+
+Before substantial implementation, read these root markdown files directly when they exist:
+
+- `CONTEXT.md`
+- `PLAN.md`
+- `Requirement.md`
+- `Architecture.md`
+- `HLD.md`
+- `DD.md`
+- `milestone.md`
+
+If they are missing or incomplete, prefer completing them before major implementation.
+
+## Workflow
+
+- implement one milestone at a time
+- validate after each milestone before moving on
+- prefer minimal diffs and root-cause fixes
+- do not bypass architecture and design context when it exists
+
+## graphify
+
+- if `graphify-out/GRAPH_REPORT.md` exists, read it before broad architecture or codebase analysis
+- if `graphify-out/wiki/index.md` exists, prefer it over broad raw-file exploration
+- use graph context as durable project memory when available
+
+## Traceability
+
+- use `CONTEXT.md` as durable project memory across sessions
+- use `PLAN.md` as the active execution tracker
+
+## Obsidian
+
+- if project architecture docs live in an Obsidian vault, prefer linked markdown navigation over broad raw-file search
+- keep root design notes cross-linked so Obsidian Graph and Local Graph stay useful as low-token navigation tools
+
+## Rules
+
+When present, follow:
+
+- `.codex/rules/code-quality.md`
+- `.codex/rules/testing.md`
+- `.codex/rules/security.md`
+- `.codex/rules/error-handling.md`
+- `.codex/rules/frontend.md`
