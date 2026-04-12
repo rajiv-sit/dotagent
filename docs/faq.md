@@ -30,7 +30,7 @@ If a rule needs human explanation beyond what Codex needs, put the full guide el
 ```markdown
 # .codex/rules/python.md
 
-Use pytest. See team handbook: [Python Testing Standards](../handbook/python-testing.md)
+Use pytest. See team handbook for Python Testing Standards
 ```
 
 ---
@@ -222,7 +222,7 @@ Codex will explain if it's using a different rule instead.
 
 For detailed security guidelines, see [OWASP Top 10](https://owasp.org/www-project-top-ten/).
 
-For project-specific security checklists, see [security-checklist.md](../security-checklist.md).
+For project-specific security checklists, see security-checklist.md (if your project has one).
 ```
 
 Codex will see these references, but will only follow them if the file is in the project.

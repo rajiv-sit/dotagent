@@ -129,7 +129,7 @@ Best if: Your existing docs are detailed and would be painful to migrate.
 ```markdown
 # Requirement.md
 
-See detailed spec in docs/requirements-full.md
+See detailed spec in your project's docs/requirements-full.md
 
 ## Quick Overview
 
@@ -137,7 +137,7 @@ See detailed spec in docs/requirements-full.md
 - Users are A, B, C
 - Performance targets: response < 200ms
 
-For complete requirements, see [detailed requirements](docs/requirements-full.md).
+For complete requirements, see your detailed specifications document.
 ```
 
 ---
@@ -155,15 +155,15 @@ For complete requirements, see [detailed requirements](docs/requirements-full.md
 ```
 Architecture.md
 ├─ Brief system overview
-└─ [Link to detailed design wiki](https://wiki/architecture)
+└─ Link to detailed design wiki (if you have one)
 
 HLD.md
 ├─ Modules overview
-└─ [Link to module specs](docs/modules/)
+└─ Link to module specs (if you have detailed module documentation)
 
 Contributing.md
 ├─ Code standards summary
-└─ [Link to style guide](docs/style-guide.md)
+└─ Link to style guide (if you have a separate style guide)
 ```
 
 ---
@@ -300,7 +300,7 @@ Don't create new standards. Map existing ones to `.codex/rules/`:
 
 ## Style & Quality
 
-Follow [ESLint config](../../.eslintrc.json) and [Prettier](../../.prettierrc.json).
+Follow your project's ESLint config and Prettier configuration.
 
 - Use `npm run lint` before committing
 - Use `npm run format` to auto-fix
@@ -313,8 +313,8 @@ Follow [ESLint config](../../.eslintrc.json) and [Prettier](../../.prettierrc.js
 
 ## See Also
 
-- [Contributing Guide](../../CONTRIBUTING.md)
-- [API Guidelines](../../docs/api-guide.md)
+- Your Contributing Guide
+- Your API Guidelines documentation
 ```
 
 ---

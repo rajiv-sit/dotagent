@@ -276,7 +276,7 @@ Post automated comment on PRs:
 - [ ] No secrets or hardcoded keys
 - [ ] Documentation updated
 
-See [Using Skills](docs/using-skills.md) for workflow guides.`
+See [Using Skills](./using-skills.md) for workflow guides.`
             })
 ```
 
