@@ -121,6 +121,7 @@ The main project documentation lives in the root folder:
 
 | File | Purpose |
 |------|---------|
+| [GRAPH.md](../GRAPH.md) | Component architecture and how everything connects |
 | [CHANGELOG.md](../CHANGELOG.md) | Version history, what changed, when |
 | [CONTEXT.md](../CONTEXT.md) | Durable project memory (purpose, architecture, decisions) |
 | [PLAN.md](../PLAN.md) | Active execution tracker (completed, in-progress, next steps) |

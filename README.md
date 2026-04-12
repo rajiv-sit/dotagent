@@ -71,6 +71,8 @@ Optional:
 
 **What Changed?** → [CHANGELOG.md](CHANGELOG.md) — Version history, new docs, breaking changes
 
+**Component Graph** → [GRAPH.md](GRAPH.md) — Visual architecture showing connections (works with Obsidian graph view)
+
 **Weekly Reminder** → GitHub Action runs every Monday reminding teams to update PLAN.md
 
 ---
