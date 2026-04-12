@@ -67,6 +67,14 @@ Optional:
 
 ---
 
+## Staying Updated
+
+**What Changed?** → [CHANGELOG.md](CHANGELOG.md) — Version history, new docs, breaking changes
+
+**Weekly Reminder** → GitHub Action runs every Monday reminding teams to update PLAN.md
+
+---
+
 ## Start A New Project
 
 This is the normal setup flow for a real project.
