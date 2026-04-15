@@ -319,8 +319,8 @@ Then alert Agent to the clarification in AGENTS.md or directly in the task promp
    ## Completed (2026-04-12)
 
    - Implemented auth
-   - Updated PLAN.md with completion âœ“
-   - Updated CONTEXT.md with decisions âœ“
+   - Updated PLAN.md with completion [PASS]
+   - Updated CONTEXT.md with decisions [PASS]
    ```
 
 ---

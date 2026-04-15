@@ -58,7 +58,7 @@ Users: SaaS customers (finance/operations teams).
 
 ## Architecture Snapshot
 
-Frontend: React SPA â†’ Node.js API â†’ Python job workers â†’ PostgreSQL + Redis cache.
+Frontend: React SPA -> Node.js API -> Python job workers -> PostgreSQL + Redis cache.
 
 Real-time data: WebSocket listeners on S3 bucket changes, push updates to frontend.
 
@@ -381,11 +381,11 @@ Specifically check:
 **Code reviewer responds:**
 
 ```
-âœ“ Error handling: proper use of custom ValidationError
-âœ“ Cache: correct key format (dashboard:id:query:version)
-âœ“ Performance: single SQL query, no N+1
-âœ“ Security: using parameterized query ($1), SQL injection protected
-âœ“ Tests: should add tests for cache hit/miss and validation error
+[PASS] Error handling: proper use of custom ValidationError
+[PASS] Cache: correct key format (dashboard:id:query:version)
+[PASS] Performance: single SQL query, no N+1
+[PASS] Security: using parameterized query ($1), SQL injection protected
+[PASS] Tests: should add tests for cache hit/miss and validation error
 
 Ready to merge after tests added.
 ```
@@ -451,7 +451,7 @@ Tests pass. PR merged.
 - Asks Agent to implement their first feature: 30 min
 - Productive in 3 days
 
-**Result: 2 weeks â†’ 3 days (6x faster)**
+**Result: 2 weeks -> 3 days (6x faster)**
 
 ### Code Review Cycles
 

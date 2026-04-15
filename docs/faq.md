@@ -19,13 +19,13 @@
 
 ### Q: Should I put rules in `.agent/rules/` or somewhere else?
 
-**A:** Use `.agent/rules/` for project rules that Agent reads.
+**A:** Use `.agent/rules/` for project rules that your assistant reads.
 
 - **In `.agent/rules/`:** Project coding standards, test requirements, security rules
 - **Elsewhere:** Team handbook, onboarding guide, legal/compliance docs
-- **Both:** Standards that are both Agent-actionable AND team-readable (e.g., "Use pytest" is both)
+- **Both:** Standards that are both assistant-actionable and team-readable (for example, "Use pytest")
 
-If a rule needs human explanation beyond what Agent needs, put the full guide elsewhere and reference it from `.agent/rules/`:
+If a rule needs human explanation beyond what the assistant needs, put the full guide elsewhere and reference it from `.agent/rules/`:
 
 ```markdown
 # .agent/rules/python.md
@@ -59,7 +59,7 @@ Use pytest. See team handbook for Python Testing Standards
 - **CONTEXT.md:** When a major decision changes, when you discover a risk, or when architecture shifts (monthly or as-needed)
 
 **Minimum cadence:**
-- Update PLAN.md before asking Agent for a new task
+- Update PLAN.md before asking your assistant for a new task
 - Update CONTEXT.md before starting a new sprint/milestone
 
 **Pattern:**
@@ -79,25 +79,25 @@ Monthly:
 
 ---
 
-### Q: Can I use dotagent with GitHub Copilot Chat (not local Agent)?
+### Q: Can I use dotagent with Codex, Claude, Copilot, or another assistant?
 
-**A:** Partially, but not optimally:
+**A:** Yes, with different levels of automation depending on the tool.
 
-**What works:**
-- Copy rules from `.agent/rules/` into Copilot Chat messages (manually)
-- Reference CONTEXT.md, PLAN.md, Requirement.md in prompts
-- Use task.md and review.md templates as prompts
+**What works across most assistants:**
+- Reference `AGENTS.md`, `CONTEXT.md`, `PLAN.md`, and the design docs in prompts or repo context
+- Keep project rules in `.agent/rules/`
+- Use task and review templates as reusable prompt inputs
 
-**What doesn't work:**
-- Hooks (GitHub Copilot Chat doesn't have hook system)
-- Automatic AGENTS.md reading (you must copy rules into chat)
-- Session-start context (no persistent session data)
+**What may vary by assistant:**
+- Hooks: some assistants do not support local hook execution
+- Automatic `AGENTS.md` reading: some assistants require you to point them at the files explicitly
+- Session persistence: browser or chat-based tools may not preserve local context between sessions
 
-**Recommendation:** 
-- If you have local Agent available, use that (hooks + AGENTS.md reading save tokens)
-- If GitHub Copilot Chat only, create a "rules summary" file you paste into each chat:
+**Recommendation:**
+- If you have a local assistant CLI available, use that because it works best with hooks and prepared prompts
+- If you use a chat-only assistant, create a "rules summary" file you can paste into each chat:
   ```
-  [Copy .agent/rules/ files into a Copilot Chat startup prompt]
+  [Copy .agent/rules/ files into a startup prompt]
   ```
 
 ---
@@ -121,14 +121,14 @@ Monthly:
 ## Understand the Workflow (15 minutes)
 
 1. Read [Quick Start > Minimal Ongoing Workflow](quick-start.md#minimal-ongoing-workflow)
-2. Watch/ask for demo of "ask Agent for a task"
+2. Watch or ask for a demo of "ask the assistant for a task"
 
 ## Set Up Your Environment (30 minutes)
 
 1. Clone/pull the repo
 2. Set up per development environment (install deps, build, test)
-3. Verify Agent is working: `@agent What's in CONTEXT.md?`
-4. Run one task with Agent to show how it works
+3. Verify the assistant is working: `@agent What's in CONTEXT.md?`
+4. Run one task with the assistant to show how it works
 
 ## You're Ready! (Done)
 
@@ -194,22 +194,22 @@ This prevents re-debating and shows why the rule exists.
 
 ## Rules & Validation
 
-### Q: Agent ignores my custom rule. Why?
+### Q: My assistant ignores my custom rule. Why?
 
 **A:** Check in this order:
 
 1. Is the rule in `.agent/rules/my-rule.md`?
 2. Is `my-rule.md` listed in AGENTS.md under "Rules"?
 3. Does the rule have valid markdown syntax?
-4. Did you restart Agent or reload VS Code?
+4. Did you restart the assistant or reload VS Code?
 5. Is the rule name specific enough? (e.g., "use pytest" not "write tests")
 
-If still ignored, ask Agent:
+If still ignored, ask the assistant:
 ```
 Why aren't you following .agent/rules/my-rule.md?
 ```
 
-Agent will explain if it's using a different rule instead.
+The assistant should explain if it's using a different rule instead.
 
 ---
 
@@ -225,19 +225,19 @@ For detailed security guidelines, see [OWASP Top 10](https://owasp.org/www-proje
 For project-specific security checklists, see security-checklist.md (if your project has one).
 ```
 
-Agent will see these references, but will only follow them if the file is in the project.
+The assistant will see these references, but will only follow them if the file is in the project.
 
 ---
 
-### Q: How do I know if Agent is following MY rules or generic dotagent rules?
+### Q: How do I know if my assistant is following MY rules or generic dotagent rules?
 
-**A:** Ask Agent directly:
+**A:** Ask the assistant directly:
 
 ```
 You just implemented error handling. Which rule from .agent/rules/ guided you?
 ```
 
-Agent will cite the rule. If it's wrong, it may be:
+The assistant will cite the rule. If it's wrong, it may be:
 1. Using a more-specific rule you forgot about
 2. Using a generic rule because your custom rule isn't working
 3. Making a judgment call because the situation wasn't covered
@@ -262,17 +262,17 @@ Agent will cite the rule. If it's wrong, it may be:
 Common pattern:
 ```
 shared-dotagent/
-â”œâ”€â”€ rules/
-â”‚   â”œâ”€â”€ code-quality.md
-â”‚   â”œâ”€â”€ security.md
-â”‚   â””â”€â”€ logging.md
+|-- rules/
+|   |-- code-quality.md
+|   |-- security.md
+|   `-- logging.md
 
 team-a-project/
-â”œâ”€â”€ .agent/
-â”‚   â””â”€â”€ rules/
-â”‚       â”œâ”€â”€ [symlink to shared/rules/code-quality.md]
-â”‚       â”œâ”€â”€ [symlink to shared/rules/security.md]
-â”‚       â””â”€â”€ python.md (team A specific)
+`-- .agent/
+    `-- rules/
+        |-- [symlink to shared/rules/code-quality.md]
+        |-- [symlink to shared/rules/security.md]
+        `-- python.md (team A specific)
 ```
 
 ---
@@ -281,10 +281,10 @@ team-a-project/
 
 **A:** Not automatically, but manually:
 
-- Jira issues â†’ items in PLAN.md Next section
-- PLAN.md Completed â†’ Jira resolved/closed
-- CONTEXT.md decisions â†’ Jira decision link in issue description
-- milestone.md â†’ Jira epic
+- Jira issues -> items in PLAN.md Next section
+- PLAN.md Completed -> Jira resolved/closed
+- CONTEXT.md decisions -> Jira decision link in issue description
+- milestone.md -> Jira epic
 
 No built-in sync (would require custom script), but manual sync is straightforward.
 
@@ -304,7 +304,7 @@ Or use a tool like [Portkey](https://portkey.cloud/) or [Obsidian Publish](https
 
 ## Troubleshooting Questions
 
-### Q: "AGENTS.md is present but Agent doesn't read it"
+### Q: "AGENTS.md is present but my assistant doesn't read it"
 
 **A:** See [Troubleshooting > Issue: AGENTS.md Not Found](troubleshooting.md#issue-agentsmd-not-found-or-agent-ignores-project-rules)
 
@@ -319,16 +319,16 @@ ls .agent/agents/ | Measure-Object
 
 ---
 
-### Q: "I updated a rule but Agent doesn't follow it"
+### Q: "I updated a rule but my assistant doesn't follow it"
 
 **A:** Rules might be cached. Try:
 
-1. Restart VS Code or reload Agent chat
+1. Restart VS Code or reload the assistant chat
 2. Paste the rule directly into your prompt:
    ```
    Here's updated rule: [paste rule content]
    ```
-3. Ask Agent to re-read it:
+3. Ask the assistant to re-read it:
    ```
    Re-read .agent/rules/my-rule.md and confirm you understand it.
    ```
@@ -350,9 +350,9 @@ If no output, see [Troubleshooting > Hooks Not Firing](troubleshooting.md#issue-
 
 ## More Help
 
-- Not sure where to start? â†’ [Navigation Hub](index.md)
-- Setting up your first project? â†’ [Quick Start](quick-start.md)
-- Moving existing project to dotagent? â†’ [Migration Guide](migration-guide.md)
-- Still stuck? â†’ [Troubleshooting](troubleshooting.md)
+- Not sure where to start? -> [Navigation Hub](index.md)
+- Setting up your first project? -> [Quick Start](quick-start.md)
+- Moving existing project to dotagent? -> [Migration Guide](migration-guide.md)
+- Still stuck? -> [Troubleshooting](troubleshooting.md)
 
 

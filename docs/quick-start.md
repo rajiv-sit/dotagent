@@ -5,7 +5,7 @@ Get a dotagent project running in 10 minutes.
 ## Prerequisites
 
 - Windows with PowerShell
-- Local `agent` or `agent.cmd` available in your PATH
+- Local assistant CLI shim such as `agent` or `agent.cmd` available in your PATH
 - Existing Git repo (or create one)
 
 ## 5-Minute Setup
@@ -27,7 +27,7 @@ powershell -ExecutionPolicy Bypass -File .\dotagent\scripts\install-dotagent.ps1
 
 This copies `AGENTS.md`, `CONTEXT.md`, `PLAN.md`, and `.agent/` into your project root.
 
-**Result:** You now have project-local Agent configuration.
+**Result:** You now have project-local assistant configuration.
 
 ### Step 3: Initialize Design Docs
 
@@ -152,20 +152,20 @@ None yet.
 
 ## Your First Task
 
-Now ask Agent to implement something small:
+Now ask your assistant to implement something small:
 
 ```powershell
 # Option 1: Prepare the task (renders prompt to console)
 powershell -ExecutionPolicy Bypass -File .\.agent\scripts\dotagent.ps1 task "Implement basic project structure and build script"
 
-# Option 2: Run it through agent CLI (requires agent.cmd)
+# Option 2: Run it through the assistant CLI (requires agent.cmd or equivalent)
 powershell -ExecutionPolicy Bypass -File .\.agent\scripts\dotagent.ps1 task "Implement basic project structure and build script" -Execute
 ```
 
 Expected flow:
-1. Agent reads your CONTEXT.md, PLAN.md, and Requirement.md
-2. Agent implements the feature
-3. Agent validates against `.agent/rules/`
+1. Your assistant reads your CONTEXT.md, PLAN.md, and Requirement.md
+2. Your assistant implements the feature
+3. Your assistant validates against `.agent/rules/`
 4. You review the result
 5. Update PLAN.md when done
 
@@ -173,7 +173,7 @@ Expected flow:
 
 1. Update `PLAN.md`: move item to "Completed" and pick next item
 2. Update `CONTEXT.md` if you discovered new constraints or decisions
-3. Ask Agent to implement the next milestone
+3. Ask your assistant to implement the next milestone
 
 ## Common Next Steps
 
@@ -201,7 +201,7 @@ Every session:
 
 1. Open `CONTEXT.md` and `PLAN.md` in editor
 2. Read the "Current Objective" in PLAN.md
-3. Ask Agent to work on one item from PLAN.md â†’ Next
+3. Ask your assistant to work on one item from PLAN.md -> Next
 4. After completion, update PLAN.md
 5. When a milestone finishes, update CONTEXT.md with new decisions
 

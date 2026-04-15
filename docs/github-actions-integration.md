@@ -38,35 +38,35 @@ jobs:
             fi
           done
           if [ ${#missing[@]} -gt 0 ]; then
-            echo "âŒ Missing required docs: ${missing[*]}"
+            echo "ERROR: Missing required docs: ${missing[*]}"
             exit 1
           fi
-          echo "âœ“ All required docs present"
+          echo "OK: All required docs present"
       
       - name: Check CONTEXT.md has Key Decisions
         run: |
           if ! grep -q "## Key Decisions" CONTEXT.md; then
-            echo "âŒ CONTEXT.md missing 'Key Decisions' section"
+            echo "ERROR: CONTEXT.md missing 'Key Decisions' section"
             exit 1
           fi
-          echo "âœ“ CONTEXT.md properly formatted"
+          echo "OK: CONTEXT.md properly formatted"
       
       - name: Check PLAN.md updated
         run: |
           # Modified if changed in this PR
           if git diff origin/main -- PLAN.md | grep -q "^+"; then
-            echo "âœ“ PLAN.md was updated in this PR"
+            echo "OK: PLAN.md was updated in this PR"
           else
-            echo "âš ï¸  PLAN.md was not updated. Did you forget to record completion?"
+            echo "WARN: PLAN.md was not updated. Did you forget to record completion?"
           fi
       
       - name: Verify Architecture.md has Components section
         run: |
           if ! grep -q "## Components" Architecture.md; then
-            echo "âš ï¸  Architecture.md missing 'Components' section"
+            echo "WARN: Architecture.md missing 'Components' section"
             exit 1
           fi
-          echo "âœ“ Architecture.md has Components"
+          echo "OK: Architecture.md has Components"
 ```
 
 ## Language-Specific Rules Enforcement
@@ -92,10 +92,10 @@ jobs:
             sed 's/.*data-coverage="\([^"]*\)".*/\1/')
           echo "Coverage: ${coverage_pct}%"
           if (( ${coverage_pct%.*} < 80 )); then
-            echo "âŒ Coverage below 80%: ${coverage_pct}%"
+            echo "ERROR: Coverage below 80%: ${coverage_pct}%"
             exit 1
           fi
-          echo "âœ“ Coverage meets threshold"
+          echo "OK: Coverage meets threshold"
       
       - name: Lint with flake8
         run: flake8 src --max-line-length=100 --count --exit-zero-on-exit
@@ -123,10 +123,10 @@ jobs:
           coverage=$(npx nyc report | grep 'Lines')
           percentage=$(echo $coverage | grep -oP '\d+(?=%)' | head -1)
           if [ "$percentage" -lt 80 ]; then
-            echo "âŒ Coverage $percentage% below 80%"
+            echo "ERROR: Coverage $percentage% below 80%"
             exit 1
           fi
-          echo "âœ“ Coverage: $percentage%"
+          echo "OK: Coverage: $percentage%"
       
       - name: Lint with ESLint
         run: npm run lint
@@ -154,10 +154,10 @@ jobs:
         run: |
           coverage=$(grep -oP 'covered="\K[^"]*' target/site/jacoco/index.html | head -1)
           if [ $(echo "$coverage < 0.80" | bc) -eq 1 ]; then
-            echo "âŒ Coverage below 80%"
+            echo "ERROR: Coverage below 80%"
             exit 1
           fi
-          echo "âœ“ Coverage: $(echo "$coverage * 100" | bc)%"
+          echo "OK: Coverage: $(echo "$coverage * 100" | bc)%"
       
       - name: Run SpotBugs
         run: mvn spotbugs:check
@@ -177,15 +177,15 @@ jobs:
         run: |
           echo "Checking .agent/rules/"
           if [ ! -d ".agent/rules" ]; then
-            echo "âš ï¸  No .agent/rules directory"
+            echo "WARN: No .agent/rules directory"
             exit 0
           fi
           
           rules_count=$(ls .agent/rules/*.md 2>/dev/null | wc -l)
-          echo "âœ“ Found $rules_count rule files"
+          echo "OK: Found $rules_count rule files"
           
           if grep -r "TODO" src/ 2>/dev/null; then
-            echo "âš ï¸  Found TODO comments (consider opening issues instead)"
+            echo "WARN: Found TODO comments (consider opening issues instead)"
           fi
 ```
 
@@ -209,11 +209,11 @@ jobs:
           found=0
           for pattern in "${patterns[@]}"; do
             if grep -ri "$pattern" src/ --include="*.js" --include="*.py" --include="*.java" --include="*.ts"; then
-              echo "âŒ Potential secret found"
+              echo "ERROR: Potential secret found"
               found=1
             fi
           done
-          [ $found -eq 0 ] && echo "âœ“ No secrets detected"
+          [ $found -eq 0 ] && echo "OK: No secrets detected"
           exit $found
       
       - uses: dependabot/github-actions@main
@@ -231,10 +231,10 @@ jobs:
         run: |
           echo "## dotagent CI/CD Summary"
           echo ""
-          echo "âœ“ Docs validated"
-          echo "âœ“ Tests passed (${{ env.COVERAGE }}% coverage)"
-          echo "âœ“ Rules checked"
-          echo "âœ“ Security verified"
+          echo "OK: Docs validated"
+          echo "OK: Tests passed (${{ env.COVERAGE }}% coverage)"
+          echo "OK: Rules checked"
+          echo "OK: Security verified"
           echo ""
           echo "Ready to merge!"
 ```
@@ -242,7 +242,7 @@ jobs:
 ## Block Merge on Failure
 
 Add branch protection rule in GitHub:
-1. Go to Settings â†’ Branches
+1. Go to Settings -> Branches
 2. Add rule for main/master
 3. Require status checks to pass:
    - `dotagent Validation / validate-docs`
@@ -302,18 +302,18 @@ jobs:
         run: |
           for doc in CONTEXT.md PLAN.md Requirement.md Architecture.md; do
             test -f "$doc" || {
-              echo "âŒ Missing $doc"
+              echo "ERROR: Missing $doc"
               exit 1
             }
           done
-          echo "âœ“ All required docs present"
+          echo "OK: All required docs present"
       
       - name: Check PLAN.md changed
         run: |
           if git diff origin/main...HEAD -- PLAN.md | grep -q "Completed"; then
-            echo "âœ“ PLAN.md was updated"
+            echo "OK: PLAN.md was updated"
           else
-            echo "âš ï¸ PLAN.md not updated - did you record completion?"
+            echo "WARN: PLAN.md not updated - did you record completion?"
           fi
 
   lint:
@@ -348,7 +348,7 @@ jobs:
           coverage=$(npx nyc report | grep Lines | grep -oP '\d+(?=%)' | head -1)
           echo "Coverage: $coverage%"
           if [ "$coverage" -lt 80 ]; then
-            echo "âŒ Coverage $coverage% below 80%"
+            echo "ERROR: Coverage $coverage% below 80%"
             exit 1
           fi
 
@@ -361,13 +361,13 @@ jobs:
       - name: Check for secrets
         run: |
           if grep -r "process.env\." src/ | grep -v "process.env\.NODE_ENV" | wc -l | grep -v "^0$"; then
-            echo "â„¹ï¸  Environment variables detected - ensure they're secure"
+            echo "INFO: Environment variables detected - ensure they're secure"
           fi
       
       - name: Audit dependencies
         run: |
           if npm audit --audit-level=moderate 2>&1 | grep -q "found.*vulnerabilities"; then
-            echo "âš ï¸  Vulnerabilities detected - review above"
+            echo "WARN: Vulnerabilities detected - review above"
           fi
 
   build:

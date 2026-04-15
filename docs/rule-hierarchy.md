@@ -258,20 +258,20 @@ If multiple teams share dotagent:
 
 ```
 core-agent/
-â”œâ”€â”€ rules/
-â”‚   â”œâ”€â”€ code-quality.md        (shared, all teams)
-â”‚   â”œâ”€â”€ testing.md             (shared, all teams)
-â”‚   â”œâ”€â”€ security.md            (shared, all teams)
+|-- rules/
+|   |-- code-quality.md        (shared, all teams)
+|   |-- testing.md             (shared, all teams)
+|   `-- security.md            (shared, all teams)
 
 team-a-agent/
-â”œâ”€â”€ rules/
-â”‚   â”œâ”€â”€ python.md              (Team A specific)
-â”‚   â”œâ”€â”€ django.md              (Team A specific)
+|-- rules/
+|   |-- python.md              (Team A specific)
+|   `-- django.md              (Team A specific)
 
 team-b-agent/
-â”œâ”€â”€ rules/
-â”‚   â”œâ”€â”€ typescript.md           (Team B specific)
-â”‚   â”œâ”€â”€ react.md                (Team B specific)
+`-- rules/
+    |-- typescript.md          (Team B specific)
+    `-- react.md               (Team B specific)
 ```
 
 Each project references:
@@ -282,21 +282,21 @@ Each project references:
 
 ```
 monorepo/
-â”œâ”€â”€ .agent/
-â”‚   â””â”€â”€ rules/
-â”‚       â”œâ”€â”€ core/
-â”‚       â”‚   â”œâ”€â”€ code-quality.md
-â”‚       â”‚   â”œâ”€â”€ testing.md
-â”‚       â”‚   â””â”€â”€ security.md
-â”‚       â”œâ”€â”€ services/
-â”‚       â”‚   â”œâ”€â”€ payment-service.md
-â”‚       â”‚   â””â”€â”€ auth-service.md
-â”‚       â””â”€â”€ team-a/
-â”‚           â”œâ”€â”€ python.md
-â”‚           â””â”€â”€ django.md
+|-- .agent/
+|   `-- rules/
+|       |-- core/
+|       |   |-- code-quality.md
+|       |   |-- testing.md
+|       |   `-- security.md
+|       |-- services/
+|       |   |-- payment-service.md
+|       |   `-- auth-service.md
+|       `-- team-a/
+|           |-- python.md
+|           `-- django.md
 
 services/payment/
-â””â”€â”€ AGENTS.md (references)
+`-- AGENTS.md (references)
     - .agent/rules/core/*.md
     - .agent/rules/services/payment-service.md
 ```
@@ -316,7 +316,7 @@ Universal security rules apply to all projects.
 
 Generic: Validate all input at boundaries.
 
-Payments: Additionally, validate amount â‰¥ 0.01, currency is ISO 4217, recipient is whitelisted.
+Payments: Additionally, validate amount >= 0.01, currency is ISO 4217, recipient is whitelisted.
 ```
 
 ---

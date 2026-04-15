@@ -19,16 +19,16 @@ jobs:
             const issueTitle = `[Monday Checklist] Update PLAN.md for week of ${weekOf}`;
             const issueBody = `## Weekly PLAN.md Update Reminder
 
-Good morning! ðŸ‘‹
+Good morning!
 
 It's time to update **PLAN.md** with this week's progress.
 
 ### Checklist
-- [ ] **Completed** â€” Add finished work from last week
-- [ ] **In-Progress** â€” Update current sprint tasks  
-- [ ] **Next** â€” Plan upcoming work
-- [ ] **Blockers** â€” Flag any impediments
-- [ ] **Verification** â€” Confirm tests pass, docs updated
+- [ ] **Completed** - Add finished work from last week
+- [ ] **In-Progress** - Update current sprint tasks
+- [ ] **Next** - Plan upcoming work
+- [ ] **Blockers** - Flag any impediments
+- [ ] **Verification** - Confirm tests pass, docs updated
 
 ### PLAN.md Sections
 
@@ -54,9 +54,9 @@ What are we solving this week?
 - Waiting on API response from Service Y
 
 ## Verification  
-- Unit tests: âœ“ Passing
-- Docs updated: âœ“ Yes
-- Code reviewed: âœ“ Yes
+- Unit tests: PASSING
+- Docs updated: YES
+- Code reviewed: YES
 \`\`\`
 
 ### Resources
@@ -93,8 +93,8 @@ See [FAQ](https://github.com/${{ github.repository }}/blob/main/docs/faq.md) or 
                 body: issueBody,
                 labels: ['checklist', 'weekly']
               });
-              console.log('âœ“ PLAN.md reminder issue created');
+              console.log('PLAN.md reminder issue created');
             } else {
-              console.log('âœ“ PLAN.md reminder already exists for today');
+              console.log('PLAN.md reminder already exists for today');
             }
 

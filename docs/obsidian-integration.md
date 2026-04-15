@@ -14,19 +14,19 @@ Place your `dotagent` project root as an Obsidian vault:
 
 ```
 your-project/
-â”œâ”€â”€ .obsidian/              (Obsidian metadata - gitignore this)
-â”œâ”€â”€ AGENTS.md
-â”œâ”€â”€ CONTEXT.md
-â”œâ”€â”€ PLAN.md
-â”œâ”€â”€ Requirement.md
-â”œâ”€â”€ Architecture.md
-â”œâ”€â”€ HLD.md
-â”œâ”€â”€ DD.md
-â”œâ”€â”€ milestone.md
-â”œâ”€â”€ .agent/
-â”œâ”€â”€ dotagent/
-â”œâ”€â”€ src/
-â””â”€â”€ ...
+|-- .obsidian/              (Obsidian metadata - gitignore this)
+|-- AGENTS.md
+|-- CONTEXT.md
+|-- PLAN.md
+|-- Requirement.md
+|-- Architecture.md
+|-- HLD.md
+|-- DD.md
+|-- milestone.md
+|-- .agent/
+|-- dotagent/
+|-- src/
+`-- ...
 ```
 
 Open the project root as a vault in Obsidian: `File > Open folder as vault > select project root`
@@ -47,8 +47,8 @@ In Obsidian settings:
 - Enable **Readability** (better line length)
 
 **Graph View:**
-- Set **Node size by** â†’ Links (visually emphasize heavily linked docs)
-- Set **Link direction** â†’ Bidirectional (shows relationships both ways)
+- Set **Node size by** -> Links (visually emphasize heavily linked docs)
+- Set **Link direction** -> Bidirectional (shows relationships both ways)
 - Increase **Link Distance** to 2-3 (show nearby neighbors)
 
 **Display:**

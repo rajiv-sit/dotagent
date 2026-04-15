@@ -1,0 +1,76 @@
+﻿{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "dotagent CONTEXT.md durable project memory",
+  "type": "object",
+  "properties": {
+    "project": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "purpose": {
+          "type": "string"
+        }
+      }
+    },
+    "architecture_snapshot": {
+      "type": "string",
+      "description": "Current high-level system shape"
+    },
+    "key_decisions": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "decision": { "type": "string" },
+          "reason": { "type": "string" },
+          "impact": { "type": "string" }
+        }
+      }
+    },
+    "constraints": {
+      "type": "object",
+      "properties": {
+        "technical": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "operational": {
+          "type": "array",
+          "items": { "type": "string" }
+        }
+      }
+    },
+    "known_risks": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "risk": { "type": "string" },
+          "mitigation": { "type": "string" }
+        }
+      }
+    },
+    "important_paths": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "string"
+      },
+      "description": "Key file paths and entry points"
+    },
+    "assumptions": {
+      "type": "array",
+      "items": { "type": "string" }
+    },
+    "domain_terms": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "string"
+      },
+      "description": "Project-specific terminology"
+    }
+  },
+  "additionalProperties": true
+}
+

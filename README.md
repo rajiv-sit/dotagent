@@ -1,8 +1,8 @@
 ﻿# dotagent
 
-`dotagent` is a reusable project bootstrap for agent-driven software development.
+`dotagent` is a reusable project bootstrap for AI-assisted software development.
 
-Use it when you want Agent to work the same way across many repos: read the right docs first, follow project rules, keep planning artifacts, and support repeatable task, review, and staged workflow orchestration.
+Use it when you want your coding assistant to work the same way across many repos: read the right docs first, follow project rules, keep planning artifacts, and support repeatable task, review, and staged workflow orchestration.
 
 ## What It Is
 
@@ -11,20 +11,20 @@ Use it when you want Agent to work the same way across many repos: read the righ
 It is not the same thing as your global `C:\Users\<you>\.agent` folder.
 
 - global `C:\Users\<you>\.agent`
-  - machine-level Agent home
+  - machine-level assistant home
   - personal defaults and installed tools
 - project `your-project\.agent`
   - project-specific hooks, agents, rules, prompts, schemas, scripts, and skills
 - project `your-project\dotagent`
   - the source pack you keep in the repo and install from
 
-Agent should use the project-local `AGENTS.md` and `your-project\.agent\...` files for project behavior. The `dotagent/` folder is the source that installs those files into the active project layout.
+Your assistant should use the project-local `AGENTS.md` and `your-project\.agent\...` files for project behavior. The `dotagent/` folder is the source that installs those files into the active project layout.
 
 ## Prerequisites
 
 - Windows with PowerShell
-- a working local agent CLI installation available as `agent` or `agent.cmd`
-- a repo where you want project-local Agent behavior
+- a working local assistant CLI installation available as `agent` or `agent.cmd`
+- a repo where you want project-local assistant behavior
 
 Optional:
 
@@ -34,15 +34,17 @@ Optional:
 
 `dotagent` does not require Jira, Confluence, or Zephyr to work. Those systems are integration targets around the workflow, not hard dependencies of the pack.
 
+`dotagent` is vendor-neutral by design. It can support Codex, Claude, Copilot, or another AI coding assistant as long as that assistant can read repo docs and, optionally, run through a local CLI shim.
+
 ## Getting Started
 
-**Not sure where to begin?** â†’ [Go to Navigation Hub](docs/index.md) (1 min to find the right guide for you)
+**Not sure where to begin?** -> [Go to Navigation Hub](docs/index.md) (1 min to find the right guide for you)
 
-**Starting a new project?** â†’ [Quick Start Guide](docs/quick-start.md) (10 min setup + first task)
+**Starting a new project?** -> [Quick Start Guide](docs/quick-start.md) (10 min setup + first task)
 
-**Adopting dotagent in existing project?** â†’ [Migration Guide](docs/migration-guide.md) (60 min adaptation plan)
+**Adopting dotagent in existing project?** -> [Migration Guide](docs/migration-guide.md) (60 min adaptation plan)
 
-**Want to see a real example?** â†’ [Case Study](docs/case-study.md) (How team "Acme Analytics" used dotagent)
+**Want to see a real example?** -> [Case Study](docs/case-study.md) (How team "Acme Analytics" used dotagent)
 
 ---
 
@@ -63,20 +65,20 @@ Optional:
 | [Starter Templates](docs/starter-templates.md) | Copy-paste doc templates | 10 min |
 | [Case Study](docs/case-study.md) | Learning by example | 15 min |
 
-**[â†’ Start with Navigation Hub if you're lost](docs/index.md)**
+**[-> Start with Navigation Hub if you're lost](docs/index.md)**
 
 ---
 
 ## Staying Updated
 
-**What Changed?** â†’ [CHANGELOG.md](CHANGELOG.md) â€” Version history, new docs, breaking changes
+**What Changed?** -> [CHANGELOG.md](CHANGELOG.md) - Version history, new docs, breaking changes
 
-**Component Graph** â†’ [GRAPH.md](GRAPH.md) â€” Visual architecture showing connections (works with Obsidian graph view)
+**Component Graph** -> [GRAPH.md](GRAPH.md) - Visual architecture showing connections (works with Obsidian graph view)
 
 ![Obsidian Graph Visualization](docs/obsidian.png)
-*Interactive graph view in Obsidian showing dotagent component connections. Open GRAPH.md in Obsidian and press Ctrl+G to see this live â€” click nodes to navigate, drag to pan, scroll to zoom.*
+*Interactive graph view in Obsidian showing dotagent component connections. Open GRAPH.md in Obsidian and press Ctrl+G to see this live - click nodes to navigate, drag to pan, scroll to zoom.*
 
-**Weekly Reminder** â†’ GitHub Action runs every Monday reminding teams to update PLAN.md
+**Weekly Reminder** -> GitHub Action runs every Monday reminding teams to update PLAN.md
 
 ---
 
@@ -88,9 +90,9 @@ Example project: `novax`
 
 ```text
 novax/
-â”œâ”€â”€ src/
-â”œâ”€â”€ tests/
-â””â”€â”€ dotagent/
+|-- src/
+|-- tests/
+`-- dotagent/
 ```
 
 1. Put `dotagent/` in the project root.
@@ -111,21 +113,21 @@ powershell -ExecutionPolicy Bypass -File .\dotagent\scripts\install-dotagent.ps1
 
 ```text
 novax/
-â”œâ”€â”€ AGENTS.md
-â”œâ”€â”€ CONTEXT.md
-â”œâ”€â”€ PLAN.md
-â”œâ”€â”€ dotagent/
-â”œâ”€â”€ .agent/
-â”‚   â”œâ”€â”€ hooks.json
-â”‚   â”œâ”€â”€ agents/
-â”‚   â”œâ”€â”€ hooks/
-â”‚   â”œâ”€â”€ prompts/
-â”‚   â”œâ”€â”€ rules/
-â”‚   â”œâ”€â”€ schemas/
-â”‚   â”œâ”€â”€ scripts/
-â”‚   â””â”€â”€ skills/
-â”œâ”€â”€ src/
-â””â”€â”€ tests/
+|-- AGENTS.md
+|-- CONTEXT.md
+|-- PLAN.md
+|-- dotagent/
+|-- .agent/
+|   |-- hooks.json
+|   |-- agents/
+|   |-- hooks/
+|   |-- prompts/
+|   |-- rules/
+|   |-- schemas/
+|   |-- scripts/
+|   `-- skills/
+|-- src/
+`-- tests/
 ```
 
 4. Create the required root design docs:
@@ -148,7 +150,7 @@ This creates:
 powershell -ExecutionPolicy Bypass -File .\.agent\scripts\dotagent.ps1 setup
 ```
 
-At that point Agent can treat `novax` as a project with stable local instructions and working memory.
+At that point your assistant can treat `novax` as a project with stable local instructions and working memory.
 
 ## What The Installer Does
 
@@ -182,7 +184,7 @@ powershell -ExecutionPolicy Bypass -File .\dotagent\scripts\install-dotagent.ps1
 Once installed into `novax`, the working loop is:
 
 1. Fill in the root docs.
-2. Ask Agent to read `AGENTS.md`, `CONTEXT.md`, `PLAN.md`, and the design docs.
+2. Ask your assistant to read `AGENTS.md`, `CONTEXT.md`, `PLAN.md`, and the design docs.
 3. Work one milestone at a time.
 4. Validate after each milestone.
 5. Update `PLAN.md` and `CONTEXT.md` as decisions change.
@@ -195,7 +197,7 @@ Prepare a task:
 powershell -ExecutionPolicy Bypass -File .\.agent\scripts\dotagent.ps1 task "Implement authentication retry handling"
 ```
 
-Execute a task through the local agent CLI:
+Execute a task through the local assistant CLI:
 
 ```powershell
 powershell -ExecutionPolicy Bypass -File .\.agent\scripts\dotagent.ps1 task "Implement authentication retry handling" -Execute
@@ -213,7 +215,7 @@ Prepare a chained workflow:
 powershell -ExecutionPolicy Bypass -File .\.agent\scripts\dotagent.ps1 run "Implement authentication retry handling"
 ```
 
-Execute the chained workflow through the local agent CLI:
+Execute the chained workflow through the local assistant CLI:
 
 ```powershell
 powershell -ExecutionPolicy Bypass -File .\.agent\scripts\dotagent.ps1 run "Implement authentication retry handling" -Execute
@@ -278,6 +280,13 @@ Lifecycle states:
   - Use when building user interfaces or design systems
   - Ensures deliberate interfaces, accessibility, responsiveness, design system consistency
 
+## Assistant Compatibility
+
+- Codex: supported through repo docs, local prompts, and an `agent` or `agent.cmd` style shim
+- Claude: supported when used in a repo-aware workflow that reads local docs and rules
+- GitHub Copilot Chat: supported for doc/rule-driven work, but hooks and automatic local runtime behavior may be limited
+- Other assistants: supported if they can follow repo-local markdown instructions and optionally consume prepared prompts
+
 ## When to Use Each Skill
 
 - **setupdotagent**
@@ -287,7 +296,7 @@ Lifecycle states:
   - Use to drive changes through small failing tests and minimum implementation
   
 - **debug-fix** (defect investigation)
-  - Use when a bug is reported; reproduce â†’ trace root cause â†’ fix â†’ test
+  - Use when a bug is reported; reproduce -> trace root cause -> fix -> test
   
 - **refactor** (structural improvement)
   - Use to improve code structure when behavior must remain stable
@@ -306,7 +315,7 @@ Lifecycle states:
   - Use to drive changes through small failing tests and minimum implementation
   
 - **debug-fix** (defect investigation)
-  - Use when a bug is reported; reproduce â†’ trace root cause â†’ fix â†’ test
+  - Use when a bug is reported; reproduce -> trace root cause -> fix -> test
   
 - **refactor** (structural improvement)
   - Use to improve code structure when behavior must remain stable
@@ -402,13 +411,13 @@ After installing `dotagent`, your first session should look like this:
 3. Create or refine `HLD.md` for module boundaries such as auth, billing, notifications, and UI.
 4. Create or refine `DD.md` for concrete classes, APIs, and failure handling.
 5. Create or refine `milestone.md` with milestones such as bootstrap, auth, payments, dashboard, and deploy.
-6. Ask Agent to implement one milestone at a time using the installed `AGENTS.md` and `.agent/` rules.
+6. Ask your assistant to implement one milestone at a time using the installed `AGENTS.md` and `.agent/` rules.
 
 That gives you a repeatable operating model instead of starting each repo from scratch.
 
 ## Merge Request And Pull Request Workflow
 
-`dotagent` does not replace Git hosting workflow. It helps Agent produce and review the work around that workflow.
+`dotagent` does not replace Git hosting workflow. It helps your assistant produce and review the work around that workflow.
 
 Suggested branch flow:
 
@@ -449,9 +458,9 @@ Recommended pattern:
 
 Practical rule:
 
-- keep the project-local markdown docs as Agent-readable execution context
+- keep the project-local markdown docs as assistant-readable execution context
 - link out to Jira, Confluence, Zephyr, and wiki systems when needed
-- do not force Agent to depend on a remote tool just to understand the local repo
+- do not force the assistant to depend on a remote tool just to understand the local repo
 
 If you later add connectors, MCP tools, or repo-specific automation, `dotagent` can sit on top of them. The local docs remain the stable fallback.
 
@@ -486,7 +495,7 @@ Notes:
 
 - `-Execute` requires a working local agent CLI and authentication state
 - prepare-only mode is the safe default
-- `cancel` updates local job state only; it does not terminate an already running external Agent process
+- `cancel` updates local job state only; it does not terminate an already running external assistant process
 
 ## Optional Graph And Wiki Support
 
@@ -495,7 +504,7 @@ If you use `graphify`:
 1. install `graphify`
 2. run `graphify agent install`
 3. build graph output for the project
-4. let Agent start from `graphify-out/GRAPH_REPORT.md` when available
+4. let the assistant start from `graphify-out/GRAPH_REPORT.md` when available
 
 If you use Obsidian:
 
@@ -514,12 +523,12 @@ powershell -ExecutionPolicy Bypass -File .\.agent\scripts\init-project-docs.ps1 
 powershell -ExecutionPolicy Bypass -File .\.agent\scripts\dotagent.ps1 setup
 ```
 
-That is the shortest path from a repo with a `dotagent/` folder to a repo that Agent can use consistently.
+That is the shortest path from a repo with a `dotagent/` folder to a repo that an assistant can use consistently.
 
 ## Notes
 
 - `dotagent` is intended to be reused across many repos
-- the installed project files are what Agent should read and follow
+- the installed project files are what your assistant should read and follow
 - the `dotagent/` folder is the source pack and installer source
 
 

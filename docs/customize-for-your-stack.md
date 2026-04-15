@@ -8,12 +8,12 @@ After installing dotagent, you have:
 
 ```
 .agent/rules/
-â”œâ”€â”€ code-quality.md      (generic)
-â”œâ”€â”€ testing.md           (generic)
-â”œâ”€â”€ security.md          (generic)
-â”œâ”€â”€ error-handling.md    (generic)
-â”œâ”€â”€ frontend.md          (generic)
-â”œâ”€â”€ knowledge-graphs.md  (generic)
+|-- code-quality.md      (generic)
+|-- testing.md           (generic)
+|-- security.md          (generic)
+|-- error-handling.md    (generic)
+|-- frontend.md          (generic)
+`-- knowledge-graphs.md  (generic)
 ```
 
 **To customize:** Create new rule files in `.agent/rules/` for your stack, then add them to `AGENTS.md` under the "Rules" section.
@@ -97,12 +97,12 @@ Create `.agent/rules/typescript.md`:
 
 ```
 src/
-â”œâ”€â”€ components/      (React components)
-â”œâ”€â”€ hooks/          (Custom React hooks)
-â”œâ”€â”€ services/       (Business logic, API clients)
-â”œâ”€â”€ types/          (TypeScript definitions)
-â”œâ”€â”€ utils/          (Reusable helpers)
-â””â”€â”€ index.ts
+|-- components/      (React components)
+|-- hooks/           (Custom React hooks)
+|-- services/        (Business logic, API clients)
+|-- types/           (TypeScript definitions)
+|-- utils/           (Reusable helpers)
+`-- index.ts
 ```
 
 ## Build & Deployment
@@ -232,21 +232,21 @@ If you maintain multiple services, consider shared and service-specific rules:
 
 ```
 shared/
-â”œâ”€â”€ .agent/
-â”‚   â””â”€â”€ rules/
-â”‚       â”œâ”€â”€ code-quality.md      (shared)
-â”‚       â”œâ”€â”€ security.md          (shared)
-â”‚       â””â”€â”€ logging.md           (shared microservices rule)
-â”‚
-service-a/
-â”œâ”€â”€ .agent/
-â”‚   â””â”€â”€ rules/
-â”‚       â””â”€â”€ python.md            (service A specific)
-â”‚
-service-b/
-â”œâ”€â”€ .agent/
-â”‚   â””â”€â”€ rules/
-â”‚       â””â”€â”€ typescript.md        (service B specific)
+|-- .agent/
+|   `-- rules/
+|       |-- code-quality.md      (shared)
+|       |-- security.md          (shared)
+|       `-- logging.md           (shared microservices rule)
+|
+|-- service-a/
+|   `-- .agent/
+|       `-- rules/
+|           `-- python.md        (service A specific)
+|
+`-- service-b/
+    `-- .agent/
+        `-- rules/
+            `-- typescript.md    (service B specific)
 ```
 
 Then in each service's `AGENTS.md`, reference both shared and local rules.
@@ -269,12 +269,12 @@ If multiple teams use dotagent:
 1. Create a private `team-agent` repo with shared rules:
    ```
    team-agent/
-   â”œâ”€â”€ rules/
-   â”‚   â”œâ”€â”€ python.md
-   â”‚   â”œâ”€â”€ typescript.md
-   â”‚   â”œâ”€â”€ logging.md
-   â”‚   â””â”€â”€ observability.md
-   â””â”€â”€ README.md
+   |-- rules/
+   |   |-- python.md
+   |   |-- typescript.md
+   |   |-- logging.md
+   |   `-- observability.md
+   `-- README.md
    ```
 
 2. Each project clones both `dotagent` and `team-agent`
@@ -313,7 +313,7 @@ npm run test   # Jest tests
 npm run build  # Production build
 ```
 
-Now Agent will:
+Now your assistant will:
 1. Read your generic rules (code-quality, testing, security, etc.)
 2. Read your stack rules (typescript, nodejs, react)
 3. Apply all of them when implementing features

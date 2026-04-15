@@ -17,7 +17,7 @@ Use the TDD skill to implement a login validator.
 
 ---
 
-## setupdotagent â€” Initial Project Setup
+## setupdotagent - Initial Project Setup
 
 **Purpose:** Customize dotagent for your specific stack and build system.
 
@@ -30,11 +30,11 @@ Use the TDD skill to implement a login validator.
 1. Review your actual build/test/lint/check commands
 2. Document them in `.agent/rules/` (create stack-specific rules)
 3. Update AGENTS.md with your project details
-4. Verify Agent can invoke the right commands
+4. Verify your assistant can invoke the right commands
 
 ### Step-by-Step
 
-**Step 1:** Ask Agent to examine your project:
+**Step 1:** Ask your assistant to examine your project:
 
 ```
 Use the setupdotagent skill.
@@ -46,7 +46,7 @@ Examine our actual:
 Tell me what you find.
 ```
 
-**Step 2:** Agent reports back:
+**Step 2:** The assistant reports back:
 
 ```
 Found:
@@ -58,7 +58,7 @@ Found:
 Recommendation: Create .agent/rules/vite-vitest.md documenting this stack.
 ```
 
-**Step 3:** Ask Agent to create/update rules:
+**Step 3:** Ask your assistant to create or update rules:
 
 ```
 Create .agent/rules/node-typescript.md with:
@@ -70,26 +70,26 @@ Create .agent/rules/node-typescript.md with:
 Include examples of typical errors and how to fix them.
 ```
 
-**Step 4:** Verify by asking Agent a task question:
+**Step 4:** Verify by asking your assistant a task question:
 
 ```
 What would you run to verify the build on this project?
 ```
 
-Agent should cite the commands from your new rule.
+Your assistant should cite the commands from your new rule.
 
 ### Expected Output
 
 After setupdotagent, you should have:
 - `.agent/rules/[language].md` documenting your stack
 - Updated `AGENTS.md` with project-specific guidance
-- Agent can cite your actual build/test commands, not generic ones
+- Your assistant can cite your actual build/test commands, not generic ones
 
 ---
 
-## tdd â€” Test-Driven Development
+## tdd - Test-Driven Development
 
-**Purpose:** Drive implementation through small failing tests â†’ minimal implementation â†’ refactor.
+**Purpose:** Drive implementation through small failing tests -> minimal implementation -> refactor.
 
 **When to use:** When implementing a new feature from scratch.
 
@@ -108,7 +108,7 @@ After setupdotagent, you should have:
 
 **Feature:** Implement a `validateEmail()` function.
 
-**Step 1:** Ask Agent to start TDD:
+**Step 1:** Ask your assistant to start TDD:
 
 ```
 Use the TDD skill to implement validateEmail(email: string): boolean.
@@ -120,7 +120,7 @@ Start with the simplest test case (happy path):
 Keep tests extremely focused. One test at a time.
 ```
 
-**Step 2:** Agent writes first failing test:
+**Step 2:** The assistant writes the first failing test:
 
 ```typescript
 describe('validateEmail', () => {
@@ -146,7 +146,7 @@ function validateEmail(email: string): boolean {
 Next test: validateEmail should reject emails without domain
 ```
 
-Agent writes test:
+The assistant writes a test:
 
 ```typescript
 it('should return false for email without domain', () => {
@@ -155,7 +155,7 @@ it('should return false for email without domain', () => {
 });
 ```
 
-Agent updates implementation to pass.
+The assistant updates the implementation to pass.
 
 **Step 4:** Continue until complete:
 
@@ -181,7 +181,7 @@ TDD ensures this through its process: each case becomes a test that drives imple
 
 ---
 
-## debug-fix â€” Reproduce, Root Cause, Fix, Verify
+## debug-fix - Reproduce, Root Cause, Fix, Verify
 
 **Purpose:** Fix a reported bug systematically.
 
@@ -203,7 +203,7 @@ TDD ensures this through its process: each case becomes a test that drives imple
 
 **Bug:** "Admin can delete other users' data."
 
-**Step 1:** Ask Agent to reproduce:
+**Step 1:** Ask your assistant to reproduce:
 
 ```
 Use the debug-fix skill.
@@ -220,7 +220,7 @@ Helper:
 Reproduce the bug first. Show the exact request and response.
 ```
 
-**Step 2:** Agent reproduces:
+**Step 2:** The assistant reproduces:
 
 ```
 Test case:
@@ -241,7 +241,7 @@ Continue debugging. Show me the code path:
 - What allowed user123 to delete user456?
 ```
 
-Agent traces:
+The assistant traces:
 
 ```
 Found:
@@ -264,7 +264,7 @@ Implement the minimum fix that:
 Show the code change.
 ```
 
-Agent implements:
+The assistant implements:
 
 ```typescript
 async function deleteUser(requestingUser, targetUserId) {
@@ -318,7 +318,7 @@ debug-fix enforces this by:
 
 ---
 
-## refactor â€” Improve Structure Without Changing Behavior
+## refactor - Improve Structure Without Changing Behavior
 
 **Purpose:** Restructure code for clarity/maintainability without changing what it does.
 
@@ -356,7 +356,7 @@ Before refactoring, show me:
 DO NOT refactor yet. Just analyze.
 ```
 
-Agent reports:
+The assistant reports:
 
 ```
 Current test coverage:
@@ -386,12 +386,12 @@ function validateOrder(order) {
 Show the changes and confirm all tests still pass.
 ```
 
-Agent makes change and verifies:
+The assistant makes the change and verifies:
 
 ```
-âœ“ All 8 tests still pass
-âœ“ Behavior unchanged
-âœ“ Code is cleaner
+[PASS] All 8 tests still pass
+[PASS] Behavior unchanged
+[PASS] Code is cleaner
 
 Next refactor?
 ```
@@ -406,17 +406,17 @@ Then: Extract notification into sendNotification()
 Do all three one at a time. After each, verify tests pass.
 ```
 
-Agent refactors:
+The assistant refactors:
 
 ```
 After extraction 1 (payment):
-âœ“ All 8 tests pass
+[PASS] All 8 tests pass
 
 After extraction 2 (inventory):
-âœ“ All 8 tests pass
+[PASS] All 8 tests pass
 
 After extraction 3 (notification):
-âœ“ All 8 tests pass
+[PASS] All 8 tests pass
 
 Final structure:
 function processOrder(order) {
@@ -448,7 +448,7 @@ refactor enforces this by separating concerns:
 
 ---
 
-## explain â€” Understand Code Before Changing It
+## explain - Understand Code Before Changing It
 
 **Purpose:** Document code behavior so you understand risks before modifying.
 
@@ -460,7 +460,7 @@ refactor enforces this by separating concerns:
 
 ### Workflow
 
-1. Ask Agent to explain the code
+1. Ask your assistant to explain the code
 2. Understand: purpose, data flow, non-obvious behavior, modification risks
 3. NOW you can safely modify it
 
@@ -468,7 +468,7 @@ refactor enforces this by separating concerns:
 
 **Situation:** You need to modify the `calculateDiscount()` function but it's complex.
 
-**Step 1:** Ask Agent to explain:
+**Step 1:** Ask your assistant to explain:
 
 ```
 Use the explain skill.
@@ -482,7 +482,7 @@ Include:
 - What breaks if I change X?
 ```
 
-**Step 2:** Agent explains:
+**Step 2:** The assistant explains:
 
 ```
 calculateDiscount(cart, user, coupon):
@@ -492,7 +492,7 @@ Responsibility:
 - Returns discount amount (in cents)
 
 Data flow:
-1. Parse coupon code â†’ extract discount type + percentage/amount
+1. Parse coupon code -> extract discount type + percentage/amount
 2. Check user's "promotions_used" history (prevents coupon reuse)
 3. Calculate: base_price * category_multiplier * (1 - discount)
 4. Cap discount to $50 max (per business rule)
@@ -540,7 +540,7 @@ explain reinforces this by:
 
 ---
 
-## test-writer â€” Add Focused Tests for New/Changed Behavior
+## test-writer - Add Focused Tests for New/Changed Behavior
 
 **Purpose:** Ensure new code is tested without over-specifying implementation.
 
@@ -561,7 +561,7 @@ explain reinforces this by:
 
 **Situation:** You added a "bulk upload" feature to the API.
 
-**Step 1:** Ask Agent to write tests:
+**Step 1:** Ask your assistant to write tests:
 
 ```
 Use the test-writer skill.
@@ -586,7 +586,7 @@ Write tests for:
 For each test, show the HTTP request and expected response.
 ```
 
-**Step 2:** Agent writes tests:
+**Step 2:** The assistant writes tests:
 
 ```typescript
 describe('POST /uploads/bulk', () => {
@@ -649,12 +649,12 @@ Show me:
 3. Any assertion that feels wrong (let me review)
 ```
 
-Agent reports:
+The assistant reports:
 
 ```
-âœ“ 7 tests passed
-âœ“ Coverage: /routes/uploads.ts went from 60% â†’ 92%
-âœ“ All assertions are correct (testing behavior, not implementation)
+[PASS] 7 tests passed
+[PASS] Coverage: /routes/uploads.ts went from 60% -> 92%
+[PASS] All assertions are correct (testing behavior, not implementation)
 ```
 
 ### Expected Output
@@ -696,26 +696,26 @@ test-writer ensures this by:
 Skills work well together:
 
 ### Feature Implementation Workflow
-1. **explain** â€” Read related code
-2. **tdd** â€” Implement feature test-first
-3. **refactor** â€” Clean up if needed
-4. **test-writer** â€” Add edge case tests (if not covered by TDD)
+1. **explain** - Read related code
+2. **tdd** - Implement feature test-first
+3. **refactor** - Clean up if needed
+4. **test-writer** - Add edge case tests (if not covered by TDD)
 
 ### Bugfix Workflow
-1. **explain** â€” Understand the code that has the bug
-2. **debug-fix** â€” Reproduce, fix, test
-3. **test-writer** â€” Add regression test (if not covered)
+1. **explain** - Understand the code that has the bug
+2. **debug-fix** - Reproduce, fix, test
+3. **test-writer** - Add regression test (if not covered)
 
 ### Code Improvement Workflow
-1. **explain** â€” Understand what you're improving
-2. **refactor** â€” Restructure
-3. **test-writer** â€” Verify nothing broke
+1. **explain** - Understand what you're improving
+2. **refactor** - Restructure
+3. **test-writer** - Verify nothing broke
 
 ---
 
 ## Quick Reference
 
-Need reminders? Ask Agent:
+Need reminders? Ask your assistant:
 
 ```
 Remind me of the TDD workflow.
@@ -723,6 +723,6 @@ What should I do for the debug-fix skill?
 Which tests should test-writer write?
 ```
 
-Agent will re-explain any skill on demand.
+Your assistant can re-explain any skill on demand.
 
 

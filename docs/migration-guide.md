@@ -97,12 +97,12 @@ Best if: You have 2-5 scattered docs that should be consolidated.
 **Before:**
 ```
 docs/
-â”œâ”€â”€ architecture/
-â”‚   â”œâ”€â”€ overview.md
-â”‚   â”œâ”€â”€ database.md
-â”‚   â””â”€â”€ api.md
-â”œâ”€â”€ contributing.md
-â””â”€â”€ setup.md
+|-- architecture/
+|   |-- overview.md
+|   |-- database.md
+|   `-- api.md
+|-- contributing.md
+`-- setup.md
 ```
 
 **After:**
@@ -154,16 +154,16 @@ For complete requirements, see your detailed specifications document.
 
 ```
 Architecture.md
-â”œâ”€ Brief system overview
-â””â”€ Link to detailed design wiki (if you have one)
+|-- Brief system overview
+`-- Link to detailed design wiki (if you have one)
 
 HLD.md
-â”œâ”€ Modules overview
-â””â”€ Link to module specs (if you have detailed module documentation)
+|-- Modules overview
+`-- Link to module specs (if you have detailed module documentation)
 
 Contributing.md
-â”œâ”€ Code standards summary
-â””â”€ Link to style guide (if you have a separate style guide)
+|-- Code standards summary
+`-- Link to style guide (if you have a separate style guide)
 ```
 
 ---
@@ -274,10 +274,10 @@ If you have existing docs:
 Example:
 ```
 # Old: docs/api-design.md (section "Request/Response")
-â†’ # New: Requirement.md (section "API Contract")
+-> # New: Requirement.md (section "API Contract")
 
 # Old: design/decisions.txt (line "Use Redis for caching")
-â†’ # New: CONTEXT.md (section "Key Decisions")
+-> # New: CONTEXT.md (section "Key Decisions")
 ```
 
 ---
@@ -289,9 +289,9 @@ Example:
 Don't create new standards. Map existing ones to `.agent/rules/`:
 
 **If you have:**
-- ESLint config â†’ Create `.agent/rules/javascript.md` that references it
-- Python style guide â†’ Create `.agent/rules/python.md` that references it
-- Security checklist â†’ Create `.agent/rules/security.md` that includes items
+- ESLint config -> Create `.agent/rules/javascript.md` that references it
+- Python style guide -> Create `.agent/rules/python.md` that references it
+- Security checklist -> Create `.agent/rules/security.md` that includes items
 
 **Example:**
 
@@ -342,10 +342,10 @@ After migration, use dotagent for all new work:
 
 **After:**
 ```
-Architecture.md â†’ [Condensed from GitHub Wiki]
-CONTEXT.md     â†’ [Decisions from ADR files]
-README.md      â†’ [Keep as-is or link to quick-start.md]
-CONTRIBUTING   â†’ [Keep as-is, referenced from AGENTS.md]
+Architecture.md -> [Condensed from GitHub Wiki]
+CONTEXT.md     -> [Decisions from ADR files]
+README.md      -> [Keep as-is or link to quick-start.md]
+CONTRIBUTING   -> [Keep as-is, referenced from AGENTS.md]
 ```
 
 ### Scenario 2: Heavy Design Docs
@@ -369,7 +369,7 @@ CONTRIBUTING   â†’ [Keep as-is, referenced from AGENTS.md]
 - Slack discussions of decisions
 
 **After Strategy:**
-Same as [Quick Start](quick-start.md) â€” you're starting fresh, no migration needed.
+Same as [Quick Start](quick-start.md) - you're starting fresh, no migration needed.
 
 ---
 
@@ -429,7 +429,7 @@ If migration causes problems:
 2. **Keep old docs:** Don't delete old docs immediately:
    ```
    docs.deprecated/
-   â””â”€ architecture-old.md (has "# DEPRECATED - See Architecture.md instead")
+   `-- architecture-old.md (has "# DEPRECATED - See Architecture.md instead")
    ```
 
 3. **Gradual switch:** You don't have to switch everything at once. Start with CONTEXT.md + PLAN.md, keep everything else as-is.
@@ -465,9 +465,9 @@ If migration causes problems:
 
 ## Next Steps
 
-- [Quick Start](quick-start.md) â€” Learn the minimal workflow
-- [FAQ](faq.md) â€” Answers to common questions
-- [Customize for Your Stack](customize-for-your-stack.md) â€” Set up rules for your language
-- [Navigation Hub](index.md) â€” Find the guide you need
+- [Quick Start](quick-start.md) - Learn the minimal workflow
+- [FAQ](faq.md) - Answers to common questions
+- [Customize for Your Stack](customize-for-your-stack.md) - Set up rules for your language
+- [Navigation Hub](index.md) - Find the guide you need
 
 
