@@ -1,49 +1,58 @@
-﻿# HLD
+# HLD
 
 ## Modules
 
 - CLI command parser
   - parses command, options, and execution intent
-- Job store
-  - creates, reads, updates, and lists persisted job records
-- Prompt renderer
-  - resolves prompt templates and fills tokens
+- State store
+  - persists jobs, plans, events, evidence, and memory files
+- Planner
+  - creates adaptive step DAGs, assigns roles and priority, and emits corrective updates for failed steps
 - Executor
-  - invokes a local assistant CLI such as `agent.cmd exec`, captures stdout/stderr, and stores outputs
-- Artifact indexer
-  - computes file metadata and SHA256 digests for evidence bundles
-- Workflow orchestrator
-  - creates workflow DAG metadata and executes ready nodes in dependency order
+  - dispatches steps to registered tools, supports bounded parallelism, and returns structured execution records
+- Validator
+  - evaluates execution records against acceptance criteria and policy-based SLO checks
+- Memory manager
+  - records prior run summaries, semantic summaries, and retrieves relevant local context for new jobs
+- Orchestrator
+  - coordinates scheduling, execution, validation, replanning, and finalization
 
 ## System Decomposition
 
-- Single-job flow:
-  - `task` and `review` create one job each and optionally execute it
-- Multi-job flow:
-  - `run` creates a fixed workflow chain of stage jobs
-  - dependencies are encoded in job metadata and workflow graph JSON
-  - scheduler logic selects the next ready node locally
+- Preparation flow:
+  - `task`, `review`, and `run` create a job and a persisted plan
+  - the plan carries step dependencies, retry limits, and acceptance criteria
+- Execution flow:
+  - orchestrator loads job and plan
+  - memory is queried for relevant historical context
+  - ready steps are executed in dependency order, optionally in bounded parallel batches
+  - each step is validated immediately
+  - failed steps may be replanned and retried within explicit bounds
+- Finalization flow:
+  - job status is derived from plan outcome
+  - evidence bundle is written
+  - a memory entry is appended for future retrieval
 
 ## Data Flow
 
 1. User issues CLI command.
-2. Runtime creates normalized job record(s).
-3. Prompt(s) are written to disk.
-4. Execution updates status to `RUNNING`.
-5. Outputs are captured and persisted.
-6. Artifact indexer hashes evidence files.
-7. Status/result reads combine job state with workflow metadata.
+2. Planner creates a normalized plan.
+3. State store persists job and plan.
+4. Orchestrator retrieves relevant local memory.
+5. Executor runs each ready step through the tool registry.
+6. Validator checks step outputs against acceptance criteria.
+7. Planner emits corrective updates when retryable failures occur.
+8. State store writes final evidence and events.
+9. Status/result reads surface persisted job and plan records.
 
 ## External Dependencies
 
-- local assistant CLI shim on PATH, for example `agent.cmd` or `agent`
 - local filesystem under project root
-- no database, no queue, no remote scheduler
+- optional local assistant CLI or shell-accessible tools
+- no database, vector service, queue, or remote scheduler
 
 ## Integration Points
 
-- prompt templates in `prompts/`
-- output schemas in `schemas/`
-- project docs that inform generated prompts
-- downstream CI can read job and workflow JSON directly
-
+- prompt templates and rules can still inform higher-level task generation
+- schemas formalize persisted runtime artifacts
+- downstream CI can inspect `.dotagent-state` outputs directly

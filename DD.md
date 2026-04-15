@@ -1,55 +1,81 @@
-﻿# DD
+# DD
 
 ## Class Design
 
-This PowerShell runtime is function-oriented rather than class-based. The design still enforces object boundaries through structured records.
+The Python runtime is class-oriented with explicit module boundaries.
 
-- Job record
-  - fields: `id`, `type`, `status`, `created_at`, `input`, `output`, `metadata`
-- Artifact record
-  - fields: `path`, `kind`, `exists`, `size`, `sha256`, `updated_at`
-- Workflow record
-  - fields: `id`, `type`, `created_at`, `objective`, `jobs`, `edges`, `status`
+- `Job`
+  - fields: `id`, `type`, `status`, `created_at`, `updated_at`, `input`, `output`, `metadata`
+- `Step`
+  - fields: `id`, `name`, `kind`, `status`, `depends_on`, `tool`, `payload`, `max_attempts`, `attempts`, `acceptance`, `last_error`, `priority`, `agent_role`, `execution_target`, `parallel_group`
+- `Plan`
+  - fields: `id`, `goal`, `steps`, `created_at`, `updated_at`, `metadata`
+- `ExecutionResult`
+  - fields: `step_id`, `tool`, `ok`, `output`, `started_at`, `ended_at`, `attempt`, `metadata`
+- `ValidationResult`
+  - fields: `status`, `summary`, `checks`, `corrective_actions`, `retryable`
+- `StepExecutor`
+  - responsibility: tool dispatch and per-step attempt execution
+- `Planner`
+  - responsibility: deterministic plan creation and corrective step mutation on failure
+- `Validator`
+  - responsibility: acceptance checks and retryability judgment
+- `MemoryManager`
+  - responsibility: append/search lightweight local memory with semantic-style scoring
+- `Orchestrator`
+  - responsibility: scheduling loop, job transitions, evidence generation, and finalization
+- `PolicyEngine`
+  - responsibility: enforce richer SLO and policy checks across validator steps
 
 ## Algorithms
 
-### Job lifecycle
+### Orchestration loop
 
-1. Build normalized job object with `PENDING` status.
-2. Persist JSON and prompt.
-3. On execution start, transition to `RUNNING`.
-4. Invoke the configured assistant process.
-5. If exit code is zero, transition to `SUCCESS`; else `FAILED`.
-6. For review jobs that succeed, transition to `REVIEWED`.
-7. Re-index artifacts after every terminal transition.
+1. Load job and plan.
+2. Set job status to `RUNNING`.
+3. Query memory for relevant prior context.
+4. Find ready steps whose dependencies are all `SUCCESS`.
+5. Execute one ready step or a bounded parallel batch of ready steps.
+6. Validate the result.
+7. If validation passes, mark the step `SUCCESS`.
+8. If validation fails and retry is allowed, ask the planner for a corrective update, persist the plan, and retry.
+9. If validation fails without recovery, mark the step `FAILED` and end the job as `FAILED`.
+10. When all required steps succeed, mark the job `SUCCESS`.
+11. Persist evidence and write a memory summary.
 
-### Workflow scheduling
+### Step replanning
 
-1. Create fixed nodes for `HLD`, `DD`, `Code`, `Test`, `Review`.
-2. Persist edges as predecessor lists.
-3. For execution, repeatedly scan for `PENDING` jobs whose dependencies are terminal and successful.
-4. Execute one ready node at a time.
-5. Stop if any required predecessor fails.
-6. Mark workflow status from aggregated node states.
+1. Inspect the failed step and validation result.
+2. If the step contains fallback commands, promote the next fallback command to primary command.
+3. Record replan metadata and corrective notes in the step payload.
+4. Increment plan-level replan count.
+5. Return the updated step for another bounded attempt.
+
+### Validation
+
+1. Check base execution success.
+2. Evaluate acceptance criteria such as required return code, expected text in stdout, forbidden text in stderr, and metric thresholds.
+3. Emit corrective actions for unmet checks.
+4. Mark retryable only when the step still has attempts remaining and the failure mode is recoverable.
 
 ## Data Structures
 
-- Hashtable-backed PowerShell objects for job and workflow records
-- Arrays for artifact lists and dependency edges
-- File-per-record JSON storage for simple inspectability and low operational overhead
+- dataclass-backed runtime records for job, plan, step, execution result, and validation result
+- JSON files for persisted state, evidence, and memory
+- adjacency-by-dependency lists for plan DAG evaluation
 
 ## Complexity
 
-- Job read/write: `O(1)` per record
-- Status listing: `O(n)` for `n` jobs
-- Workflow readiness scan: `O(v + e)` per scheduler pass for vertices/jobs `v` and edges `e`
-- Artifact indexing: `O(a)` for `a` tracked files per job
+- Job and plan read/write: `O(1)` per record
+- Ready-step scan: `O(v + e)` per pass for plan vertices `v` and dependencies `e`
+- Validation: `O(c)` for `c` acceptance checks on a step
+- Memory search: `O(m)` for `m` stored entries in the queried namespace
+- Parallel execution batch: bounded by `p` workers where `p = max_parallelism`
 
 ## Error Handling
 
-- Throw immediately on invalid command input or missing required arguments
-- Persist stderr and exit code for failed executions
-- Record blocked dependency context in job metadata when orchestration cannot proceed
-- Treat missing files as non-fatal during artifact indexing; record `exists = false`
-- Keep state transitions explicit and persisted even on failure
-
+- Fail fast on missing job or plan identifiers
+- Treat missing optional memory or evidence files as non-fatal
+- Persist step-level failure summaries and corrective actions
+- Stop orchestration when a dependency chain can no longer reach success
+- Keep retries bounded by `max_attempts`

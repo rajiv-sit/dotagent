@@ -1,4 +1,4 @@
-﻿# milestone
+# milestone
 
 ## Milestone 1
 
@@ -55,3 +55,82 @@ Add orchestrated workflow execution and update docs to reflect the production-gr
 - docs reflect the new commands and data model
 - graph/doc links are internally consistent
 
+## Milestone 3
+
+### Objective
+
+Add the missing agentic runtime loop in the Python runtime with explicit planner, executor, validator, memory, and orchestrator responsibilities.
+
+### Files To Modify
+
+- `REQUIREMENTS.md`
+- `Architecture.md`
+- `HLD.md`
+- `DD.md`
+- `PLAN.md`
+- `runtime/dotagent_runtime/models.py`
+- `runtime/dotagent_runtime/planner.py`
+- `runtime/dotagent_runtime/state_store.py`
+- `runtime/dotagent_runtime/validator.py`
+- `runtime/dotagent_runtime/memory.py`
+- `runtime/dotagent_runtime/tools.py`
+- `runtime/dotagent_runtime/orchestrator.py`
+- `runtime/tests/test_orchestrator.py`
+- `runtime/tests/test_state_store.py`
+
+### Verification Steps
+
+- Prepare and execute a task plan through the Python runtime
+- Confirm step-level statuses, attempts, and replan metadata are persisted
+- Confirm evidence bundles include plan, validation, and reproducibility hash
+- Confirm memory entries are written after execution
+- Run runtime unit tests inside the workspace
+
+### Exit Criteria
+
+- the runtime executes an explicit `PLAN -> EXECUTE -> VALIDATE -> REPLAN` loop
+- retries are bounded and visible in persisted plan state
+- validation failures produce corrective actions
+- local memory captures prior run summaries
+
+## Milestone 4
+
+### Objective
+
+Close the next runtime gaps by adding semantic memory, adaptive planning, bounded parallel execution, external execution adapters, role-aware orchestration, and richer policy validation.
+
+### Files To Modify
+
+- `REQUIREMENTS.md`
+- `Architecture.md`
+- `HLD.md`
+- `DD.md`
+- `PLAN.md`
+- `runtime/dotagent_runtime/memory.py`
+- `runtime/dotagent_runtime/policy.py`
+- `runtime/dotagent_runtime/planner.py`
+- `runtime/dotagent_runtime/executor.py`
+- `runtime/dotagent_runtime/tools.py`
+- `runtime/dotagent_runtime/orchestrator.py`
+- `runtime/dotagent_runtime/models.py`
+- `runtime/dotagent_runtime/cli.py`
+- `runtime/tests/test_orchestrator.py`
+- `runtime/tests/test_planner.py`
+- `runtime/tests/test_state_store.py`
+- `runtime/tests/test_validator.py`
+
+### Verification Steps
+
+- Create a task plan and confirm adaptive steps and role metadata are present
+- Execute a task and confirm semantic memory entries are written
+- Execute a task with fallback and confirm retries are visible
+- Prepare a task for `slurm` and `kubernetes` targets and confirm adapter output
+- Run runtime unit tests inside the workspace
+
+### Exit Criteria
+
+- semantic memory search returns scored results
+- adaptive plans include role and priority metadata
+- executor supports bounded parallel batches
+- external adapters exist for Slurm and Kubernetes planning
+- validator enforces policy-based checks

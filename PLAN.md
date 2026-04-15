@@ -1,40 +1,46 @@
-﻿# PLAN
+# PLAN
 
 ## Current Objective
 
-Upgrade `dotagent` from a prompt wrapper into a production-grade local orchestration runtime.
+Upgrade `dotagent` from a framework shell into a materially agentic local orchestration runtime.
 
 ## Completed
 
 - Audited the existing repo layout, docs, and runtime scripts.
-- Identified missing production primitives: formal job schema, orchestration layer, lifecycle states, dependency chaining, and artifact indexing.
-- Created `Requirement.md`, `Architecture.md`, `HLD.md`, `DD.md`, and `milestone.md` for the enhancement.
+- Identified the gap between strong packaging and weak runtime intelligence.
+- Confirmed the Python runtime has the right module boundaries for planner, executor, validator, memory, and orchestrator work.
+- Updated the design documents to target an explicit `PLAN -> EXECUTE -> VALIDATE -> REPLAN` control loop.
 
 ## In Progress
 
-- Reworking `scripts/dotagent.ps1` around a normalized job model and a new `run` workflow command.
+- Reworking the Python runtime around explicit planner, executor, validator, memory, and orchestrator boundaries.
+- Adding persisted step state, bounded retries, and corrective replanning metadata.
+- Expanding the runtime with adaptive planning, semantic memory, bounded parallel execution, external adapters, and richer policy checks.
 
 ## Next
 
-- Add formal job and workflow persistence contracts.
-- Implement local DAG execution for `HLD -> DD -> Code -> Test -> Review`.
-- Add evidence bundle hashing and artifact index files.
-- Update README and graph/docs to reflect the new model.
-- Re-run validation scripts and runtime smoke tests.
+- Persist richer plan state including attempts, acceptance criteria, and corrective metadata.
+- Add step executor and validator behavior that can drive retries and replans.
+- Improve local memory capture and retrieval for run history.
+- Repair validation drift in repo checks after runtime changes land.
+- Close the remaining runtime gaps around semantic memory, distributed execution targets, and policy enforcement.
 
 ## Blockers
 
-- `validate-links.ps1` currently fails on stale links in `GRAPH.md` and on at least one zero-byte markdown file.
+- `health-check.ps1` currently fails because it uses `$error` as a foreach variable, which collides with PowerShell's read-only automatic variable.
+- `validate-links.ps1` currently reports a broken relative link in `templates/runtime/hooks/README.md`.
+- Python runtime tests require workspace-local temp directories in this environment.
 
 ## Verification
 
 - tests run:
   - `git rev-parse --abbrev-ref HEAD`
+  - `python -m unittest discover -s runtime/tests -v`
+  - `$env:PYTHONPATH='runtime'; python -m unittest discover -s runtime/tests -v`
   - `powershell -ExecutionPolicy Bypass -File .\.agent\scripts\validate-links.ps1 -Path .`
   - `powershell -ExecutionPolicy Bypass -File .\.agent\scripts\health-check.ps1`
 - manual checks:
-  - inspected runtime, hooks, prompts, schemas, docs, and graph references
+  - inspected the PowerShell shim, Python runtime modules, schemas, docs, templates, and validation scripts
 - known gaps:
-  - orchestration and artifact indexing not implemented yet
-  - health-check output is overly optimistic relative to actual repo state
-
+  - the repo is still stronger on packaging than on autonomous execution intelligence
+  - validation and health-check scripts lag behind the current repo state

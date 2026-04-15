@@ -298,6 +298,6 @@ if ($editingSecurityModule) {
 - Edit the .ps1 file and reduce output to 1 line
 - Or disable via hooks.json
 
-See [Troubleshooting](../docs/troubleshooting.md) for more help.
+See [Troubleshooting](../../../docs/troubleshooting.md) for more help.
 
 
