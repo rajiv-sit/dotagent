@@ -1,6 +1,6 @@
-{
+﻿{
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "title": "dotcodex review output",
+  "title": "dotagent review output",
   "type": "object",
   "required": ["verdict", "findings"],
   "properties": {
@@ -39,3 +39,4 @@
   },
   "additionalProperties": true
 }
+

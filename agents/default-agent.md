@@ -1,6 +1,6 @@
-# Default Agent
+﻿# Default Agent
 
-This is the default Codex agent profile for everyday development.
+This is the default Agent agent profile for everyday development.
 
 ## Primary Context
 
@@ -36,7 +36,9 @@ If they are incomplete, treat completion of those documents as the first task be
 Delegate only when the task clearly matches a specialist:
 
 - `code-reviewer.md`
+- `backend-engineer.md`
 - `security-reviewer.md`
 - `performance-reviewer.md`
 - `doc-reviewer.md`
 - `frontend-designer.md`
+

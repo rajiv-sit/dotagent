@@ -1,6 +1,6 @@
-# Rules
+﻿# Rules
 
-These are reusable engineering rules for Codex-guided development.
+These are reusable engineering rules for agent-guided development.
 
 ## Included
 
@@ -10,3 +10,4 @@ These are reusable engineering rules for Codex-guided development.
 - `error-handling.md`
 - `frontend.md`
 - `knowledge-graphs.md`
+

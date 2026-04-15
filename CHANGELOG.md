@@ -1,6 +1,6 @@
-# Changelog & Version History
+﻿# Changelog & Version History
 
-All notable changes to dotcodex are documented here.
+All notable changes to dotagent are documented here.
 
 ## [Unreleased]
 
@@ -21,41 +21,41 @@ All notable changes to dotcodex are documented here.
 ## [1.0.0] - 2026-04-12
 
 ### Release Summary
-dotcodex v1.0 is production-ready with comprehensive documentation, validation tools, and community guidelines.
+dotagent v1.0 is production-ready with comprehensive documentation, validation tools, and community guidelines.
 
 ### Added
 
 #### Documentation (15 New Guides)
-- **docs/quick-start.md** — 5-minute setup guide
-- **docs/index.md** — Navigation hub by role/question/time
-- **docs/faq.md** — 30+ questions and answers
-- **docs/troubleshooting.md** — Solutions for 20+ issues
-- **docs/migration-guide.md** — 5-phase adoption strategy
-- **docs/customize-for-your-stack.md** — Python, JS, Java, microservices
-- **docs/rule-hierarchy.md** — Rule precedence and conflict resolution
-- **docs/using-skills.md** — Deep dive into all 6 skills
-- **docs/github-actions-integration.md** — 5 CI/CD workflows
-- **docs/case-study.md** — Real team metrics and validation
-- **docs/obsidian-integration.md** — Obsidian vault setup
-- **docs/starter-templates.md** — Copy-paste templates for all docs
-- **docs/README.md** — Documentation orientation guide
-- **rules/knowledge-graphs.md** — Knowledge network standards
+- **docs/quick-start.md** â€” 5-minute setup guide
+- **docs/index.md** â€” Navigation hub by role/question/time
+- **docs/faq.md** â€” 30+ questions and answers
+- **docs/troubleshooting.md** â€” Solutions for 20+ issues
+- **docs/migration-guide.md** â€” 5-phase adoption strategy
+- **docs/customize-for-your-stack.md** â€” Python, JS, Java, microservices
+- **docs/rule-hierarchy.md** â€” Rule precedence and conflict resolution
+- **docs/using-skills.md** â€” Deep dive into all 6 skills
+- **docs/github-actions-integration.md** â€” 5 CI/CD workflows
+- **docs/case-study.md** â€” Real team metrics and validation
+- **docs/obsidian-integration.md** â€” Obsidian vault setup
+- **docs/starter-templates.md** â€” Copy-paste templates for all docs
+- **docs/README.md** â€” Documentation orientation guide
+- **rules/knowledge-graphs.md** â€” Knowledge network standards
 
 #### Schemas (4 New JSON Schemas)
-- **schemas/requirement.schema.json** — Requirement document template
-- **schemas/architecture.schema.json** — Architecture document template
-- **schemas/context.schema.json** — CONTEXT.md template
-- **schemas/plan.schema.json** — PLAN.md template
+- **schemas/requirement.schema.json** â€” Requirement document template
+- **schemas/architecture.schema.json** â€” Architecture document template
+- **schemas/context.schema.json** â€” CONTEXT.md template
+- **schemas/plan.schema.json** â€” PLAN.md template
 
 #### Automation Scripts
-- **scripts/health-check.ps1** — Validate dotcodex setup (8 checks)
-- **scripts/validate-links.ps1** — Verify all markdown links work
+- **scripts/health-check.ps1** â€” Validate dotagent setup (8 checks)
+- **scripts/validate-links.ps1** â€” Verify all markdown links work
 
 #### Enhancements
-- **hooks/README.md** — Comprehensive hook execution flow documentation
-- **agents/README.md** — All 6 specialist agents documented
-- **skills/README.md** — Full description of all 6 skills
-- **README.md** — Added guide links and "When to use" sections
+- **hooks/README.md** â€” Comprehensive hook execution flow documentation
+- **agents/README.md** â€” All 6 specialist agents documented
+- **skills/README.md** â€” Full description of all 6 skills
+- **README.md** â€” Added guide links and "When to use" sections
 
 ### Changed
 
@@ -63,10 +63,10 @@ dotcodex v1.0 is production-ready with comprehensive documentation, validation t
 - Reorganized /docs folder with clear role-based navigation
 - Updated all internal cross-references for clarity
 - Added time estimates to all guides (5 min to 20 min expected reads)
-- Included real case study metrics (2 weeks → 3 days onboarding, 2x token efficiency)
+- Included real case study metrics (2 weeks â†’ 3 days onboarding, 2x token efficiency)
 
 #### Rules & Standards
-- Added rule hierarchy documentation (global → project → local precedence)
+- Added rule hierarchy documentation (global â†’ project â†’ local precedence)
 - Included conflict resolution strategies
 - Added testing examples for each rule level
 
@@ -83,7 +83,7 @@ dotcodex v1.0 is production-ready with comprehensive documentation, validation t
 
 ### Breaking Changes
 
-**None** — dotcodex v1.0 is backward compatible with all prior usage patterns. New documentation and tools are purely additive.
+**None** â€” dotagent v1.0 is backward compatible with all prior usage patterns. New documentation and tools are purely additive.
 
 ### Dates
 
@@ -99,9 +99,9 @@ dotcodex v1.0 is production-ready with comprehensive documentation, validation t
 ### Version Format
 `MAJOR.MINOR.PATCH` following semantic versioning
 
-- **MAJOR** — Breaking changes or major reorganization
-- **MINOR** — New features, guides, rules, or significant enhancements
-- **PATCH** — Bug fixes, doc updates, correction of links/examples
+- **MAJOR** â€” Breaking changes or major reorganization
+- **MINOR** â€” New features, guides, rules, or significant enhancements
+- **PATCH** â€” Bug fixes, doc updates, correction of links/examples
 
 ### When Changes Are Made
 
@@ -140,7 +140,7 @@ dotcodex v1.0 is production-ready with comprehensive documentation, validation t
 ### Previous Releases (Pre-v1.0)
 
 **v0.x (Pre-release)**
-- Initial dotcodex structure and core agents
+- Initial dotagent structure and core agents
 - Foundation: AGENTS.md, CONTEXT.md, PLAN.md
 - Core rules, skills, and prompts
 - Basic README and setup scripts
@@ -204,7 +204,8 @@ dotcodex v1.0 is production-ready with comprehensive documentation, validation t
 
 ## Questions?
 
-**About dotcodex?** → See [FAQ](docs/faq.md)  
-**About this version?** → Open a GitHub Issue  
-**About upgrading?** → See [Migration Guide](docs/migration-guide.md)  
-**Found a gap?** → Submit an enhancement
+**About dotagent?** â†’ See [FAQ](docs/faq.md)  
+**About this version?** â†’ Open a GitHub Issue  
+**About upgrading?** â†’ See [Migration Guide](docs/migration-guide.md)  
+**Found a gap?** â†’ Submit an enhancement
+

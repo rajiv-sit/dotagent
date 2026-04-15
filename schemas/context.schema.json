@@ -1,6 +1,6 @@
-{
+﻿{
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "title": "dotcodex CONTEXT.md durable project memory",
+  "title": "dotagent CONTEXT.md durable project memory",
   "type": "object",
   "properties": {
     "project": {
@@ -73,3 +73,4 @@
   },
   "additionalProperties": true
 }
+

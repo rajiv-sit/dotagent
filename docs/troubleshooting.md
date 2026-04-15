@@ -1,23 +1,23 @@
-# Troubleshooting Guide
+﻿# Troubleshooting Guide
 
-Common issues and solutions when using dotcodex.
+Common issues and solutions when using dotagent.
 
 ## Installation & Setup
 
-### Issue: "AGENTS.md not found" or Codex ignores project rules
+### Issue: "AGENTS.md not found" or Agent ignores project rules
 
 **Causes:**
 1. Install script didn't run or failed silently
 2. AGENTS.md is in the wrong location
-3. Codex isn't reading project-local config
+3. Agent isn't reading project-local config
 
 **Solution:**
 
-1. Verify `.codex/` was created:
+1. Verify `.agent/` was created:
    ```powershell
-   ls -Recurse .codex | head -20
+   ls -Recurse .agent | head -20
    ```
-   Should show `.codex/agents/`, `.codex/hooks/`, `.codex/rules/`, etc.
+   Should show `.agent/agents/`, `.agent/hooks/`, `.agent/rules/`, etc.
 
 2. Verify AGENTS.md exists in project root:
    ```powershell
@@ -27,10 +27,10 @@ Common issues and solutions when using dotcodex.
 
 3. Re-run the installer:
    ```powershell
-   powershell -ExecutionPolicy Bypass -File .\dotcodex\scripts\install-dotcodex.ps1 -ProjectRoot . -Force
+   powershell -ExecutionPolicy Bypass -File .\dotagent\scripts\install-dotagent.ps1 -ProjectRoot . -Force
    ```
 
-4. Restart Codex or reload the workspace in VS Code.
+4. Restart Agent or reload the workspace in VS Code.
 
 ---
 
@@ -45,7 +45,7 @@ Common issues and solutions when using dotcodex.
 Get-ExecutionPolicy
 
 # If Restricted, temporarily bypass:
-powershell -ExecutionPolicy Bypass -File .\dotcodex\scripts\install-dotcodex.ps1 -ProjectRoot .
+powershell -ExecutionPolicy Bypass -File .\dotagent\scripts\install-dotagent.ps1 -ProjectRoot .
 
 # Or permanently allow (requires admin):
 Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser
@@ -60,37 +60,37 @@ Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser
 **Solution:**
 
 ```powershell
-# Check if .codex/scripts/init-project-docs.ps1 exists
-ls .codex/scripts/init-project-docs.ps1
+# Check if .agent/scripts/init-project-docs.ps1 exists
+ls .agent/scripts/init-project-docs.ps1
 
 # Re-run it
-powershell -ExecutionPolicy Bypass -File .\.codex\scripts\init-project-docs.ps1 -ProjectRoot .
+powershell -ExecutionPolicy Bypass -File .\.agent\scripts\init-project-docs.ps1 -ProjectRoot .
 
 # Verify docs were created
 ls Requirement.md Architecture.md HLD.md DD.md milestone.md
 ```
 
-If script is missing, copy it from dotcodex:
+If script is missing, copy it from dotagent:
 ```powershell
-copy .\dotcodex\scripts\init-project-docs.ps1 .\.codex\scripts\
+copy .\dotagent\scripts\init-project-docs.ps1 .\.agent\scripts\
 ```
 
 ---
 
 ## Rules & Validation
 
-### Issue: Codex ignores rules in `.codex/rules/`
+### Issue: Agent ignores rules in `.agent/rules/`
 
 **Causes:**
 1. Rules file has syntax errors
 2. Rules aren't listed in AGENTS.md
-3. Codex isn't reading AGENTS.md
+3. Agent isn't reading AGENTS.md
 
 **Solution:**
 
 1. Verify rule file syntax (use a JSON/YAML validator if rule has frontmatter):
    ```powershell
-   cat .\.codex\rules\code-quality.md | head -20
+   cat .\.agent\rules\code-quality.md | head -20
    ```
    Should be readable markdown.
 
@@ -98,7 +98,7 @@ copy .\dotcodex\scripts\init-project-docs.ps1 .\.codex\scripts\
    ```powershell
    cat .\AGENTS.md | Select-String "code-quality"
    ```
-   Should output: `- `.codex/rules/code-quality.md``
+   Should output: `- `.agent/rules/code-quality.md``
 
 3. If a custom rule was added, verify it's in AGENTS.md:
    ```markdown
@@ -106,14 +106,14 @@ copy .\dotcodex\scripts\init-project-docs.ps1 .\.codex\scripts\
 
    When present, follow:
 
-   - `.codex/rules/code-quality.md`
-   - `.codex/rules/testing.md`
-   - `.codex/rules/my-custom-rule.md`  # <-- Did you add this?
+   - `.agent/rules/code-quality.md`
+   - `.agent/rules/testing.md`
+   - `.agent/rules/my-custom-rule.md`  # <-- Did you add this?
    ```
 
-4. Verify dotcodex rules weren't accidentally deleted:
+4. Verify dotagent rules weren't accidentally deleted:
    ```powershell
-   ls .codex/rules/ | measure
+   ls .agent/rules/ | measure
    ```
    Should show at least 6 files (code-quality, testing, security, error-handling, frontend, knowledge-graphs).
 
@@ -141,20 +141,20 @@ Add a clarification comment in the more-specific rule:
 - Complex ETL/ML pipelines may exceed 50 lines if well-documented
 ```
 
-Then alert Codex to the clarification in AGENTS.md or directly in the task prompt.
+Then alert Agent to the clarification in AGENTS.md or directly in the task prompt.
 
 ---
 
-### Issue: "Codex doesn't follow testing rules" (skips tests, poor coverage)
+### Issue: "Agent doesn't follow testing rules" (skips tests, poor coverage)
 
 **Causes:**
 1. Testing rule isn't listed in AGENTS.md
 2. Testing rule is vague or incomplete
-3. Codex is using a different agent profile
+3. Agent is using a different agent profile
 
 **Solution:**
 
-1. Verify `.codex/rules/testing.md` exists and is comprehensive:
+1. Verify `.agent/rules/testing.md` exists and is comprehensive:
    ```markdown
    # Testing
 
@@ -165,7 +165,7 @@ Then alert Codex to the clarification in AGENTS.md or directly in the task promp
    - Record important manual verification when automated tests are not yet available.
    ```
 
-2. Add stack-specific test rule (e.g., `.codex/rules/pytest.md` for Python):
+2. Add stack-specific test rule (e.g., `.agent/rules/pytest.md` for Python):
    ```markdown
    # Python Testing (pytest)
 
@@ -178,11 +178,11 @@ Then alert Codex to the clarification in AGENTS.md or directly in the task promp
 3. Verify AGENTS.md mentions testing:
    ```markdown
    ## Rules
-   - `.codex/rules/testing.md`
-   - `.codex/rules/pytest.md`
+   - `.agent/rules/testing.md`
+   - `.agent/rules/pytest.md`
    ```
 
-4. Ask Codex explicitly to use the `test-writer` skill:
+4. Ask Agent explicitly to use the `test-writer` skill:
    ```
    Use the test-writer skill to add focused tests for:
    - Happy path
@@ -199,25 +199,25 @@ Then alert Codex to the clarification in AGENTS.md or directly in the task promp
 **Causes:**
 1. hooks.json syntax error
 2. Hook script doesn't exist or has wrong path
-3. Codex hook system isn't initialized
+3. Agent hook system isn't initialized
 
 **Solution:**
 
 1. Verify hooks.json is valid JSON:
    ```powershell
-   $json = Get-Content .\.codex\hooks.json | ConvertFrom-Json
+   $json = Get-Content .\.agent\hooks.json | ConvertFrom-Json
    # If this throws an error, JSON is invalid
    ```
 
 2. Verify hook paths exist:
    ```powershell
-   ls .codex/hooks/*.ps1
+   ls .agent/hooks/*.ps1
    ```
    Should show: session-start.ps1, pre-bash-context.ps1, doc-presence.ps1, path-guard.ps1, graph-staleness.ps1
 
 3. Test a hook manually:
    ```powershell
-   powershell -ExecutionPolicy Bypass -File .\.codex\hooks\session-start.ps1
+   powershell -ExecutionPolicy Bypass -File .\.agent\hooks\session-start.ps1
    ```
    Should output a message (example: "Reading graphify context from graphify-out/GRAPH_REPORT.md").
 
@@ -230,7 +230,7 @@ Then alert Codex to the clarification in AGENTS.md or directly in the task promp
            "hooks": [
              {
                "type": "command",
-               "command": "powershell -ExecutionPolicy Bypass -File .\\.codex\\hooks\\session-start.ps1"
+               "command": "powershell -ExecutionPolicy Bypass -File .\\.agent\\hooks\\session-start.ps1"
              }
            ]
          }
@@ -244,33 +244,33 @@ Then alert Codex to the clarification in AGENTS.md or directly in the task promp
 
 ### Issue: "Hook runs but message doesn't appear"
 
-**Cause:** Codex hook system is enabled but not firing.
+**Cause:** Agent hook system is enabled but not firing.
 
 **Solution:**
 
-1. Verify you're using Codex (not GitHub Copilot Chat alone):
+1. Verify you're using Agent (not GitHub Copilot Chat alone):
    ```
-   @codex What's in CONTEXT.md?
+   @agent What's in CONTEXT.md?
    ```
 
-2. Restart VS Code or Codex chat window.
+2. Restart VS Code or Agent chat window.
 
-3. If using API mode, verify hooks are configured in your Codex setup.
+3. If using API mode, verify hooks are configured in your Agent setup.
 
 ---
 
 ## Documentation & Context
 
-### Issue: "Codex asks me to create Requirement.md when it already exists"
+### Issue: "Agent asks me to create Requirement.md when it already exists"
 
 **Causes:**
 1. Root doc paths incorrect in AGENTS.md
-2. Doc is in `.codex/` instead of project root
-3. Codex is using wrong agent profile
+2. Doc is in `.agent/` instead of project root
+3. Agent is using wrong agent profile
 
 **Solution:**
 
-1. Verify root docs are in project root, not `.codex/`:
+1. Verify root docs are in project root, not `.agent/`:
    ```powershell
    ls Requirement.md Architecture.md HLD.md DD.md milestone.md
    ```
@@ -282,8 +282,8 @@ Then alert Codex to the clarification in AGENTS.md or directly in the task promp
    - `PLAN.md`
    - `Requirement.md`
    # NOT
-   - `.codex/CONTEXT.md`
-   - `.codex/rules/CONTEXT.md`
+   - `.agent/CONTEXT.md`
+   - `.agent/rules/CONTEXT.md`
    ```
 
 3. Verify docs aren't empty or only whitespace:
@@ -296,11 +296,11 @@ Then alert Codex to the clarification in AGENTS.md or directly in the task promp
 
 ### Issue: "CONTEXT.md or PLAN.md is stale or never gets updated"
 
-**Cause:** Codex updates files but they're not persisted or you're not asking for updates.
+**Cause:** Agent updates files but they're not persisted or you're not asking for updates.
 
 **Solution:**
 
-1. After each task, explicitly ask Codex:
+1. After each task, explicitly ask Agent:
    ```
    Update PLAN.md and CONTEXT.md with:
    - What was completed
@@ -319,18 +319,18 @@ Then alert Codex to the clarification in AGENTS.md or directly in the task promp
    ## Completed (2026-04-12)
 
    - Implemented auth
-   - Updated PLAN.md with completion ✓
-   - Updated CONTEXT.md with decisions ✓
+   - Updated PLAN.md with completion âœ“
+   - Updated CONTEXT.md with decisions âœ“
    ```
 
 ---
 
-### Issue: "graphify output exists but Codex doesn't prefer it"
+### Issue: "graphify output exists but Agent doesn't prefer it"
 
 **Causes:**
 1. Hook that checks for graphify isn't running
 2. graphify-out path is wrong
-3. Codex doesn't see the GRAPH_REPORT.md file
+3. Agent doesn't see the GRAPH_REPORT.md file
 
 **Solution:**
 
@@ -348,11 +348,11 @@ Then alert Codex to the clarification in AGENTS.md or directly in the task promp
 
 3. Verify hook `graph-staleness.ps1` runs:
    ```powershell
-   powershell -ExecutionPolicy Bypass -File .\.codex\hooks\graph-staleness.ps1
+   powershell -ExecutionPolicy Bypass -File .\.agent\hooks\graph-staleness.ps1
    ```
    Should output a message if the graph is stale.
 
-4. Ask Codex explicitly to use graphify:
+4. Ask Agent explicitly to use graphify:
    ```
    Use graphify-out/GRAPH_REPORT.md as your source for architecture context.
    ```
@@ -361,12 +361,12 @@ Then alert Codex to the clarification in AGENTS.md or directly in the task promp
 
 ## Performance & Token Usage
 
-### Issue: "Codex spends too many tokens exploring the codebase"
+### Issue: "Agent spends too many tokens exploring the codebase"
 
 **Causes:**
 1. graphify output missing (hooks warn but aren't stopping exploration)
 2. path-guard hook isn't preventing broad searches
-3. Rules or docs incomplete (Codex explores to fill gaps)
+3. Rules or docs incomplete (Agent explores to fill gaps)
 
 **Solution:**
 
@@ -377,17 +377,17 @@ Then alert Codex to the clarification in AGENTS.md or directly in the task promp
 
 2. Verify path-guard hook runs before bash/terminal commands:
    ```powershell
-   powershell -ExecutionPolicy Bypass -File .\.codex\hooks\path-guard.ps1
+   powershell -ExecutionPolicy Bypass -File .\.agent\hooks\path-guard.ps1
    ```
    Should warn about broad file exploration.
 
-3. Complete root design docs (Requirement.md, Architecture.md) so Codex doesn't need to infer.
+3. Complete root design docs (Requirement.md, Architecture.md) so Agent doesn't need to infer.
 
 4. Add a hook to AGENTS.md:
    ```markdown
    ## Guardrails
 
-   - Prefer `.codex/` local files and root docs over broad searches.
+   - Prefer `.agent/` local files and root docs over broad searches.
    - If graphify-out/GRAPH_REPORT.md exists, use it instead of grepping the repo.
    - Ask for missing context instead of exploring whole-repo.
    ```
@@ -403,8 +403,8 @@ Then alert Codex to the clarification in AGENTS.md or directly in the task promp
 **Solution:**
 
 1. Create team-specific rules:
-   - `.codex/rules/python-team-a.md` (Python 3.9, Django)
-   - `.codex/rules/python-team-b.md` (Python 3.12, FastAPI)
+   - `.agent/rules/python-team-a.md` (Python 3.9, Django)
+   - `.agent/rules/python-team-b.md` (Python 3.12, FastAPI)
 
 2. Each team's AGENTS.md lists only their rules:
    - Team A: references `python-team-a.md`
@@ -413,7 +413,7 @@ Then alert Codex to the clarification in AGENTS.md or directly in the task promp
 3. Or create a central `team-rules` repo and symlink:
    ```powershell
    New-Item -ItemType SymbolicLink `
-     -Path '.codex/rules/team-standards.md' `
+     -Path '.agent/rules/team-standards.md' `
      -Target '../../../team-rules/standards.md'
    ```
 
@@ -430,10 +430,12 @@ Then alert Codex to the clarification in AGENTS.md or directly in the task promp
 
 3. **Inspect hook output** to see what warnings or context is being injected.
 
-4. **Ask Codex explicitly:**
+4. **Ask Agent explicitly:**
    ```
-   Why aren't you following rule X from .codex/rules/code-quality.md?
+   Why aren't you following rule X from .agent/rules/code-quality.md?
    ```
-   Codex will explain its reasoning.
+   Agent will explain its reasoning.
 
-5. **File an issue** on the dotcodex repo if you find a genuine bug.
+5. **File an issue** on the dotagent repo if you find a genuine bug.
+
+

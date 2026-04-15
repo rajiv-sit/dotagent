@@ -1,28 +1,28 @@
-# Customize dotcodex for Your Stack
+﻿# Customize dotagent for Your Stack
 
-dotcodex rules are language and framework-agnostic by design. This guide shows how to add stack-specific practices without modifying dotcodex itself.
+dotagent rules are language and framework-agnostic by design. This guide shows how to add stack-specific practices without modifying dotagent itself.
 
 ## Overview
 
-After installing dotcodex, you have:
+After installing dotagent, you have:
 
 ```
-.codex/rules/
-├── code-quality.md      (generic)
-├── testing.md           (generic)
-├── security.md          (generic)
-├── error-handling.md    (generic)
-├── frontend.md          (generic)
-├── knowledge-graphs.md  (generic)
+.agent/rules/
+â”œâ”€â”€ code-quality.md      (generic)
+â”œâ”€â”€ testing.md           (generic)
+â”œâ”€â”€ security.md          (generic)
+â”œâ”€â”€ error-handling.md    (generic)
+â”œâ”€â”€ frontend.md          (generic)
+â”œâ”€â”€ knowledge-graphs.md  (generic)
 ```
 
-**To customize:** Create new rule files in `.codex/rules/` for your stack, then add them to `AGENTS.md` under the "Rules" section.
+**To customize:** Create new rule files in `.agent/rules/` for your stack, then add them to `AGENTS.md` under the "Rules" section.
 
 ## Stack-Specific Examples
 
 ### Python Projects
 
-Create `.codex/rules/python.md`:
+Create `.agent/rules/python.md`:
 
 ```markdown
 # Python
@@ -60,16 +60,16 @@ Then add to `AGENTS.md`:
 
 When present, follow:
 
-- `.codex/rules/code-quality.md`
-- `.codex/rules/testing.md`
-- `.codex/rules/security.md`
-- `.codex/rules/error-handling.md`
-- `.codex/rules/python.md`
+- `.agent/rules/code-quality.md`
+- `.agent/rules/testing.md`
+- `.agent/rules/security.md`
+- `.agent/rules/error-handling.md`
+- `.agent/rules/python.md`
 ```
 
 ### JavaScript/TypeScript Projects
 
-Create `.codex/rules/typescript.md`:
+Create `.agent/rules/typescript.md`:
 
 ```markdown
 # TypeScript
@@ -97,12 +97,12 @@ Create `.codex/rules/typescript.md`:
 
 ```
 src/
-├── components/      (React components)
-├── hooks/          (Custom React hooks)
-├── services/       (Business logic, API clients)
-├── types/          (TypeScript definitions)
-├── utils/          (Reusable helpers)
-└── index.ts
+â”œâ”€â”€ components/      (React components)
+â”œâ”€â”€ hooks/          (Custom React hooks)
+â”œâ”€â”€ services/       (Business logic, API clients)
+â”œâ”€â”€ types/          (TypeScript definitions)
+â”œâ”€â”€ utils/          (Reusable helpers)
+â””â”€â”€ index.ts
 ```
 
 ## Build & Deployment
@@ -114,7 +114,7 @@ src/
 
 ### Java Projects
 
-Create `.codex/rules/java.md`:
+Create `.agent/rules/java.md`:
 
 ```markdown
 # Java
@@ -154,7 +154,7 @@ Create `.codex/rules/java.md`:
 
 ### Full-Stack (Frontend + Backend)
 
-Create `.codex/rules/fullstack.md`:
+Create `.agent/rules/fullstack.md`:
 
 ```markdown
 # Full-Stack Integration
@@ -187,15 +187,15 @@ Create `.codex/rules/fullstack.md`:
 - Alert on errors above threshold; page on-call for critical paths.
 ```
 
-## Adding Custom Rules Without Modifying dotcodex
+## Adding Custom Rules Without Modifying dotagent
 
 **Pattern:**
 
-1. Create `.codex/rules/my-custom-rule.md` in your project
+1. Create `.agent/rules/my-custom-rule.md` in your project
 2. Add it to your `AGENTS.md` under "Rules"
 3. Commit to your repo
 
-Your rules supplement (don't override) the generic dotcodex rules.
+Your rules supplement (don't override) the generic dotagent rules.
 
 Example `AGENTS.md` Rules section:
 
@@ -204,14 +204,14 @@ Example `AGENTS.md` Rules section:
 
 When present, follow:
 
-- `.codex/rules/code-quality.md`
-- `.codex/rules/testing.md`
-- `.codex/rules/security.md`
-- `.codex/rules/error-handling.md`
-- `.codex/rules/frontend.md`
-- `.codex/rules/typescript.md`
-- `.codex/rules/react.md`
-- `.codex/rules/node.md`
+- `.agent/rules/code-quality.md`
+- `.agent/rules/testing.md`
+- `.agent/rules/security.md`
+- `.agent/rules/error-handling.md`
+- `.agent/rules/frontend.md`
+- `.agent/rules/typescript.md`
+- `.agent/rules/react.md`
+- `.agent/rules/node.md`
 ```
 
 ## Rule Priority & Conflicts
@@ -219,7 +219,7 @@ When present, follow:
 If two rules conflict:
 
 1. **Specific beats generic:** `typescript.md` rules override `code-quality.md` on TypeScript-specific topics
-2. **Project-local beats generic:** Your `.codex/rules/` beats dotcodex defaults
+2. **Project-local beats generic:** Your `.agent/rules/` beats dotagent defaults
 3. **Recent beats old:** The rule you updated most recently takes precedence
 4. **Comment conflicts:** If truly ambiguous, add to your rule:
    ```markdown
@@ -232,21 +232,21 @@ If you maintain multiple services, consider shared and service-specific rules:
 
 ```
 shared/
-├── .codex/
-│   └── rules/
-│       ├── code-quality.md      (shared)
-│       ├── security.md          (shared)
-│       └── logging.md           (shared microservices rule)
-│
+â”œâ”€â”€ .agent/
+â”‚   â””â”€â”€ rules/
+â”‚       â”œâ”€â”€ code-quality.md      (shared)
+â”‚       â”œâ”€â”€ security.md          (shared)
+â”‚       â””â”€â”€ logging.md           (shared microservices rule)
+â”‚
 service-a/
-├── .codex/
-│   └── rules/
-│       └── python.md            (service A specific)
-│
+â”œâ”€â”€ .agent/
+â”‚   â””â”€â”€ rules/
+â”‚       â””â”€â”€ python.md            (service A specific)
+â”‚
 service-b/
-├── .codex/
-│   └── rules/
-│       └── typescript.md        (service B specific)
+â”œâ”€â”€ .agent/
+â”‚   â””â”€â”€ rules/
+â”‚       â””â”€â”€ typescript.md        (service B specific)
 ```
 
 Then in each service's `AGENTS.md`, reference both shared and local rules.
@@ -255,38 +255,38 @@ Then in each service's `AGENTS.md`, reference both shared and local rules.
 
 | Pattern | Implementation |
 |---------|---|
-| **No magic numbers** | Create `.codex/rules/constants.md` listing magic values |
-| **Logging standards** | Create `.codex/rules/logging.md` with format, levels, fields |
-| **API versioning** | Create `.codex/rules/api-versioning.md` with deprecation policy |
-| **Database migrations** | Create `.codex/rules/migrations.md` with rollback requirements |
-| **Performance budgets** | Create `.codex/rules/performance.md` with metrics and targets |
-| **Data retention** | Create `.codex/rules/data-retention.md` with policies |
+| **No magic numbers** | Create `.agent/rules/constants.md` listing magic values |
+| **Logging standards** | Create `.agent/rules/logging.md` with format, levels, fields |
+| **API versioning** | Create `.agent/rules/api-versioning.md` with deprecation policy |
+| **Database migrations** | Create `.agent/rules/migrations.md` with rollback requirements |
+| **Performance budgets** | Create `.agent/rules/performance.md` with metrics and targets |
+| **Data retention** | Create `.agent/rules/data-retention.md` with policies |
 
 ## Keeping Rules DRY Across Teams
 
-If multiple teams use dotcodex:
+If multiple teams use dotagent:
 
-1. Create a private `team-codex` repo with shared rules:
+1. Create a private `team-agent` repo with shared rules:
    ```
-   team-codex/
-   ├── rules/
-   │   ├── python.md
-   │   ├── typescript.md
-   │   ├── logging.md
-   │   └── observability.md
-   └── README.md
+   team-agent/
+   â”œâ”€â”€ rules/
+   â”‚   â”œâ”€â”€ python.md
+   â”‚   â”œâ”€â”€ typescript.md
+   â”‚   â”œâ”€â”€ logging.md
+   â”‚   â””â”€â”€ observability.md
+   â””â”€â”€ README.md
    ```
 
-2. Each project clones both `dotcodex` and `team-codex`
+2. Each project clones both `dotagent` and `team-agent`
 
-3. In each project's `.codex/rules/`, symlink or copy from `team-codex/rules/`:
+3. In each project's `.agent/rules/`, symlink or copy from `team-agent/rules/`:
    ```powershell
    # In project root
-   New-Item -ItemType SymbolicLink -Path '.codex/rules/python.md' `
-     -Target '../../../team-codex/rules/python.md'
+   New-Item -ItemType SymbolicLink -Path '.agent/rules/python.md' `
+     -Target '../../../team-agent/rules/python.md'
    ```
 
-4. Commit only the symlinks; the actual rules live in `team-codex`
+4. Commit only the symlinks; the actual rules live in `team-agent`
 
 This prevents copy-paste and keeps standards aligned across teams.
 
@@ -294,15 +294,15 @@ This prevents copy-paste and keeps standards aligned across teams.
 
 For a Node.js + React + TypeScript project:
 
-**Install dotcodex:**
+**Install dotagent:**
 ```powershell
-.\dotcodex\scripts\install-dotcodex.ps1 -ProjectRoot .
+.\dotagent\scripts\install-dotagent.ps1 -ProjectRoot .
 ```
 
 **Create stack-specific rules:**
-- `.codex/rules/typescript.md`
-- `.codex/rules/nodejs.md`
-- `.codex/rules/react.md`
+- `.agent/rules/typescript.md`
+- `.agent/rules/nodejs.md`
+- `.agent/rules/react.md`
 
 **Update AGENTS.md rules section** to include all three.
 
@@ -313,7 +313,7 @@ npm run test   # Jest tests
 npm run build  # Production build
 ```
 
-Now Codex will:
+Now Agent will:
 1. Read your generic rules (code-quality, testing, security, etc.)
 2. Read your stack rules (typescript, nodejs, react)
 3. Apply all of them when implementing features
@@ -324,3 +324,4 @@ Now Codex will:
 - Review [Rule Hierarchy & Conflicts](rule-hierarchy.md) for detailed precedence
 - See [Troubleshooting](troubleshooting.md) if rules aren't being followed
 - Check [GitHub Actions Integration](#) if adding CI/CD rules
+

@@ -1,4 +1,4 @@
-{
+﻿{
   "hooks": {
     "SessionStart": [
       {
@@ -6,7 +6,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "powershell -ExecutionPolicy Bypass -File .\\.codex\\hooks\\session-start.ps1"
+            "command": "powershell -ExecutionPolicy Bypass -File .\\.agent\\hooks\\session-start.ps1"
           }
         ]
       }
@@ -17,7 +17,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "powershell -ExecutionPolicy Bypass -File .\\.codex\\hooks\\doc-presence.ps1"
+            "command": "powershell -ExecutionPolicy Bypass -File .\\.agent\\hooks\\doc-presence.ps1"
           }
         ]
       },
@@ -26,18 +26,19 @@
         "hooks": [
           {
             "type": "command",
-            "command": "powershell -ExecutionPolicy Bypass -File .\\.codex\\hooks\\pre-bash-context.ps1"
+            "command": "powershell -ExecutionPolicy Bypass -File .\\.agent\\hooks\\pre-bash-context.ps1"
           },
           {
             "type": "command",
-            "command": "powershell -ExecutionPolicy Bypass -File .\\.codex\\hooks\\path-guard.ps1"
+            "command": "powershell -ExecutionPolicy Bypass -File .\\.agent\\hooks\\path-guard.ps1"
           },
           {
             "type": "command",
-            "command": "powershell -ExecutionPolicy Bypass -File .\\.codex\\hooks\\graph-staleness.ps1"
+            "command": "powershell -ExecutionPolicy Bypass -File .\\.agent\\hooks\\graph-staleness.ps1"
           }
         ]
       }
     ]
   }
 }
+

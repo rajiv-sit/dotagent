@@ -1,6 +1,6 @@
-{
+﻿{
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "title": "dotcodex task output",
+  "title": "dotagent task output",
   "type": "object",
   "required": ["summary"],
   "properties": {
@@ -30,3 +30,4 @@
   },
   "additionalProperties": true
 }
+

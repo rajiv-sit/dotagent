@@ -1,4 +1,4 @@
-# Starter Templates
+﻿# Starter Templates
 
 Copy-and-paste templates for common document types. Customize with your project details.
 
@@ -140,8 +140,8 @@ Example: "Implement bulk export feature for dashboards."
 
 ### Tests Run
 
-- Unit tests: ✓ All passing
-- Integration tests: ✓ All passing
+- Unit tests: âœ“ All passing
+- Integration tests: âœ“ All passing
 - Manual testing: In progress
 
 ### Manual Checks
@@ -217,9 +217,9 @@ Example: "Implement bulk export feature for dashboards."
 
 ## Edge Cases
 
-- What if user has no data? → Show empty state with guidance
-- What if request is malformed? → Return 400 with validation error
-- What if external API timeouts? → Retry 3x, then error to user
+- What if user has no data? â†’ Show empty state with guidance
+- What if request is malformed? â†’ Return 400 with validation error
+- What if external API timeouts? â†’ Retry 3x, then error to user
 
 ## Glossary
 
@@ -254,29 +254,29 @@ Next API call sees fresh data.
 
 Example:
 ```
-┌─────────┐
-│  React  │ (Browser)
-└────┬────┘
-     │ REST API
-     ▼
-┌─────────────────┐
-│   Node.js API   │
-└────┬────────┬───┘
-     │        │
-     │ SQL    │ Redis
-     ▼        ▼
-  ┌──────┐  ┌────────┐
-  │ PG   │  │ Cache  │
-  └──────┘  └────────┘
+â”Œâ”€â”€â”€â”€â”€â”€â”€â”€â”€â”
+â”‚  React  â”‚ (Browser)
+â””â”€â”€â”€â”€â”¬â”€â”€â”€â”€â”˜
+     â”‚ REST API
+     â–¼
+â”Œâ”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”
+â”‚   Node.js API   â”‚
+â””â”€â”€â”€â”€â”¬â”€â”€â”€â”€â”€â”€â”€â”€â”¬â”€â”€â”€â”˜
+     â”‚        â”‚
+     â”‚ SQL    â”‚ Redis
+     â–¼        â–¼
+  â”Œâ”€â”€â”€â”€â”€â”€â”  â”Œâ”€â”€â”€â”€â”€â”€â”€â”€â”
+  â”‚ PG   â”‚  â”‚ Cache  â”‚
+  â””â”€â”€â”€â”€â”€â”€â”˜  â””â”€â”€â”€â”€â”€â”€â”€â”€â”˜
 
-          ┌──────────────┐
-          │ Python Jobs  │ (Background)
-          └──────┬───────┘
-                 │ S3
-                 ▼
-          ┌──────────┐
-          │S3 Bucket │
-          └──────────┘
+          â”Œâ”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”
+          â”‚ Python Jobs  â”‚ (Background)
+          â””â”€â”€â”€â”€â”€â”€â”¬â”€â”€â”€â”€â”€â”€â”€â”˜
+                 â”‚ S3
+                 â–¼
+          â”Œâ”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”
+          â”‚S3 Bucket â”‚
+          â””â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”˜
 ```
 
 ## Components
@@ -440,7 +440,7 @@ Example:
 
 ---
 
-## Template: .codex/rules/[stack].md
+## Template: .agent/rules/[stack].md
 
 ```markdown
 # [Stack Name] Stack Rules
@@ -532,4 +532,5 @@ $ npm run build
 3. **Share** with your team
 4. **Refine** based on feedback
 
-All templates are markdown—easy to version control and edit collaboratively.
+All templates are markdownâ€”easy to version control and edit collaboratively.
+

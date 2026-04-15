@@ -6,6 +6,10 @@ These schemas define structured output contracts and document templates for proj
 
 ### Output Contracts
 
+- `job.schema.json`
+  - Formal persisted job contract with lifecycle states, input/output sections, and orchestration metadata
+- `workflow.schema.json`
+  - DAG-oriented workflow contract for chained stages and dependency edges
 - `review-output.schema.json`
   - Structures review findings with verdict, severity levels, and verification gaps
 - `task-output.schema.json`

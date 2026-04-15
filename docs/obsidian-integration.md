@@ -1,6 +1,6 @@
-# Obsidian Integration Guide
+﻿# Obsidian Integration Guide
 
-This guide explains how to use Obsidian with `dotcodex` projects for maximum effectiveness.
+This guide explains how to use Obsidian with `dotagent` projects for maximum effectiveness.
 
 ## Why Obsidian?
 
@@ -10,23 +10,23 @@ Obsidian's graph view and local graph make it easier to navigate cross-linked ar
 
 ### 1. Create the Vault
 
-Place your `dotcodex` project root as an Obsidian vault:
+Place your `dotagent` project root as an Obsidian vault:
 
 ```
 your-project/
-├── .obsidian/              (Obsidian metadata - gitignore this)
-├── AGENTS.md
-├── CONTEXT.md
-├── PLAN.md
-├── Requirement.md
-├── Architecture.md
-├── HLD.md
-├── DD.md
-├── milestone.md
-├── .codex/
-├── dotcodex/
-├── src/
-└── ...
+â”œâ”€â”€ .obsidian/              (Obsidian metadata - gitignore this)
+â”œâ”€â”€ AGENTS.md
+â”œâ”€â”€ CONTEXT.md
+â”œâ”€â”€ PLAN.md
+â”œâ”€â”€ Requirement.md
+â”œâ”€â”€ Architecture.md
+â”œâ”€â”€ HLD.md
+â”œâ”€â”€ DD.md
+â”œâ”€â”€ milestone.md
+â”œâ”€â”€ .agent/
+â”œâ”€â”€ dotagent/
+â”œâ”€â”€ src/
+â””â”€â”€ ...
 ```
 
 Open the project root as a vault in Obsidian: `File > Open folder as vault > select project root`
@@ -47,8 +47,8 @@ In Obsidian settings:
 - Enable **Readability** (better line length)
 
 **Graph View:**
-- Set **Node size by** → Links (visually emphasize heavily linked docs)
-- Set **Link direction** → Bidirectional (shows relationships both ways)
+- Set **Node size by** â†’ Links (visually emphasize heavily linked docs)
+- Set **Link direction** â†’ Bidirectional (shows relationships both ways)
 - Increase **Link Distance** to 2-3 (show nearby neighbors)
 
 **Display:**
@@ -179,7 +179,7 @@ Scenario: You need to understand payment flow for a new feature.
 
 Total context gathered: 3 highly relevant docs instead of grepping the whole repo.
 
-## Obsidian + dotcodex Workflow
+## Obsidian + dotagent Workflow
 
 **Session start:**
 1. Open the project vault in Obsidian
@@ -187,7 +187,7 @@ Total context gathered: 3 highly relevant docs instead of grepping the whole rep
 3. Open `PLAN.md` in another pane
 4. Open Local Graphs for both to see what's connected
 5. Read related architecture docs first (Architecture.md, HLD.md, milestone.md)
-6. Then ask Codex to work on the task
+6. Then ask Agent to work on the task
 
 **During implementation:**
 1. Keep `PLAN.md` open and update it as you progress
@@ -238,4 +238,5 @@ This ensures all decisions are timestamped and cross-linked automatically.
 - Cross-linking Architecture, HLD, DD, Requirement, and CONTEXT reduces search overhead
 - Local Graph shows you the doc neighborhood before reading
 - Enables faster decision-finding and reduces context switching
-- Pairs well with dotcodex's doc-first workflow
+- Pairs well with dotagent's doc-first workflow
+

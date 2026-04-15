@@ -1,6 +1,6 @@
-# GitHub Actions Integration
+﻿# GitHub Actions Integration
 
-Enforce dotcodex standards in CI/CD with GitHub Actions workflows.
+Enforce dotagent standards in CI/CD with GitHub Actions workflows.
 
 ## Overview
 
@@ -13,10 +13,10 @@ GitHub Actions can:
 
 ## Basic Validation Workflow
 
-Create `.github/workflows/dotcodex-validate.yml`:
+Create `.github/workflows/dotagent-validate.yml`:
 
 ```yaml
-name: dotcodex Validation
+name: dotagent Validation
 
 on:
   pull_request:
@@ -38,35 +38,35 @@ jobs:
             fi
           done
           if [ ${#missing[@]} -gt 0 ]; then
-            echo "❌ Missing required docs: ${missing[*]}"
+            echo "âŒ Missing required docs: ${missing[*]}"
             exit 1
           fi
-          echo "✓ All required docs present"
+          echo "âœ“ All required docs present"
       
       - name: Check CONTEXT.md has Key Decisions
         run: |
           if ! grep -q "## Key Decisions" CONTEXT.md; then
-            echo "❌ CONTEXT.md missing 'Key Decisions' section"
+            echo "âŒ CONTEXT.md missing 'Key Decisions' section"
             exit 1
           fi
-          echo "✓ CONTEXT.md properly formatted"
+          echo "âœ“ CONTEXT.md properly formatted"
       
       - name: Check PLAN.md updated
         run: |
           # Modified if changed in this PR
           if git diff origin/main -- PLAN.md | grep -q "^+"; then
-            echo "✓ PLAN.md was updated in this PR"
+            echo "âœ“ PLAN.md was updated in this PR"
           else
-            echo "⚠️  PLAN.md was not updated. Did you forget to record completion?"
+            echo "âš ï¸  PLAN.md was not updated. Did you forget to record completion?"
           fi
       
       - name: Verify Architecture.md has Components section
         run: |
           if ! grep -q "## Components" Architecture.md; then
-            echo "⚠️  Architecture.md missing 'Components' section"
+            echo "âš ï¸  Architecture.md missing 'Components' section"
             exit 1
           fi
-          echo "✓ Architecture.md has Components"
+          echo "âœ“ Architecture.md has Components"
 ```
 
 ## Language-Specific Rules Enforcement
@@ -92,10 +92,10 @@ jobs:
             sed 's/.*data-coverage="\([^"]*\)".*/\1/')
           echo "Coverage: ${coverage_pct}%"
           if (( ${coverage_pct%.*} < 80 )); then
-            echo "❌ Coverage below 80%: ${coverage_pct}%"
+            echo "âŒ Coverage below 80%: ${coverage_pct}%"
             exit 1
           fi
-          echo "✓ Coverage meets threshold"
+          echo "âœ“ Coverage meets threshold"
       
       - name: Lint with flake8
         run: flake8 src --max-line-length=100 --count --exit-zero-on-exit
@@ -123,10 +123,10 @@ jobs:
           coverage=$(npx nyc report | grep 'Lines')
           percentage=$(echo $coverage | grep -oP '\d+(?=%)' | head -1)
           if [ "$percentage" -lt 80 ]; then
-            echo "❌ Coverage $percentage% below 80%"
+            echo "âŒ Coverage $percentage% below 80%"
             exit 1
           fi
-          echo "✓ Coverage: $percentage%"
+          echo "âœ“ Coverage: $percentage%"
       
       - name: Lint with ESLint
         run: npm run lint
@@ -154,10 +154,10 @@ jobs:
         run: |
           coverage=$(grep -oP 'covered="\K[^"]*' target/site/jacoco/index.html | head -1)
           if [ $(echo "$coverage < 0.80" | bc) -eq 1 ]; then
-            echo "❌ Coverage below 80%"
+            echo "âŒ Coverage below 80%"
             exit 1
           fi
-          echo "✓ Coverage: $(echo "$coverage * 100" | bc)%"
+          echo "âœ“ Coverage: $(echo "$coverage * 100" | bc)%"
       
       - name: Run SpotBugs
         run: mvn spotbugs:check
@@ -173,19 +173,19 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       
-      - name: Check code follows .codex/rules
+      - name: Check code follows .agent/rules
         run: |
-          echo "Checking .codex/rules/"
-          if [ ! -d ".codex/rules" ]; then
-            echo "⚠️  No .codex/rules directory"
+          echo "Checking .agent/rules/"
+          if [ ! -d ".agent/rules" ]; then
+            echo "âš ï¸  No .agent/rules directory"
             exit 0
           fi
           
-          rules_count=$(ls .codex/rules/*.md 2>/dev/null | wc -l)
-          echo "✓ Found $rules_count rule files"
+          rules_count=$(ls .agent/rules/*.md 2>/dev/null | wc -l)
+          echo "âœ“ Found $rules_count rule files"
           
           if grep -r "TODO" src/ 2>/dev/null; then
-            echo "⚠️  Found TODO comments (consider opening issues instead)"
+            echo "âš ï¸  Found TODO comments (consider opening issues instead)"
           fi
 ```
 
@@ -209,11 +209,11 @@ jobs:
           found=0
           for pattern in "${patterns[@]}"; do
             if grep -ri "$pattern" src/ --include="*.js" --include="*.py" --include="*.java" --include="*.ts"; then
-              echo "❌ Potential secret found"
+              echo "âŒ Potential secret found"
               found=1
             fi
           done
-          [ $found -eq 0 ] && echo "✓ No secrets detected"
+          [ $found -eq 0 ] && echo "âœ“ No secrets detected"
           exit $found
       
       - uses: dependabot/github-actions@main
@@ -229,12 +229,12 @@ jobs:
     steps:
       - name: PR Check Summary
         run: |
-          echo "## dotcodex CI/CD Summary"
+          echo "## dotagent CI/CD Summary"
           echo ""
-          echo "✓ Docs validated"
-          echo "✓ Tests passed (${{ env.COVERAGE }}% coverage)"
-          echo "✓ Rules checked"
-          echo "✓ Security verified"
+          echo "âœ“ Docs validated"
+          echo "âœ“ Tests passed (${{ env.COVERAGE }}% coverage)"
+          echo "âœ“ Rules checked"
+          echo "âœ“ Security verified"
           echo ""
           echo "Ready to merge!"
 ```
@@ -242,12 +242,12 @@ jobs:
 ## Block Merge on Failure
 
 Add branch protection rule in GitHub:
-1. Go to Settings → Branches
+1. Go to Settings â†’ Branches
 2. Add rule for main/master
 3. Require status checks to pass:
-   - `dotcodex Validation / validate-docs`
-   - `dotcodex Validation / test-coverage`
-   - `dotcodex Validation / rules-validation`
+   - `dotagent Validation / validate-docs`
+   - `dotagent Validation / test-coverage`
+   - `dotagent Validation / rules-validation`
 
 ## Review Checklist Comment
 
@@ -259,7 +259,7 @@ Post automated comment on PRs:
     steps:
       - uses: actions/checkout@v3
       
-      - name: Comment PR with dotcodex checklist
+      - name: Comment PR with dotagent checklist
         uses: actions/github-script@v6
         with:
           script: |
@@ -267,12 +267,12 @@ Post automated comment on PRs:
               issue_number: context.issue.number,
               owner: context.repo.owner,
               repo: context.repo.repo,
-              body: `## dotcodex Review Checklist
+              body: `## dotagent Review Checklist
 
 - [ ] PLAN.md updated with completion
 - [ ] CONTEXT.md updated if decisions changed
 - [ ] Tests added for new behavior
-- [ ] Code follows .codex/rules/
+- [ ] Code follows .agent/rules/
 - [ ] No secrets or hardcoded keys
 - [ ] Documentation updated
 
@@ -285,7 +285,7 @@ See [Using Skills](./using-skills.md) for workflow guides.`
 Complete workflow for a typescript/react project:
 
 ```yaml
-name: dotcodex CI/CD
+name: dotagent CI/CD
 
 on: [push, pull_request]
 
@@ -302,18 +302,18 @@ jobs:
         run: |
           for doc in CONTEXT.md PLAN.md Requirement.md Architecture.md; do
             test -f "$doc" || {
-              echo "❌ Missing $doc"
+              echo "âŒ Missing $doc"
               exit 1
             }
           done
-          echo "✓ All required docs present"
+          echo "âœ“ All required docs present"
       
       - name: Check PLAN.md changed
         run: |
           if git diff origin/main...HEAD -- PLAN.md | grep -q "Completed"; then
-            echo "✓ PLAN.md was updated"
+            echo "âœ“ PLAN.md was updated"
           else
-            echo "⚠️ PLAN.md not updated - did you record completion?"
+            echo "âš ï¸ PLAN.md not updated - did you record completion?"
           fi
 
   lint:
@@ -348,7 +348,7 @@ jobs:
           coverage=$(npx nyc report | grep Lines | grep -oP '\d+(?=%)' | head -1)
           echo "Coverage: $coverage%"
           if [ "$coverage" -lt 80 ]; then
-            echo "❌ Coverage $coverage% below 80%"
+            echo "âŒ Coverage $coverage% below 80%"
             exit 1
           fi
 
@@ -361,13 +361,13 @@ jobs:
       - name: Check for secrets
         run: |
           if grep -r "process.env\." src/ | grep -v "process.env\.NODE_ENV" | wc -l | grep -v "^0$"; then
-            echo "ℹ️  Environment variables detected - ensure they're secure"
+            echo "â„¹ï¸  Environment variables detected - ensure they're secure"
           fi
       
       - name: Audit dependencies
         run: |
           if npm audit --audit-level=moderate 2>&1 | grep -q "found.*vulnerabilities"; then
-            echo "⚠️  Vulnerabilities detected - review above"
+            echo "âš ï¸  Vulnerabilities detected - review above"
           fi
 
   build:
@@ -400,3 +400,4 @@ jobs:
 - Configure branch protection rules
 - Add PR checklist comment
 - Review [Troubleshooting > GitHub Actions](troubleshooting.md#issue-github-actions-integration) if issues arise
+

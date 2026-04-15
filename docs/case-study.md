@@ -1,6 +1,6 @@
-# Case Study: Real-World dotcodex Project
+﻿# Case Study: Real-World dotagent Project
 
-A true story of how team "Acme Analytics" adopted dotcodex and saw measurable improvements.
+A true story of how team "Acme Analytics" adopted dotagent and saw measurable improvements.
 
 ## The Situation
 
@@ -9,7 +9,7 @@ A true story of how team "Acme Analytics" adopted dotcodex and saw measurable im
 **Problem:**
 - 2 weeks to onboard new engineers (too long)
 - Architecture decisions lost to Slack (institutional memory)
-- CI/CD caught regressions Codex missed
+- CI/CD caught regressions Agent missed
 - Code review comments repeated ("where's the error handling?", "add tests")
 - Technical debt accumulated (no one knew what they should be fixing)
 
@@ -25,14 +25,14 @@ A true story of how team "Acme Analytics" adopted dotcodex and saw measurable im
 
 ### Day 1-2: Install & Inventory
 
-Sarah installs dotcodex:
+Sarah installs dotagent:
 
 ```powershell
-git clone https://github.com/rajiv-sit/dotcodex.git .\dotcodex
-.\dotcodex\scripts\install-dotcodex.ps1 -ProjectRoot .
+git clone https://github.com/rajiv-sit/dotagent.git .\dotagent
+.\dotagent\scripts\install-dotagent.ps1 -ProjectRoot .
 ```
 
-Result: `.codex/` folder ready, hooks in place.
+Result: `.agent/` folder ready, hooks in place.
 
 She inventories existing docs:
 - GitHub Wiki with "System Design" (10 pages)
@@ -41,7 +41,7 @@ She inventories existing docs:
 - README with setup instructions
 - CONTRIBUTING.md with PR guidelines
 
-Decision: **Hybrid approach** - keep existing docs, consolidate key info into dotcodex structure.
+Decision: **Hybrid approach** - keep existing docs, consolidate key info into dotagent structure.
 
 ### Day 3-5: Create Root Docs
 
@@ -58,7 +58,7 @@ Users: SaaS customers (finance/operations teams).
 
 ## Architecture Snapshot
 
-Frontend: React SPA → Node.js API → Python job workers → PostgreSQL + Redis cache.
+Frontend: React SPA â†’ Node.js API â†’ Python job workers â†’ PostgreSQL + Redis cache.
 
 Real-time data: WebSocket listeners on S3 bucket changes, push updates to frontend.
 
@@ -81,23 +81,23 @@ Real-time data: WebSocket listeners on S3 bucket changes, push updates to fronte
 
 ## Current Objective
 
-Adopt dotcodex workflow; improve onboarding time from 2 weeks to 3 days.
+Adopt dotagent workflow; improve onboarding time from 2 weeks to 3 days.
 
 ## Completed
 
-- dotcodex bootstrap
+- dotagent bootstrap
 - Root doc creation
 - Team training (1 hour demo)
 
 ## In Progress
 
-- Updating code standards in .codex/rules/
+- Updating code standards in .agent/rules/
 
 ## Next
 
 - Port Python style guide to python.md rule
 - Enforce new rules in CI/CD
-- Onboard next three new hires with dotcodex
+- Onboard next three new hires with dotagent
 
 ## Blockers
 
@@ -182,7 +182,7 @@ Worker updates cache, API pushes WebSocket updates to frontend.
 
 Sarah creates stack-specific rules:
 
-**`.codex/rules/node-typescript.md`:**
+**`.agent/rules/node-typescript.md`:**
 ```markdown
 # Node.js + TypeScript Stack
 
@@ -214,7 +214,7 @@ Sarah creates stack-specific rules:
 - Cache TTL: 5 minutes default; override per query
 ```
 
-**`.codex/rules/python.md`:**
+**`.agent/rules/python.md`:**
 ```markdown
 # Python Stack
 
@@ -249,14 +249,14 @@ Sarah updates `AGENTS.md`:
 ```markdown
 ## Rules
 
-- `.codex/rules/code-quality.md` (generic)
-- `.codex/rules/testing.md` (generic)
-- `.codex/rules/security.md` (generic)
-- `.codex/rules/error-handling.md` (generic)
-- `.codex/rules/frontend.md` (generic)
-- `.codex/rules/node-typescript.md` (backend API)
-- `.codex/rules/python.md` (data jobs)
-- `.codex/rules/react.md` (frontend)
+- `.agent/rules/code-quality.md` (generic)
+- `.agent/rules/testing.md` (generic)
+- `.agent/rules/security.md` (generic)
+- `.agent/rules/error-handling.md` (generic)
+- `.agent/rules/frontend.md` (generic)
+- `.agent/rules/node-typescript.md` (backend API)
+- `.agent/rules/python.md` (data jobs)
+- `.agent/rules/react.md` (frontend)
 ```
 
 ### CI/CD Setup
@@ -311,25 +311,25 @@ Sarah walks the team through:
 1. **CONTEXT.md:** "Read this first to understand architecture + key decisions"
 2. **PLAN.md:** "This is our current sprint; pick a task from 'Next'"
 3. **Rules:** "Code will be reviewed against these standards; no surprises"
-4. **Using Codex:** "Instead of writing from scratch, ask Codex to help"
+4. **Using Agent:** "Instead of writing from scratch, ask Agent to help"
 
-### First Codex Task
+### First Agent Task
 
-Jean (new backend engineer) asks Codex:
+Jean (new backend engineer) asks Agent:
 
 ```
 I need to implement a new endpoint GET /dashboards/{id}/top-products.
 
-Read CONTEXT.md, PLAN.md, Requirement.md, Architecture.md, and .codex/rules/.
+Read CONTEXT.md, PLAN.md, Requirement.md, Architecture.md, and .agent/rules/.
 
 Implement the endpoint:
 - Fetch top 10 products for dashboard ID
 - Use Redis cache (5-min TTL)
 - Return JSON with product names, revenue, count
-- Include proper error handling per .codex/rules/error-handling.md
+- Include proper error handling per .agent/rules/error-handling.md
 ```
 
-Codex implements:
+Agent implements:
 
 ```typescript
 router.get('/dashboards/:id/top-products', asyncHandler(async (req, res) => {
@@ -363,13 +363,13 @@ router.get('/dashboards/:id/top-products', asyncHandler(async (req, res) => {
 }));
 ```
 
-Jean reviews with the team (via Codex code review agent):
+Jean reviews with the team (via Agent code review agent):
 
 ```
 @code-reviewer Review this implementation against:
-- .codex/rules/node-typescript.md
-- .codex/rules/error-handling.md
-- .codex/rules/security.md
+- .agent/rules/node-typescript.md
+- .agent/rules/error-handling.md
+- .agent/rules/security.md
 
 Specifically check:
 - Error handling (ValidationError proper)
@@ -381,11 +381,11 @@ Specifically check:
 **Code reviewer responds:**
 
 ```
-✓ Error handling: proper use of custom ValidationError
-✓ Cache: correct key format (dashboard:id:query:version)
-✓ Performance: single SQL query, no N+1
-✓ Security: using parameterized query ($1), SQL injection protected
-✓ Tests: should add tests for cache hit/miss and validation error
+âœ“ Error handling: proper use of custom ValidationError
+âœ“ Cache: correct key format (dashboard:id:query:version)
+âœ“ Performance: single SQL query, no N+1
+âœ“ Security: using parameterized query ($1), SQL injection protected
+âœ“ Tests: should add tests for cache hit/miss and validation error
 
 Ready to merge after tests added.
 ```
@@ -436,7 +436,7 @@ Tests pass. PR merged.
 
 ### Onboarding Time
 
-**Before dotcodex:**
+**Before dotagent:**
 - New hire reads README: 30 min
 - Asks questions about architecture: 1 hour
 - Asks about code standards: 30 min
@@ -444,14 +444,14 @@ Tests pass. PR merged.
 - Still doesn't know what to work on
 - Takes 2 weeks to be productive
 
-**After dotcodex:**
+**After dotagent:**
 - New hire reads CONTEXT.md + PLAN.md: 15 min
 - Reviews AGENTS.md and rules: 15 min
 - Code-reviewed demo endpoint: 1 hour
-- Asks Codex to implement their first feature: 30 min
+- Asks Agent to implement their first feature: 30 min
 - Productive in 3 days
 
-**Result: 2 weeks → 3 days (6x faster)**
+**Result: 2 weeks â†’ 3 days (6x faster)**
 
 ### Code Review Cycles
 
@@ -462,9 +462,9 @@ Tests pass. PR merged.
 - (3-4 back-and-forths, 3 days to merge)
 
 **After:**
-- Code against .codex/rules/ standards
+- Code against .agent/rules/ standards
 - CI enforces test coverage
-- Codex code-reviewer flags errors before human review
+- Agent code-reviewer flags errors before human review
 - (1-2 back-and-forths, 1 day to merge)
 
 **Result: ~2x faster code reviews**
@@ -485,14 +485,14 @@ Tests pass. PR merged.
 
 ### Token Efficiency
 
-Sarah asked Codex to implement 10 features:
+Sarah asked Agent to implement 10 features:
 
-**Without dotcodex context:**
-- Codex needs to explore codebase (grep, ls, file reads)
+**Without dotagent context:**
+- Agent needs to explore codebase (grep, ls, file reads)
 - Average: 200+ tokens per feature
 
-**With dotcodex context:**
-- Codex reads CONTEXT.md, PLAN.md, rules
+**With dotagent context:**
+- Agent reads CONTEXT.md, PLAN.md, rules
 - Hooks prevent needless exploration
 - Average: 80-100 tokens per feature
 
@@ -504,11 +504,11 @@ Sarah asked Codex to implement 10 features:
 
 ### What Worked
 
-1. **Hybrid migration:** Kept existing docs, linked from dotcodex. No disruption.
-2. **Rules first:** Established code standards in `.codex/rules/` before using Codex heavily.
+1. **Hybrid migration:** Kept existing docs, linked from dotagent. No disruption.
+2. **Rules first:** Established code standards in `.agent/rules/` before using Agent heavily.
 3. **Gradual adoption:** Started with CONTEXT + PLAN, added other docs over time.
 4. **Team training:** 1-hour demo prevented confusion about workflow.
-5. **CI enforcement:** Automated checks (coverage, linting) caught issues Codex might miss.
+5. **CI enforcement:** Automated checks (coverage, linting) caught issues Agent might miss.
 
 ### What We'd Do Differently
 
@@ -543,7 +543,7 @@ Sarah asked Codex to implement 10 features:
 
 **Q: Did you need to rewrite all existing docs?**
 
-A: No. We kept GitHub Wiki + Confluence, linked from dotcodex. Gradual migration over 3 months.
+A: No. We kept GitHub Wiki + Confluence, linked from dotagent. Gradual migration over 3 months.
 
 **Q: How long did full adoption take?**
 
@@ -560,3 +560,5 @@ A: Yes. Sarah estimates solo developers would find CONTEXT.md useful (tracks pas
 **Q: What about remote teams / timezone differences?**
 
 A: Actually helped. CONTEXT.md and PLAN.md became source of truth instead of "I'll explain after standup."
+
+

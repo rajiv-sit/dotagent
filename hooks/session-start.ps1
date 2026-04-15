@@ -1,4 +1,4 @@
-$projectRoot = (Get-Location).Path
+﻿$projectRoot = (Get-Location).Path
 $branch = ""
 
 try {
@@ -19,4 +19,5 @@ $parts += "docs=$($docs.Count)"
 $parts += "graphify=" + $(if ($graphReport) { "present" } else { "missing" })
 $parts += "obsidian=" + $(if ($obsidian) { "present" } else { "missing" })
 
-Write-Output ("dotcodex session: " + ($parts -join " | "))
+Write-Output ("dotagent session: " + ($parts -join " | "))
+

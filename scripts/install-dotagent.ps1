@@ -1,4 +1,4 @@
-param(
+﻿param(
     [string]$ProjectRoot = ".",
     [switch]$Force
 )
@@ -58,23 +58,25 @@ function Copy-ManagedDirectory {
 
 $sourceRoot = Split-Path -Parent $PSScriptRoot
 $projectRootPath = (Resolve-Path -LiteralPath $ProjectRoot).Path
-$codexRoot = Join-Path $projectRootPath ".codex"
+$agentRoot = Join-Path $projectRootPath ".agent"
 
-Ensure-Dir $codexRoot
+Ensure-Dir $agentRoot
 
 Copy-ManagedFile -Source (Join-Path $sourceRoot "AGENTS.md") -Destination (Join-Path $projectRootPath "AGENTS.md") -Force:$Force
 Copy-ManagedFile -Source (Join-Path $sourceRoot "CONTEXT.md") -Destination (Join-Path $projectRootPath "CONTEXT.md") -Force:$Force
 Copy-ManagedFile -Source (Join-Path $sourceRoot "PLAN.md") -Destination (Join-Path $projectRootPath "PLAN.md") -Force:$Force
-Copy-ManagedFile -Source (Join-Path $sourceRoot "hooks.json") -Destination (Join-Path $codexRoot "hooks.json") -Force:$Force
+Copy-ManagedFile -Source (Join-Path $sourceRoot "hooks.json") -Destination (Join-Path $agentRoot "hooks.json") -Force:$Force
 
 foreach ($name in @("agents", "hooks", "prompts", "rules", "schemas", "scripts", "skills")) {
-    Copy-ManagedDirectory -Source (Join-Path $sourceRoot $name) -Destination (Join-Path $codexRoot $name) -Force:$Force
+    Copy-ManagedDirectory -Source (Join-Path $sourceRoot $name) -Destination (Join-Path $agentRoot $name) -Force:$Force
 }
 
 Write-Output ""
-Write-Output "dotcodex install complete."
+Write-Output "dotagent install complete."
 Write-Output "Project root: $projectRootPath"
 Write-Output "Next steps:"
-Write-Output "1. Run: powershell -ExecutionPolicy Bypass -File .\.codex\scripts\init-project-docs.ps1 -ProjectRoot ."
-Write-Output "2. Run: powershell -ExecutionPolicy Bypass -File .\.codex\scripts\dotcodex.ps1 setup"
-Write-Output "3. Start work with: powershell -ExecutionPolicy Bypass -File .\.codex\scripts\dotcodex.ps1 task ""Describe the first milestone"""
+Write-Output "1. Run: powershell -ExecutionPolicy Bypass -File .\.agent\scripts\init-project-docs.ps1 -ProjectRoot ."
+Write-Output "2. Run: powershell -ExecutionPolicy Bypass -File .\.agent\scripts\dotagent.ps1 setup"
+Write-Output "3. Start work with: powershell -ExecutionPolicy Bypass -File .\.agent\scripts\dotagent.ps1 task ""Describe the first milestone"""
+
+

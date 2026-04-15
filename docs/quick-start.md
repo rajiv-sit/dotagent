@@ -1,38 +1,38 @@
-# Quick Start Guide
+﻿# Quick Start Guide
 
-Get a dotcodex project running in 10 minutes.
+Get a dotagent project running in 10 minutes.
 
 ## Prerequisites
 
 - Windows with PowerShell
-- Local `codex` or `codex.cmd` available in your PATH
+- Local `agent` or `agent.cmd` available in your PATH
 - Existing Git repo (or create one)
 
 ## 5-Minute Setup
 
-### Step 1: Add dotcodex to Your Project
+### Step 1: Add dotagent to Your Project
 
 ```powershell
 cd your-project-root
-git clone https://github.com/rajiv-sit/dotcodex.git .\dotcodex
+git clone https://github.com/rajiv-sit/dotagent.git .\dotagent
 ```
 
-Or copy the dotcodex folder manually if you don't have git submodules set up.
+Or copy the dotagent folder manually if you don't have git submodules set up.
 
 ### Step 2: Install Project Files
 
 ```powershell
-powershell -ExecutionPolicy Bypass -File .\dotcodex\scripts\install-dotcodex.ps1 -ProjectRoot .
+powershell -ExecutionPolicy Bypass -File .\dotagent\scripts\install-dotagent.ps1 -ProjectRoot .
 ```
 
-This copies `AGENTS.md`, `CONTEXT.md`, `PLAN.md`, and `.codex/` into your project root.
+This copies `AGENTS.md`, `CONTEXT.md`, `PLAN.md`, and `.agent/` into your project root.
 
-**Result:** You now have project-local Codex configuration.
+**Result:** You now have project-local Agent configuration.
 
 ### Step 3: Initialize Design Docs
 
 ```powershell
-powershell -ExecutionPolicy Bypass -File .\.codex\scripts\init-project-docs.ps1 -ProjectRoot .
+powershell -ExecutionPolicy Bypass -File .\.agent\scripts\init-project-docs.ps1 -ProjectRoot .
 ```
 
 This creates the required root design documents:
@@ -84,7 +84,7 @@ Fill in these sections **only** (skip the rest for now):
 ## Completed
 
 - Project bootstrap
-- Dotcodex setup
+- Dotagent setup
 
 ## In Progress
 
@@ -152,20 +152,20 @@ None yet.
 
 ## Your First Task
 
-Now ask Codex to implement something small:
+Now ask Agent to implement something small:
 
 ```powershell
 # Option 1: Prepare the task (renders prompt to console)
-powershell -ExecutionPolicy Bypass -File .\.codex\scripts\dotcodex.ps1 task "Implement basic project structure and build script"
+powershell -ExecutionPolicy Bypass -File .\.agent\scripts\dotagent.ps1 task "Implement basic project structure and build script"
 
-# Option 2: Run it through Codex CLI (requires codex.cmd)
-powershell -ExecutionPolicy Bypass -File .\.codex\scripts\dotcodex.ps1 task "Implement basic project structure and build script" -Execute
+# Option 2: Run it through agent CLI (requires agent.cmd)
+powershell -ExecutionPolicy Bypass -File .\.agent\scripts\dotagent.ps1 task "Implement basic project structure and build script" -Execute
 ```
 
 Expected flow:
-1. Codex reads your CONTEXT.md, PLAN.md, and Requirement.md
-2. Codex implements the feature
-3. Codex validates against `.codex/rules/`
+1. Agent reads your CONTEXT.md, PLAN.md, and Requirement.md
+2. Agent implements the feature
+3. Agent validates against `.agent/rules/`
 4. You review the result
 5. Update PLAN.md when done
 
@@ -173,13 +173,13 @@ Expected flow:
 
 1. Update `PLAN.md`: move item to "Completed" and pick next item
 2. Update `CONTEXT.md` if you discovered new constraints or decisions
-3. Ask Codex to implement the next milestone
+3. Ask Agent to implement the next milestone
 
 ## Common Next Steps
 
 | Goal | Command |
 |------|---------|
-| **Review a change** | `dotcodex.ps1 review -Target "branch-name vs main"` |
+| **Review a change** | `dotagent.ps1 review -Target "branch-name vs main"` |
 | **Fix a bug** | Ask default-agent to use `debug-fix` skill |
 | **Improve code structure** | Ask default-agent to use `refactor` skill |
 | **Add tests** | Ask default-agent to use `test-writer` skill |
@@ -201,7 +201,7 @@ Every session:
 
 1. Open `CONTEXT.md` and `PLAN.md` in editor
 2. Read the "Current Objective" in PLAN.md
-3. Ask Codex to work on one item from PLAN.md → Next
+3. Ask Agent to work on one item from PLAN.md â†’ Next
 4. After completion, update PLAN.md
 5. When a milestone finishes, update CONTEXT.md with new decisions
 
@@ -215,3 +215,4 @@ When you're ready, learn about specialist agents:
 - [When to Use Each Skill](../README.md#when-to-use-each-skill)
 
 When stuck, check [Troubleshooting](troubleshooting.md).
+

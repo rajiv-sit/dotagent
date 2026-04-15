@@ -1,6 +1,6 @@
-# Rule Hierarchy & Conflicts
+﻿# Rule Hierarchy & Conflicts
 
-How dotcodex rules interact, when they conflict, and which takes precedence.
+How dotagent rules interact, when they conflict, and which takes precedence.
 
 ## Rule Sources
 
@@ -8,9 +8,9 @@ Rules come from four levels:
 
 | Level | Location | Scope | Precedence |
 |-------|----------|-------|-----------|
-| 1. **Dotcodex (Generic)** | `.codex/rules/` from dotcodex | All projects | Lowest |
-| 2. **Project-Local** | `.codex/rules/` customized per project | This project only | Medium |
-| 3. **Stack-Specific** | `.codex/rules/python.md`, `typescript.md`, etc. | Language/framework | High |
+| 1. **Dotagent (Generic)** | `.agent/rules/` from dotagent | All projects | Lowest |
+| 2. **Project-Local** | `.agent/rules/` customized per project | This project only | Medium |
+| 3. **Stack-Specific** | `.agent/rules/python.md`, `typescript.md`, etc. | Language/framework | High |
 | 4. **Task/Context-Specific** | In AGENTS.md or task prompt | Current work | Highest |
 
 **Rule of thumb:** More specific rules override more generic rules.
@@ -60,7 +60,7 @@ Generic rule (error-handling.md):
 Domain rule (payments.md):
   "Payment errors must include transaction ID and retry attempt"
 
-Project rule (.codex/rules/api.md):
+Project rule (.agent/rules/api.md):
   "All API errors must be JSON with code/message/details"
 
 Result:
@@ -123,22 +123,22 @@ Rationale: Node.js async patterns and npm test ecosystem are different from lang
 
 When present, follow:
 
-- `.codex/rules/code-quality.md`
-- `.codex/rules/testing.md`
-- `.codex/rules/security.md`
-- `.codex/rules/error-handling.md`
-- `.codex/rules/frontend.md`
+- `.agent/rules/code-quality.md`
+- `.agent/rules/testing.md`
+- `.agent/rules/security.md`
+- `.agent/rules/error-handling.md`
+- `.agent/rules/frontend.md`
 
 ### Stack-Specific Rules (override generic for indicated stacks)
 
-- `.codex/rules/typescript.md` (overrides code-quality on type strictness)
-- `.codex/rules/react.md` (overrides frontend on component patterns)
-- `.codex/rules/nodejs.md` (overrides testing on async/mock patterns)
+- `.agent/rules/typescript.md` (overrides code-quality on type strictness)
+- `.agent/rules/react.md` (overrides frontend on component patterns)
+- `.agent/rules/nodejs.md` (overrides testing on async/mock patterns)
 
 ### Domain-Specific Rules (override generic for indicated domains)
 
-- `.codex/rules/payments.md` (security, audit logging, transaction isolation)
-- `.codex/rules/api.md` (error formats, versioning, rate limiting)
+- `.agent/rules/payments.md` (security, audit logging, transaction isolation)
+- `.agent/rules/api.md` (error formats, versioning, rate limiting)
 ```
 
 ---
@@ -205,7 +205,7 @@ Use this matrix when deciding which rule applies:
 ```markdown
 # python-testing.md
 
-> **Extends:** .codex/rules/testing.md with Python specifics
+> **Extends:** .agent/rules/testing.md with Python specifics
 
 Generic rule: Test happy path, edge cases, and failure paths.
 
@@ -245,78 +245,78 @@ Rationale: Refactoring legacy code is expensive; keep code-review focus on new b
 Then in AGENTS.md:
 
 ```markdown
-- `.codex/rules/legacy-module-rules.md` (applies to src/legacy/ only; overrides code-quality.md)
+- `.agent/rules/legacy-module-rules.md` (applies to src/legacy/ only; overrides code-quality.md)
 ```
 
 ---
 
 ## Cross-Team Rule Consistency
 
-If multiple teams share dotcodex:
+If multiple teams share dotagent:
 
 ### Option 1: Shared Core + Local Variants
 
 ```
-core-codex/
-├── rules/
-│   ├── code-quality.md        (shared, all teams)
-│   ├── testing.md             (shared, all teams)
-│   ├── security.md            (shared, all teams)
+core-agent/
+â”œâ”€â”€ rules/
+â”‚   â”œâ”€â”€ code-quality.md        (shared, all teams)
+â”‚   â”œâ”€â”€ testing.md             (shared, all teams)
+â”‚   â”œâ”€â”€ security.md            (shared, all teams)
 
-team-a-codex/
-├── rules/
-│   ├── python.md              (Team A specific)
-│   ├── django.md              (Team A specific)
+team-a-agent/
+â”œâ”€â”€ rules/
+â”‚   â”œâ”€â”€ python.md              (Team A specific)
+â”‚   â”œâ”€â”€ django.md              (Team A specific)
 
-team-b-codex/
-├── rules/
-│   ├── typescript.md           (Team B specific)
-│   ├── react.md                (Team B specific)
+team-b-agent/
+â”œâ”€â”€ rules/
+â”‚   â”œâ”€â”€ typescript.md           (Team B specific)
+â”‚   â”œâ”€â”€ react.md                (Team B specific)
 ```
 
 Each project references:
-- Shared rules from core-codex
+- Shared rules from core-agent
 - Team rules from team-specific repo
 
 ### Option 2: Monorepo with Layered Rules
 
 ```
 monorepo/
-├── .codex/
-│   └── rules/
-│       ├── core/
-│       │   ├── code-quality.md
-│       │   ├── testing.md
-│       │   └── security.md
-│       ├── services/
-│       │   ├── payment-service.md
-│       │   └── auth-service.md
-│       └── team-a/
-│           ├── python.md
-│           └── django.md
+â”œâ”€â”€ .agent/
+â”‚   â””â”€â”€ rules/
+â”‚       â”œâ”€â”€ core/
+â”‚       â”‚   â”œâ”€â”€ code-quality.md
+â”‚       â”‚   â”œâ”€â”€ testing.md
+â”‚       â”‚   â””â”€â”€ security.md
+â”‚       â”œâ”€â”€ services/
+â”‚       â”‚   â”œâ”€â”€ payment-service.md
+â”‚       â”‚   â””â”€â”€ auth-service.md
+â”‚       â””â”€â”€ team-a/
+â”‚           â”œâ”€â”€ python.md
+â”‚           â””â”€â”€ django.md
 
 services/payment/
-└── AGENTS.md (references)
-    - .codex/rules/core/*.md
-    - .codex/rules/services/payment-service.md
+â””â”€â”€ AGENTS.md (references)
+    - .agent/rules/core/*.md
+    - .agent/rules/services/payment-service.md
 ```
 
 ### Option 3: Inheritance Chain
 
 ```markdown
-# .codex/rules/security.md (core)
+# .agent/rules/security.md (core)
 
 Universal security rules apply to all projects.
 
 ---
 
-# .codex/rules/security-payments.md (extends)
+# .agent/rules/security-payments.md (extends)
 
 > **Extends:** security.md with payment-domain specifics
 
 Generic: Validate all input at boundaries.
 
-Payments: Additionally, validate amount ≥ 0.01, currency is ISO 4217, recipient is whitelisted.
+Payments: Additionally, validate amount â‰¥ 0.01, currency is ISO 4217, recipient is whitelisted.
 ```
 
 ---
@@ -325,7 +325,7 @@ Payments: Additionally, validate amount ≥ 0.01, currency is ISO 4217, recipien
 
 To verify rules are being applied correctly:
 
-1. **Ask Codex to explain its reasoning:**
+1. **Ask Agent to explain its reasoning:**
    ```
    Why did you implement error handling this way? Which rules guided you?
    ```
@@ -336,9 +336,9 @@ To verify rules are being applied correctly:
    - Project-local rules
 
 3. **Check for conflicts:**
-   If Codex seems to violate a rule, it may be following a higher-precedence rule. Ask:
+   If Agent seems to violate a rule, it may be following a higher-precedence rule. Ask:
    ```
-   This seems to violate .codex/rules/code-quality.md. What other rule guided you?
+   This seems to violate .agent/rules/code-quality.md. What other rule guided you?
    ```
 
 ---
@@ -352,7 +352,9 @@ To verify rules are being applied correctly:
 - **Document overrides** in comments so future readers understand why
 
 When in doubt:
-1. Ask Codex to explain which rule it's following
+1. Ask Agent to explain which rule it's following
 2. Add a clarifying comment to the rule file
 3. Update AGENTS.md to document the precedence
 4. Test with concrete examples
+
+

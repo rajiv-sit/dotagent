@@ -1,32 +1,32 @@
-# Documentation Guide
+﻿# Documentation Guide
 
-This folder contains comprehensive guides for understanding, using, and extending dotcodex. Choose your entry point based on your role or question.
+This folder contains comprehensive guides for understanding, using, and extending dotagent. Choose your entry point based on your role or question.
 
 ## Quick Entry Points
 
-### I'm New to dotcodex
+### I'm New to dotagent
 Start here for fastest onboarding:
-1. [Quick Start](quick-start.md) — 5-minute setup and first task (5 min)
-2. [Navigation Hub](index.md) — Find guides by role, question, or time (2 min)
-3. [FAQ](faq.md) — Common questions answered (5-10 min)
+1. [Quick Start](quick-start.md) â€” 5-minute setup and first task (5 min)
+2. [Navigation Hub](index.md) â€” Find guides by role, question, or time (2 min)
+3. [FAQ](faq.md) â€” Common questions answered (5-10 min)
 
-### I'm Integrating dotcodex into My Project
+### I'm Integrating dotagent into My Project
 Follow this path:
-1. [Migration Guide](migration-guide.md) — Adopt dotcodex to an existing project (20 min)
-2. [Customize for Your Stack](customize-for-your-stack.md) — Python, JS, Java, microservices (10 min)
-3. [Rule Hierarchy](rule-hierarchy.md) — Understand precedence and conflicts (5 min)
+1. [Migration Guide](migration-guide.md) â€” Adopt dotagent to an existing project (20 min)
+2. [Customize for Your Stack](customize-for-your-stack.md) â€” Python, JS, Java, microservices (10 min)
+3. [Rule Hierarchy](rule-hierarchy.md) â€” Understand precedence and conflicts (5 min)
 
-### I'm Reviewing or Enhancing dotcodex
+### I'm Reviewing or Enhancing dotagent
 These guides are for contributors and architects:
-1. [Using Skills](using-skills.md) — All 6 reusable workflows with walkthroughs (15 min)
-2. [GitHub Actions Integration](github-actions-integration.md) — CI/CD workflows and enforcement (10 min)
-3. [Case Study](case-study.md) — Real team metrics and validation (5 min)
+1. [Using Skills](using-skills.md) â€” All 6 reusable workflows with walkthroughs (15 min)
+2. [GitHub Actions Integration](github-actions-integration.md) â€” CI/CD workflows and enforcement (10 min)
+3. [Case Study](case-study.md) â€” Real team metrics and validation (5 min)
 
 ### I Need Help or Have Questions
 Browse by topic:
-- [Troubleshooting](troubleshooting.md) — 20+ solutions for common problems
-- [FAQ](faq.md) — 30+ questions and answers
-- [Navigation Hub](index.md) — Find anything by role, question, or time
+- [Troubleshooting](troubleshooting.md) â€” 20+ solutions for common problems
+- [FAQ](faq.md) â€” 30+ questions and answers
+- [Navigation Hub](index.md) â€” Find anything by role, question, or time
 
 ## Guide Index
 
@@ -38,7 +38,7 @@ All guides organized by purpose:
 | [Navigation Hub](index.md) | Find guides by role, question, time | Any | 2 min |
 | [FAQ](faq.md) | Common questions answered | Any | 5-10 min |
 | [Troubleshooting](troubleshooting.md) | Solve 20+ common issues | Stuck users | 5 min |
-| [Migration Guide](migration-guide.md) | Adopt dotcodex to existing projects | Team leads | 20 min |
+| [Migration Guide](migration-guide.md) | Adopt dotagent to existing projects | Team leads | 20 min |
 | [Customize for Your Stack](customize-for-your-stack.md) | Config for Python, JS, Java, microservices | Developers | 10 min |
 | [Rule Hierarchy](rule-hierarchy.md) | Understand rule conflicts and precedence | Architects | 5 min |
 | [Using Skills](using-skills.md) | Learn 6 reusable workflows | Developers | 15 min |
@@ -52,50 +52,50 @@ All guides organized by purpose:
 
 ```
 docs/
-├── README.md (you are here)
-├── quick-start.md — Fastest path to value
-├── index.md — Navigation hub by role/question
-├── faq.md — Common Q&As with answers
-├── troubleshooting.md — Solutions for 20+ issues
-├── migration-guide.md — Adopt to existing projects
-├── customize-for-your-stack.md — Language & framework configs
-├── rule-hierarchy.md — Rule precedence and conflict resolution
-├── using-skills.md — Deep dive into all 6 skills
-├── github-actions-integration.md — CI/CD workflows
-├── case-study.md — Real team metrics and validation
-├── obsidian-integration.md — Obsidian vault setup
-└── starter-templates.md — Copy-paste templates
+â”œâ”€â”€ README.md (you are here)
+â”œâ”€â”€ quick-start.md â€” Fastest path to value
+â”œâ”€â”€ index.md â€” Navigation hub by role/question
+â”œâ”€â”€ faq.md â€” Common Q&As with answers
+â”œâ”€â”€ troubleshooting.md â€” Solutions for 20+ issues
+â”œâ”€â”€ migration-guide.md â€” Adopt to existing projects
+â”œâ”€â”€ customize-for-your-stack.md â€” Language & framework configs
+â”œâ”€â”€ rule-hierarchy.md â€” Rule precedence and conflict resolution
+â”œâ”€â”€ using-skills.md â€” Deep dive into all 6 skills
+â”œâ”€â”€ github-actions-integration.md â€” CI/CD workflows
+â”œâ”€â”€ case-study.md â€” Real team metrics and validation
+â”œâ”€â”€ obsidian-integration.md â€” Obsidian vault setup
+â””â”€â”€ starter-templates.md â€” Copy-paste templates
 ```
 
 ## Reading Order by Role
 
 ### Product Manager / Team Lead
-1. [Case Study](case-study.md) — Validate business value (5 min)
-2. [Quick Start](quick-start.md) — Understand basic flow (5 min)
-3. [FAQ](faq.md) — Address team concerns (10 min)
-4. [Migration Guide](migration-guide.md) — Plan adoption (20 min)
+1. [Case Study](case-study.md) â€” Validate business value (5 min)
+2. [Quick Start](quick-start.md) â€” Understand basic flow (5 min)
+3. [FAQ](faq.md) â€” Address team concerns (10 min)
+4. [Migration Guide](migration-guide.md) â€” Plan adoption (20 min)
 
 ### Developer
-1. [Quick Start](quick-start.md) — Get set up (5 min)
-2. [Using Skills](using-skills.md) — Learn workflows (15 min)
-3. [Customize for Your Stack](customize-for-your-stack.md) — Config your language (10 min)
-4. [Rule Hierarchy](rule-hierarchy.md) — Understand project rules (5 min)
+1. [Quick Start](quick-start.md) â€” Get set up (5 min)
+2. [Using Skills](using-skills.md) â€” Learn workflows (15 min)
+3. [Customize for Your Stack](customize-for-your-stack.md) â€” Config your language (10 min)
+4. [Rule Hierarchy](rule-hierarchy.md) â€” Understand project rules (5 min)
 
 ### Architect / Senior Engineer
-1. [Navigation Hub](index.md) — Overview of all docs (2 min)
-2. [Rule Hierarchy](rule-hierarchy.md) — Design your rules (5 min)
-3. [GitHub Actions Integration](github-actions-integration.md) — Automate enforcement (10 min)
-4. [Case Study](case-study.md) — Real-world patterns (5 min)
+1. [Navigation Hub](index.md) â€” Overview of all docs (2 min)
+2. [Rule Hierarchy](rule-hierarchy.md) â€” Design your rules (5 min)
+3. [GitHub Actions Integration](github-actions-integration.md) â€” Automate enforcement (10 min)
+4. [Case Study](case-study.md) â€” Real-world patterns (5 min)
 
 ### DevOps / Infrastructure
-1. [GitHub Actions Integration](github-actions-integration.md) — Set up CI/CD (10 min)
-2. [Customize for Your Stack](customize-for-your-stack.md) — Understand project types (10 min)
-3. [Troubleshooting](troubleshooting.md) — Debug issues (5 min)
+1. [GitHub Actions Integration](github-actions-integration.md) â€” Set up CI/CD (10 min)
+2. [Customize for Your Stack](customize-for-your-stack.md) â€” Understand project types (10 min)
+3. [Troubleshooting](troubleshooting.md) â€” Debug issues (5 min)
 
 ### Stuck or Lost
-1. [Navigation Hub](index.md) — Find what you need (2 min)
-2. [FAQ](faq.md) — Check common questions (5 min)
-3. [Troubleshooting](troubleshooting.md) — Find your issue (5 min)
+1. [Navigation Hub](index.md) â€” Find what you need (2 min)
+2. [FAQ](faq.md) â€” Check common questions (5 min)
+3. [Troubleshooting](troubleshooting.md) â€” Find your issue (5 min)
 
 ## Document Formats
 
@@ -130,7 +130,8 @@ The main project documentation lives in the root folder:
 
 ## Next Steps
 
-1. **New to dotcodex?** → [Quick Start](quick-start.md)
-2. **Have a problem?** → [Troubleshooting](troubleshooting.md)
-3. **Want to integrate?** → [Migration Guide](migration-guide.md)
-4. **Need help?** → [FAQ](faq.md)
+1. **New to dotagent?** â†’ [Quick Start](quick-start.md)
+2. **Have a problem?** â†’ [Troubleshooting](troubleshooting.md)
+3. **Want to integrate?** â†’ [Migration Guide](migration-guide.md)
+4. **Need help?** â†’ [FAQ](faq.md)
+

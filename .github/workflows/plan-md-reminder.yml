@@ -1,4 +1,4 @@
-name: PLAN.md Weekly Reminder
+﻿name: PLAN.md Weekly Reminder
 
 on:
   schedule:
@@ -19,16 +19,16 @@ jobs:
             const issueTitle = `[Monday Checklist] Update PLAN.md for week of ${weekOf}`;
             const issueBody = `## Weekly PLAN.md Update Reminder
 
-Good morning! 👋
+Good morning! ðŸ‘‹
 
 It's time to update **PLAN.md** with this week's progress.
 
 ### Checklist
-- [ ] **Completed** — Add finished work from last week
-- [ ] **In-Progress** — Update current sprint tasks  
-- [ ] **Next** — Plan upcoming work
-- [ ] **Blockers** — Flag any impediments
-- [ ] **Verification** — Confirm tests pass, docs updated
+- [ ] **Completed** â€” Add finished work from last week
+- [ ] **In-Progress** â€” Update current sprint tasks  
+- [ ] **Next** â€” Plan upcoming work
+- [ ] **Blockers** â€” Flag any impediments
+- [ ] **Verification** â€” Confirm tests pass, docs updated
 
 ### PLAN.md Sections
 
@@ -54,16 +54,16 @@ What are we solving this week?
 - Waiting on API response from Service Y
 
 ## Verification  
-- Unit tests: ✓ Passing
-- Docs updated: ✓ Yes
-- Code reviewed: ✓ Yes
+- Unit tests: âœ“ Passing
+- Docs updated: âœ“ Yes
+- Code reviewed: âœ“ Yes
 \`\`\`
 
 ### Resources
 
 - [PLAN.md Documentation](https://github.com/${{ github.repository }}/blob/main/PLAN.md)
 - [PLAN.md Schema](https://github.com/${{ github.repository }}/blob/main/schemas/plan.schema.json)
-- [dotcodex Guide](https://github.com/${{ github.repository }}/blob/main/docs/index.md)
+- [dotagent Guide](https://github.com/${{ github.repository }}/blob/main/docs/index.md)
 
 ### Questions?
 
@@ -93,7 +93,8 @@ See [FAQ](https://github.com/${{ github.repository }}/blob/main/docs/faq.md) or 
                 body: issueBody,
                 labels: ['checklist', 'weekly']
               });
-              console.log('✓ PLAN.md reminder issue created');
+              console.log('âœ“ PLAN.md reminder issue created');
             } else {
-              console.log('✓ PLAN.md reminder already exists for today');
+              console.log('âœ“ PLAN.md reminder already exists for today');
             }
+

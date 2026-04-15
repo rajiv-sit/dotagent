@@ -162,8 +162,7 @@
       }
     ],
     "direction": "horizontal",
-    "width": 300,
-    "collapsed": true
+    "width": 300
   },
   "left-ribbon": {
     "hiddenItems": {
@@ -178,6 +177,8 @@
   },
   "active": "4fff52ea585708db",
   "lastOpenFiles": [
+    "Untitled.base",
+    "Untitled",
     "docs/obsidian.png",
     "obsidian/create a link.md",
     "obsidian/Welcome.md",

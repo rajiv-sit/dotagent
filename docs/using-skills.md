@@ -1,15 +1,15 @@
-# Using Skills - Deep Dive Guide
+﻿# Using Skills - Deep Dive Guide
 
 Skills are reusable workflow patterns. This guide shows how to use each skill with step-by-step examples and expected outputs.
 
 ## What Are Skills?
 
-Skills are workflow guides that help Codex apply a specific pattern. Each skill:
+Skills are workflow guides that help Agent apply a specific pattern. Each skill:
 - Defines a repeatable process (e.g., TDD, debugging, refactoring)
 - Connects to project rules (e.g., testing.md for test-writer)
 - Produces predictable output
 
-You invoke a skill by asking Codex to use it:
+You invoke a skill by asking Agent to use it:
 
 ```
 Use the TDD skill to implement a login validator.
@@ -17,27 +17,27 @@ Use the TDD skill to implement a login validator.
 
 ---
 
-## setupdotcodex — Initial Project Setup
+## setupdotagent â€” Initial Project Setup
 
-**Purpose:** Customize dotcodex for your specific stack and build system.
+**Purpose:** Customize dotagent for your specific stack and build system.
 
-**When to use:** After installing dotcodex, once per project.
+**When to use:** After installing dotagent, once per project.
 
 **Duration:** 30 minutes.
 
 ### Workflow
 
 1. Review your actual build/test/lint/check commands
-2. Document them in `.codex/rules/` (create stack-specific rules)
+2. Document them in `.agent/rules/` (create stack-specific rules)
 3. Update AGENTS.md with your project details
-4. Verify Codex can invoke the right commands
+4. Verify Agent can invoke the right commands
 
 ### Step-by-Step
 
-**Step 1:** Ask Codex to examine your project:
+**Step 1:** Ask Agent to examine your project:
 
 ```
-Use the setupdotcodex skill.
+Use the setupdotagent skill.
 Examine our actual:
 - Build command (our package.json or Makefile)
 - Test command (our test runner)
@@ -46,7 +46,7 @@ Examine our actual:
 Tell me what you find.
 ```
 
-**Step 2:** Codex reports back:
+**Step 2:** Agent reports back:
 
 ```
 Found:
@@ -55,13 +55,13 @@ Found:
 - Lint: "lint": "eslint src/"
 - Type: "type-check": "tsc --noEmit"
 
-Recommendation: Create .codex/rules/vite-vitest.md documenting this stack.
+Recommendation: Create .agent/rules/vite-vitest.md documenting this stack.
 ```
 
-**Step 3:** Ask Codex to create/update rules:
+**Step 3:** Ask Agent to create/update rules:
 
 ```
-Create .codex/rules/node-typescript.md with:
+Create .agent/rules/node-typescript.md with:
 - Build command and how to run it
 - Test command and coverage expectations
 - Lint command and our specific rules
@@ -70,26 +70,26 @@ Create .codex/rules/node-typescript.md with:
 Include examples of typical errors and how to fix them.
 ```
 
-**Step 4:** Verify by asking Codex a task question:
+**Step 4:** Verify by asking Agent a task question:
 
 ```
 What would you run to verify the build on this project?
 ```
 
-Codex should cite the commands from your new rule.
+Agent should cite the commands from your new rule.
 
 ### Expected Output
 
-After setupdotcodex, you should have:
-- `.codex/rules/[language].md` documenting your stack
+After setupdotagent, you should have:
+- `.agent/rules/[language].md` documenting your stack
 - Updated `AGENTS.md` with project-specific guidance
-- Codex can cite your actual build/test commands, not generic ones
+- Agent can cite your actual build/test commands, not generic ones
 
 ---
 
-## tdd — Test-Driven Development
+## tdd â€” Test-Driven Development
 
-**Purpose:** Drive implementation through small failing tests → minimal implementation → refactor.
+**Purpose:** Drive implementation through small failing tests â†’ minimal implementation â†’ refactor.
 
 **When to use:** When implementing a new feature from scratch.
 
@@ -108,7 +108,7 @@ After setupdotcodex, you should have:
 
 **Feature:** Implement a `validateEmail()` function.
 
-**Step 1:** Ask Codex to start TDD:
+**Step 1:** Ask Agent to start TDD:
 
 ```
 Use the TDD skill to implement validateEmail(email: string): boolean.
@@ -120,7 +120,7 @@ Start with the simplest test case (happy path):
 Keep tests extremely focused. One test at a time.
 ```
 
-**Step 2:** Codex writes first failing test:
+**Step 2:** Agent writes first failing test:
 
 ```typescript
 describe('validateEmail', () => {
@@ -146,7 +146,7 @@ function validateEmail(email: string): boolean {
 Next test: validateEmail should reject emails without domain
 ```
 
-Codex writes test:
+Agent writes test:
 
 ```typescript
 it('should return false for email without domain', () => {
@@ -155,7 +155,7 @@ it('should return false for email without domain', () => {
 });
 ```
 
-Codex updates implementation to pass.
+Agent updates implementation to pass.
 
 **Step 4:** Continue until complete:
 
@@ -181,7 +181,7 @@ TDD ensures this through its process: each case becomes a test that drives imple
 
 ---
 
-## debug-fix — Reproduce, Root Cause, Fix, Verify
+## debug-fix â€” Reproduce, Root Cause, Fix, Verify
 
 **Purpose:** Fix a reported bug systematically.
 
@@ -203,7 +203,7 @@ TDD ensures this through its process: each case becomes a test that drives imple
 
 **Bug:** "Admin can delete other users' data."
 
-**Step 1:** Ask Codex to reproduce:
+**Step 1:** Ask Agent to reproduce:
 
 ```
 Use the debug-fix skill.
@@ -220,7 +220,7 @@ Helper:
 Reproduce the bug first. Show the exact request and response.
 ```
 
-**Step 2:** Codex reproduces:
+**Step 2:** Agent reproduces:
 
 ```
 Test case:
@@ -241,7 +241,7 @@ Continue debugging. Show me the code path:
 - What allowed user123 to delete user456?
 ```
 
-Codex traces:
+Agent traces:
 
 ```
 Found:
@@ -264,7 +264,7 @@ Implement the minimum fix that:
 Show the code change.
 ```
 
-Codex implements:
+Agent implements:
 
 ```typescript
 async function deleteUser(requestingUser, targetUserId) {
@@ -318,7 +318,7 @@ debug-fix enforces this by:
 
 ---
 
-## refactor — Improve Structure Without Changing Behavior
+## refactor â€” Improve Structure Without Changing Behavior
 
 **Purpose:** Restructure code for clarity/maintainability without changing what it does.
 
@@ -356,7 +356,7 @@ Before refactoring, show me:
 DO NOT refactor yet. Just analyze.
 ```
 
-Codex reports:
+Agent reports:
 
 ```
 Current test coverage:
@@ -386,12 +386,12 @@ function validateOrder(order) {
 Show the changes and confirm all tests still pass.
 ```
 
-Codex makes change and verifies:
+Agent makes change and verifies:
 
 ```
-✓ All 8 tests still pass
-✓ Behavior unchanged
-✓ Code is cleaner
+âœ“ All 8 tests still pass
+âœ“ Behavior unchanged
+âœ“ Code is cleaner
 
 Next refactor?
 ```
@@ -406,17 +406,17 @@ Then: Extract notification into sendNotification()
 Do all three one at a time. After each, verify tests pass.
 ```
 
-Codex refactors:
+Agent refactors:
 
 ```
 After extraction 1 (payment):
-✓ All 8 tests pass
+âœ“ All 8 tests pass
 
 After extraction 2 (inventory):
-✓ All 8 tests pass
+âœ“ All 8 tests pass
 
 After extraction 3 (notification):
-✓ All 8 tests pass
+âœ“ All 8 tests pass
 
 Final structure:
 function processOrder(order) {
@@ -448,7 +448,7 @@ refactor enforces this by separating concerns:
 
 ---
 
-## explain — Understand Code Before Changing It
+## explain â€” Understand Code Before Changing It
 
 **Purpose:** Document code behavior so you understand risks before modifying.
 
@@ -460,7 +460,7 @@ refactor enforces this by separating concerns:
 
 ### Workflow
 
-1. Ask Codex to explain the code
+1. Ask Agent to explain the code
 2. Understand: purpose, data flow, non-obvious behavior, modification risks
 3. NOW you can safely modify it
 
@@ -468,7 +468,7 @@ refactor enforces this by separating concerns:
 
 **Situation:** You need to modify the `calculateDiscount()` function but it's complex.
 
-**Step 1:** Ask Codex to explain:
+**Step 1:** Ask Agent to explain:
 
 ```
 Use the explain skill.
@@ -482,7 +482,7 @@ Include:
 - What breaks if I change X?
 ```
 
-**Step 2:** Codex explains:
+**Step 2:** Agent explains:
 
 ```
 calculateDiscount(cart, user, coupon):
@@ -492,7 +492,7 @@ Responsibility:
 - Returns discount amount (in cents)
 
 Data flow:
-1. Parse coupon code → extract discount type + percentage/amount
+1. Parse coupon code â†’ extract discount type + percentage/amount
 2. Check user's "promotions_used" history (prevents coupon reuse)
 3. Calculate: base_price * category_multiplier * (1 - discount)
 4. Cap discount to $50 max (per business rule)
@@ -540,7 +540,7 @@ explain reinforces this by:
 
 ---
 
-## test-writer — Add Focused Tests for New/Changed Behavior
+## test-writer â€” Add Focused Tests for New/Changed Behavior
 
 **Purpose:** Ensure new code is tested without over-specifying implementation.
 
@@ -561,7 +561,7 @@ explain reinforces this by:
 
 **Situation:** You added a "bulk upload" feature to the API.
 
-**Step 1:** Ask Codex to write tests:
+**Step 1:** Ask Agent to write tests:
 
 ```
 Use the test-writer skill.
@@ -586,7 +586,7 @@ Write tests for:
 For each test, show the HTTP request and expected response.
 ```
 
-**Step 2:** Codex writes tests:
+**Step 2:** Agent writes tests:
 
 ```typescript
 describe('POST /uploads/bulk', () => {
@@ -649,12 +649,12 @@ Show me:
 3. Any assertion that feels wrong (let me review)
 ```
 
-Codex reports:
+Agent reports:
 
 ```
-✓ 7 tests passed
-✓ Coverage: /routes/uploads.ts went from 60% → 92%
-✓ All assertions are correct (testing behavior, not implementation)
+âœ“ 7 tests passed
+âœ“ Coverage: /routes/uploads.ts went from 60% â†’ 92%
+âœ“ All assertions are correct (testing behavior, not implementation)
 ```
 
 ### Expected Output
@@ -682,7 +682,7 @@ test-writer ensures this by:
 
 | Skill | Trigger | Expected Output |
 |-------|---------|-----------------|
-| **setupdotcodex** | Starting a new dotcodex project | Stack rules, updated AGENTS.md |
+| **setupdotagent** | Starting a new dotagent project | Stack rules, updated AGENTS.md |
 | **tdd** | Implementing a new feature from scratch | Tests + implementation, high test coverage |
 | **debug-fix** | Bug reported or defect found | Root cause identified, fix applied, regression test added |
 | **refactor** | Code is hard to understand but works | Same behavior, clearer structure, all tests pass |
@@ -696,26 +696,26 @@ test-writer ensures this by:
 Skills work well together:
 
 ### Feature Implementation Workflow
-1. **explain** — Read related code
-2. **tdd** — Implement feature test-first
-3. **refactor** — Clean up if needed
-4. **test-writer** — Add edge case tests (if not covered by TDD)
+1. **explain** â€” Read related code
+2. **tdd** â€” Implement feature test-first
+3. **refactor** â€” Clean up if needed
+4. **test-writer** â€” Add edge case tests (if not covered by TDD)
 
 ### Bugfix Workflow
-1. **explain** — Understand the code that has the bug
-2. **debug-fix** — Reproduce, fix, test
-3. **test-writer** — Add regression test (if not covered)
+1. **explain** â€” Understand the code that has the bug
+2. **debug-fix** â€” Reproduce, fix, test
+3. **test-writer** â€” Add regression test (if not covered)
 
 ### Code Improvement Workflow
-1. **explain** — Understand what you're improving
-2. **refactor** — Restructure
-3. **test-writer** — Verify nothing broke
+1. **explain** â€” Understand what you're improving
+2. **refactor** â€” Restructure
+3. **test-writer** â€” Verify nothing broke
 
 ---
 
 ## Quick Reference
 
-Need reminders? Ask Codex:
+Need reminders? Ask Agent:
 
 ```
 Remind me of the TDD workflow.
@@ -723,4 +723,6 @@ What should I do for the debug-fix skill?
 Which tests should test-writer write?
 ```
 
-Codex will re-explain any skill on demand.
+Agent will re-explain any skill on demand.
+
+

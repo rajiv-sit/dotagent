@@ -1,52 +1,58 @@
-# CONTEXT
+﻿# CONTEXT
 
-## Purpose
+## Project
 
-`CONTEXT.md` is the durable project memory file.
+`dotagent` is a reusable source pack for agent-driven development. It installs project-local agents, hooks, prompts, rules, schemas, scripts, and root working-memory docs into a target repository.
 
-Use it to capture:
+## Architecture Snapshot
 
-- project purpose
-- architecture snapshot
-- important decisions
-- assumptions
-- domain terms
-- risks and landmines
-- important file paths and entry points
+The current system is a local, file-backed PowerShell runtime. `scripts/install-dotagent.ps1` installs the source pack into a consumer repo, `scripts/init-project-docs.ps1` bootstraps required design docs, and `scripts/dotagent.ps1` prepares or executes task/review workflows while persisting state in `.dotagent-state/`.
 
-## Recommended Structure
+The active enhancement is to raise the runtime from a simple prompt wrapper into a production-grade local orchestrator with formal job records, explicit lifecycle states, workflow dependencies, and artifact indexing.
 
-### Project
+## Key Decisions
 
-What the system is for and who it serves.
+- Keep orchestration local and file-backed.
+  - Reason: the current repo already uses local PowerShell scripts and JSON records.
+  - Impact: easier debugging and adoption, but no distributed scheduler.
 
-### Architecture Snapshot
+- Add a normalized job contract rather than ad hoc record shapes.
+  - Reason: current state files are useful but not rigorous enough for traceability.
+  - Impact: status/result/reporting become more deterministic.
 
-The current high-level system shape.
+- Model orchestration as a lightweight DAG.
+  - Reason: the missing workflow chain is the main production gap in the current runtime.
+  - Impact: `HLD -> DD -> Code -> Test -> Review` can be tracked explicitly without adding a service.
 
-### Key Decisions
+## Constraints
 
-- decision
-- reason
-- impact
+- Technical:
+  - Windows-first PowerShell runtime
+  - no external database or scheduler
+  - must remain workspace-local
 
-### Constraints
+- Operational:
+  - preserve simple CLI ergonomics
+  - keep generated state human-readable
 
-- technical constraints
-- operational constraints
+## Known Risks
 
-### Known Risks
+- Validator scripts under `.agent/scripts/` are stronger as utilities than as rigorously tested production code.
+  - Mitigation: keep changes targeted and validate behavior with actual command runs.
 
-- risk
-- mitigation
+- Existing job records may not match the new schema exactly.
+  - Mitigation: make read paths tolerant of missing fields where practical.
 
-### Important Paths
+## Important Paths
 
-- `src/...`
-- `docs/...`
-- `tests/...`
+- `scripts/dotagent.ps1`: main runtime and orchestration entry point
+- `scripts/install-dotagent.ps1`: source-pack installer
+- `scripts/init-project-docs.ps1`: root doc bootstrapper
+- `schemas/*.json`: output and document contracts
+- `prompts/task.md`, `prompts/review.md`: prompt templates
+- `.dotagent-state/`: runtime persistence
 
-### Linked Docs
+## Linked Docs
 
 - `Requirement.md`
 - `Architecture.md`
@@ -54,3 +60,4 @@ The current high-level system shape.
 - `DD.md`
 - `milestone.md`
 - `PLAN.md`
+

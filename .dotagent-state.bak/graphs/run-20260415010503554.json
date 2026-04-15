@@ -1,0 +1,71 @@
+﻿{
+    "id":  "run-20260415010503554",
+    "type":  "workflow",
+    "created_at":  "2026-04-15T01:05:04.0728632Z",
+    "objective":  "sample workflow for runtime smoke test",
+    "status":  "FAILED",
+    "jobs":  [
+                 {
+                     "stage":  "HLD",
+                     "job_id":  "hld-20260415010503817",
+                     "dependencies":  [
+
+                                      ]
+                 },
+                 {
+                     "stage":  "DD",
+                     "job_id":  "dd-20260415010503966",
+                     "dependencies":  [
+                                          "hld-20260415010503817"
+                                      ]
+                 },
+                 {
+                     "stage":  "CODE",
+                     "job_id":  "code-20260415010503990",
+                     "dependencies":  [
+                                          "dd-20260415010503966"
+                                      ]
+                 },
+                 {
+                     "stage":  "TEST",
+                     "job_id":  "test-20260415010504015",
+                     "dependencies":  [
+                                          "code-20260415010503990"
+                                      ]
+                 },
+                 {
+                     "stage":  "REVIEW",
+                     "job_id":  "review-20260415010504039",
+                     "dependencies":  [
+                                          "test-20260415010504015"
+                                      ]
+                 }
+             ],
+    "edges":  [
+                  {
+                      "from":  "hld-20260415010503817",
+                      "to":  "dd-20260415010503966"
+                  },
+                  {
+                      "from":  "dd-20260415010503966",
+                      "to":  "code-20260415010503990"
+                  },
+                  {
+                      "from":  "code-20260415010503990",
+                      "to":  "test-20260415010504015"
+                  },
+                  {
+                      "from":  "test-20260415010504015",
+                      "to":  "review-20260415010504039"
+                  }
+              ],
+    "metadata":  {
+                     "stage_order":  [
+                                         "HLD",
+                                         "DD",
+                                         "CODE",
+                                         "TEST",
+                                         "REVIEW"
+                                     ]
+                 }
+}

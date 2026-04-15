@@ -1,4 +1,4 @@
-# FAQ - Frequently Asked Questions
+﻿# FAQ - Frequently Asked Questions
 
 ## Project Structure & Documentation
 
@@ -17,18 +17,18 @@
 
 ---
 
-### Q: Should I put rules in `.codex/rules/` or somewhere else?
+### Q: Should I put rules in `.agent/rules/` or somewhere else?
 
-**A:** Use `.codex/rules/` for project rules that Codex reads.
+**A:** Use `.agent/rules/` for project rules that Agent reads.
 
-- **In `.codex/rules/`:** Project coding standards, test requirements, security rules
+- **In `.agent/rules/`:** Project coding standards, test requirements, security rules
 - **Elsewhere:** Team handbook, onboarding guide, legal/compliance docs
-- **Both:** Standards that are both Codex-actionable AND team-readable (e.g., "Use pytest" is both)
+- **Both:** Standards that are both Agent-actionable AND team-readable (e.g., "Use pytest" is both)
 
-If a rule needs human explanation beyond what Codex needs, put the full guide elsewhere and reference it from `.codex/rules/`:
+If a rule needs human explanation beyond what Agent needs, put the full guide elsewhere and reference it from `.agent/rules/`:
 
 ```markdown
-# .codex/rules/python.md
+# .agent/rules/python.md
 
 Use pytest. See team handbook for Python Testing Standards
 ```
@@ -59,7 +59,7 @@ Use pytest. See team handbook for Python Testing Standards
 - **CONTEXT.md:** When a major decision changes, when you discover a risk, or when architecture shifts (monthly or as-needed)
 
 **Minimum cadence:**
-- Update PLAN.md before asking Codex for a new task
+- Update PLAN.md before asking Agent for a new task
 - Update CONTEXT.md before starting a new sprint/milestone
 
 **Pattern:**
@@ -79,12 +79,12 @@ Monthly:
 
 ---
 
-### Q: Can I use dotcodex with GitHub Copilot Chat (not local Codex)?
+### Q: Can I use dotagent with GitHub Copilot Chat (not local Agent)?
 
 **A:** Partially, but not optimally:
 
 **What works:**
-- Copy rules from `.codex/rules/` into Copilot Chat messages (manually)
+- Copy rules from `.agent/rules/` into Copilot Chat messages (manually)
 - Reference CONTEXT.md, PLAN.md, Requirement.md in prompts
 - Use task.md and review.md templates as prompts
 
@@ -94,17 +94,17 @@ Monthly:
 - Session-start context (no persistent session data)
 
 **Recommendation:** 
-- If you have local Codex available, use that (hooks + AGENTS.md reading save tokens)
+- If you have local Agent available, use that (hooks + AGENTS.md reading save tokens)
 - If GitHub Copilot Chat only, create a "rules summary" file you paste into each chat:
   ```
-  [Copy .codex/rules/ files into a Copilot Chat startup prompt]
+  [Copy .agent/rules/ files into a Copilot Chat startup prompt]
   ```
 
 ---
 
 ## Workflow & Execution
 
-### Q: How do I onboard a new team member to a dotcodex project?
+### Q: How do I onboard a new team member to a dotagent project?
 
 **A:** Give them this checklist:
 
@@ -121,14 +121,14 @@ Monthly:
 ## Understand the Workflow (15 minutes)
 
 1. Read [Quick Start > Minimal Ongoing Workflow](quick-start.md#minimal-ongoing-workflow)
-2. Watch/ask for demo of "ask Codex for a task"
+2. Watch/ask for demo of "ask Agent for a task"
 
 ## Set Up Your Environment (30 minutes)
 
 1. Clone/pull the repo
 2. Set up per development environment (install deps, build, test)
-3. Verify Codex is working: `@codex What's in CONTEXT.md?`
-4. Run one task with Codex to show how it works
+3. Verify Agent is working: `@agent What's in CONTEXT.md?`
+4. Run one task with Agent to show how it works
 
 ## You're Ready! (Done)
 
@@ -137,18 +137,18 @@ Ask lead which task to pick from PLAN.md Next section.
 
 ---
 
-### Q: Can I use dotcodex incrementally? (e.g., rules only, no design docs)
+### Q: Can I use dotagent incrementally? (e.g., rules only, no design docs)
 
 **A:** Yes. Maturity levels:
 
 | Level | Use | Benefit |
 |-------|-----|---------|
-| **Rules only** | `.codex/rules/` without root docs | Enforce code standards without doc burden |
+| **Rules only** | `.agent/rules/` without root docs | Enforce code standards without doc burden |
 | **Rules + PLAN** | Add PLAN.md | Track what you're working on |
 | **Rules + PLAN + Design** | Add all root docs | Full architecture as code |
 
 **Typical progression:**
-1. Install dotcodex (get rules into .codex/)
+1. Install dotagent (get rules into .agent/)
 2. Fill CONTEXT.md (capture decisions)
 3. Fill PLAN.md (track work)
 4. Add Requirement.md (define what you're building)
@@ -166,7 +166,7 @@ You don't have to do all at once.
 **A:** Document the decision and the exception:
 
 ```markdown
-# .codex/rules/code-quality.md
+# .agent/rules/code-quality.md
 
 Generic: Keep functions under 30 lines.
 
@@ -194,22 +194,22 @@ This prevents re-debating and shows why the rule exists.
 
 ## Rules & Validation
 
-### Q: Codex ignores my custom rule. Why?
+### Q: Agent ignores my custom rule. Why?
 
 **A:** Check in this order:
 
-1. Is the rule in `.codex/rules/my-rule.md`?
+1. Is the rule in `.agent/rules/my-rule.md`?
 2. Is `my-rule.md` listed in AGENTS.md under "Rules"?
 3. Does the rule have valid markdown syntax?
-4. Did you restart Codex or reload VS Code?
+4. Did you restart Agent or reload VS Code?
 5. Is the rule name specific enough? (e.g., "use pytest" not "write tests")
 
-If still ignored, ask Codex:
+If still ignored, ask Agent:
 ```
-Why aren't you following .codex/rules/my-rule.md?
+Why aren't you following .agent/rules/my-rule.md?
 ```
 
-Codex will explain if it's using a different rule instead.
+Agent will explain if it's using a different rule instead.
 
 ---
 
@@ -218,26 +218,26 @@ Codex will explain if it's using a different rule instead.
 **A:** Yes, use markdown links:
 
 ```markdown
-# .codex/rules/security.md
+# .agent/rules/security.md
 
 For detailed security guidelines, see [OWASP Top 10](https://owasp.org/www-project-top-ten/).
 
 For project-specific security checklists, see security-checklist.md (if your project has one).
 ```
 
-Codex will see these references, but will only follow them if the file is in the project.
+Agent will see these references, but will only follow them if the file is in the project.
 
 ---
 
-### Q: How do I know if Codex is following MY rules or generic dotcodex rules?
+### Q: How do I know if Agent is following MY rules or generic dotagent rules?
 
-**A:** Ask Codex directly:
+**A:** Ask Agent directly:
 
 ```
-You just implemented error handling. Which rule from .codex/rules/ guided you?
+You just implemented error handling. Which rule from .agent/rules/ guided you?
 ```
 
-Codex will cite the rule. If it's wrong, it may be:
+Agent will cite the rule. If it's wrong, it may be:
 1. Using a more-specific rule you forgot about
 2. Using a generic rule because your custom rule isn't working
 3. Making a judgment call because the situation wasn't covered
@@ -246,7 +246,7 @@ Codex will cite the rule. If it's wrong, it may be:
 
 ## Integrations & Advanced
 
-### Q: Can we enforce dotcodex rules in CI/CD?
+### Q: Can we enforce dotagent rules in CI/CD?
 
 **A:** Yes. See [GitHub Actions Integration](github-actions-integration.md) for examples:
 - Lint check that verifies CONTEXT.md exists
@@ -261,30 +261,30 @@ Codex will cite the rule. If it's wrong, it may be:
 
 Common pattern:
 ```
-shared-dotcodex/
-├── rules/
-│   ├── code-quality.md
-│   ├── security.md
-│   └── logging.md
+shared-dotagent/
+â”œâ”€â”€ rules/
+â”‚   â”œâ”€â”€ code-quality.md
+â”‚   â”œâ”€â”€ security.md
+â”‚   â””â”€â”€ logging.md
 
 team-a-project/
-├── .codex/
-│   └── rules/
-│       ├── [symlink to shared/rules/code-quality.md]
-│       ├── [symlink to shared/rules/security.md]
-│       └── python.md (team A specific)
+â”œâ”€â”€ .agent/
+â”‚   â””â”€â”€ rules/
+â”‚       â”œâ”€â”€ [symlink to shared/rules/code-quality.md]
+â”‚       â”œâ”€â”€ [symlink to shared/rules/security.md]
+â”‚       â””â”€â”€ python.md (team A specific)
 ```
 
 ---
 
-### Q: Can we use dotcodex with Jira?
+### Q: Can we use dotagent with Jira?
 
 **A:** Not automatically, but manually:
 
-- Jira issues → items in PLAN.md Next section
-- PLAN.md Completed → Jira resolved/closed
-- CONTEXT.md decisions → Jira decision link in issue description
-- milestone.md → Jira epic
+- Jira issues â†’ items in PLAN.md Next section
+- PLAN.md Completed â†’ Jira resolved/closed
+- CONTEXT.md decisions â†’ Jira decision link in issue description
+- milestone.md â†’ Jira epic
 
 No built-in sync (would require custom script), but manual sync is straightforward.
 
@@ -304,33 +304,33 @@ Or use a tool like [Portkey](https://portkey.cloud/) or [Obsidian Publish](https
 
 ## Troubleshooting Questions
 
-### Q: "AGENTS.md is present but Codex doesn't read it"
+### Q: "AGENTS.md is present but Agent doesn't read it"
 
-**A:** See [Troubleshooting > Issue: AGENTS.md Not Found](troubleshooting.md#issue-agentsmd-not-found-or-codex-ignores-project-rules)
+**A:** See [Troubleshooting > Issue: AGENTS.md Not Found](troubleshooting.md#issue-agentsmd-not-found-or-agent-ignores-project-rules)
 
 Quick check:
 ```powershell
 cat .\AGENTS.md | head -10
 # Should show "## Default Agent" or "## Project Instructions"
 
-ls .codex/agents/ | Measure-Object
+ls .agent/agents/ | Measure-Object
 # Should show agent files (default-agent.md, etc.)
 ```
 
 ---
 
-### Q: "I updated a rule but Codex doesn't follow it"
+### Q: "I updated a rule but Agent doesn't follow it"
 
 **A:** Rules might be cached. Try:
 
-1. Restart VS Code or reload Codex chat
+1. Restart VS Code or reload Agent chat
 2. Paste the rule directly into your prompt:
    ```
    Here's updated rule: [paste rule content]
    ```
-3. Ask Codex to re-read it:
+3. Ask Agent to re-read it:
    ```
-   Re-read .codex/rules/my-rule.md and confirm you understand it.
+   Re-read .agent/rules/my-rule.md and confirm you understand it.
    ```
 
 ---
@@ -340,7 +340,7 @@ ls .codex/agents/ | Measure-Object
 **A:** Verify hooks are working:
 
 ```powershell
-powershell -ExecutionPolicy Bypass -File .\.codex\hooks\graph-staleness.ps1
+powershell -ExecutionPolicy Bypass -File .\.agent\hooks\graph-staleness.ps1
 # Should output a message about graphify availability
 ```
 
@@ -350,7 +350,9 @@ If no output, see [Troubleshooting > Hooks Not Firing](troubleshooting.md#issue-
 
 ## More Help
 
-- Not sure where to start? → [Navigation Hub](index.md)
-- Setting up your first project? → [Quick Start](quick-start.md)
-- Moving existing project to dotcodex? → [Migration Guide](migration-guide.md)
-- Still stuck? → [Troubleshooting](troubleshooting.md)
+- Not sure where to start? â†’ [Navigation Hub](index.md)
+- Setting up your first project? â†’ [Quick Start](quick-start.md)
+- Moving existing project to dotagent? â†’ [Migration Guide](migration-guide.md)
+- Still stuck? â†’ [Troubleshooting](troubleshooting.md)
+
+

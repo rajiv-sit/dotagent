@@ -1,10 +1,10 @@
-# Project Instructions
+﻿# Project Instructions
 
 ## Default Agent
 
-The default operating profile for this project is `.codex/agents/default-agent.md` when present.
+The default operating profile for this project is `.agent/agents/default-agent.md` when present.
 
-If `.codex/agents/default-agent.md` is not present, follow these rules directly.
+If `.agent/agents/default-agent.md` is not present, follow these rules directly.
 
 ## Root Docs First
 
@@ -52,8 +52,9 @@ If they are missing or incomplete, prefer completing them before major implement
 
 When present, follow:
 
-- `.codex/rules/code-quality.md`
-- `.codex/rules/testing.md`
-- `.codex/rules/security.md`
-- `.codex/rules/error-handling.md`
-- `.codex/rules/frontend.md`
+- `.agent/rules/code-quality.md`
+- `.agent/rules/testing.md`
+- `.agent/rules/security.md`
+- `.agent/rules/error-handling.md`
+- `.agent/rules/frontend.md`
+

@@ -1,6 +1,6 @@
-{
+﻿{
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "title": "dotcodex PLAN.md working execution tracker",
+  "title": "dotagent PLAN.md working execution tracker",
   "type": "object",
   "properties": {
     "current_objective": {
@@ -66,3 +66,4 @@
   },
   "additionalProperties": true
 }
+

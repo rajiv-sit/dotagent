@@ -1,10 +1,10 @@
-# Skills
+﻿# Skills
 
-These are reusable workflow prompts for Codex-guided development.
+These are reusable workflow prompts for agent-guided development.
 
 ## Included
 
-- `setupdotcodex`
+- `setupdotagent`
 - `debug-fix`
 - `tdd`
 - `explain`
@@ -15,3 +15,4 @@ These are reusable workflow prompts for Codex-guided development.
 
 - keep project markdown docs interlinked so graph-based navigation remains effective
 - use both `graphify` and Obsidian Graph view when the project maintains an Obsidian vault
+
