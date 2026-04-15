@@ -1,4 +1,8 @@
 .dotagent-state/
+*.bak/
+.agent.bak/
+.dotagent-state.bak/
+_pack_verify_2/
 _tmp_runtime_tests/
 runtime/dotagent_runtime/__pycache__/
 runtime/tests/__pycache__/
