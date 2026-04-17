@@ -786,36 +786,71 @@ function New-Workflow {
 
     $workflowId = New-JobId -Prefix "run"
     
-    # Call Python planner to generate dynamic DAG instead of hardcoded pipeline
+    # STEP 0: Retrieve lessons before planning (Issue #5 - Memory Integration)
+    $lessonsContext = ""
+    try {
+        $memoryOutput = & python -m dotagent_runtime.memory_integration_cli `
+            --goal "$Objective" `
+            --mode retrieve `
+            --json-output 2>$null
+        
+        if ($LASTEXITCODE -eq 0 -and $memoryOutput) {
+            $memoryData = $memoryOutput | ConvertFrom-Json
+            if ($memoryData.lessons_prompt) {
+                $lessonsContext = $memoryData.lessons_prompt
+                Write-Output "📚 Retrieved lessons from previous similar tasks"
+            }
+        }
+    } catch {
+        Write-Verbose "Memory retrieval skipped: $_"
+    }
+    
+    # STEP 1: Call real DAG planner to generate dynamic DAG (Issue #1 - Real Planning)
     $plannerOutput = $null
     try {
         $projectRoot = Get-ProjectRoot
         $pythonPath = Join-Path (Split-Path $PSScriptRoot -Parent) "runtime"
         
-        # Call Python planner_cli to get dynamic DAG
-        $planOutput = & python -m dotagent_runtime.planner_cli `
-            --goal $Objective `
+        # Call Python dag_planner_cli to get real DAG with parallelization
+        $planOutput = & python -m dotagent_runtime.dag_planner_cli `
+            --goal "$Objective" `
             --project-root $projectRoot `
-            --job-type "task" `
             --json-output 2>$null
         
         if ($LASTEXITCODE -eq 0) {
             $plannerOutput = $planOutput | ConvertFrom-Json
+            Write-Output "📊 Generated DAG: $($plannerOutput.task_count) tasks with parallelization: $($plannerOutput.has_parallelization)"
         }
     } catch {
-        Write-Warning "Planner failed, falling back to default pipeline: $_"
+        Write-Warning "Real DAG planner failed, falling back to default pipeline: $_"
     }
 
     $jobRefs = New-Object System.Collections.Generic.List[object]
     $edges = New-Object System.Collections.Generic.List[object]
     
     $steps = @()
-    if ($plannerOutput -and $plannerOutput.dag) {
-        # Use dynamic DAG from planner
+    if ($plannerOutput -and $plannerOutput.tasks) {
+        # Use real DAG from dag_planner (automatically parallelized)
+        $tasks = $plannerOutput.tasks
+        foreach ($task in $tasks) {
+            $steps += @{
+                id = $task.id
+                action = $task.name
+                kind = "IMPL"
+                tool = "agent"
+                deps = $task.depends_on
+                priority = 100
+                max_attempts = 1
+                can_parallelize = $task.can_parallelize
+                work_types = $task.work_types
+            }
+        }
+    } elseif ($plannerOutput -and $plannerOutput.dag) {
+        # Fallback to old planner format if present
         $steps = $plannerOutput.dag
     } else {
-        # Fallback to static pipeline (legacy behavior)
-        Write-Warning "Using default 5-stage pipeline (planner unavailable)"
+        # Last resort: fixed 5-stage pipeline (legacy)
+        Write-Warning "Using default 5-stage pipeline (DAG planner unavailable)"
         $stages = @("HLD", "DD", "CODE", "TEST", "REVIEW")
         $steps = foreach ($stage in $stages) {
             [ordered]@{
@@ -828,7 +863,7 @@ function New-Workflow {
             }
         }
         
-        # Add dependencies for fallback
+        # Add sequential dependencies for fallback
         for ($i = 1; $i -lt $steps.Count; $i++) {
             $steps[$i].deps = @($steps[$i - 1].id)
         }
@@ -859,11 +894,18 @@ function New-Workflow {
             tool = $step.tool
             dependencies = $dependencies
             max_attempts = $step.max_attempts
-            work_types = if ($plannerOutput.metadata.work_types) { $plannerOutput.metadata.work_types } else { @() }
+            work_types = if ($step.work_types) { $step.work_types } else { @() }
+            can_parallelize = $step.can_parallelize
         }
 
+        # Inject lessons into prompt (Issue #5 - Memory Integration)
+        $taskDescription = "$($step.action) - $Objective"
+        if ($lessonsContext) {
+            $taskDescription = "$taskDescription`n`n$lessonsContext"
+        }
+        
         $summary = "$($step.action) for: $Objective"
-        $prompt = Render-Template -Template (Get-Template -Name "task.md") -Tokens @{ TASK = "$($step.action) - $Objective" }
+        $prompt = Render-Template -Template (Get-Template -Name "task.md") -Tokens @{ TASK = $taskDescription }
         $jobRecord = New-JobRecord -JobId $jobId -Type $jobType -Summary $summary -PromptText $prompt -TemplateName "task.md" -Metadata $metadata
         Save-PreparedJob -Record $jobRecord | Out-Null
 
@@ -947,12 +989,48 @@ function Invoke-Workflow {
                 $attempts++
                 Write-Output "[$($job.summary)] Attempt $attempts of $maxAttempts..."
                 
-                # Execute the step
-                Invoke-AgentPreparedJob -JobId $jobRef.job_id -Model $Model -Sandbox $Sandbox | Out-Null
+                # STEP 1: Check if tool can be handled internally
+                $tool = $job.metadata.tool ?? "agent"
+                $isInternalTool = @("write_file", "read_file", "run_tests", "run_linter", "build", "copy_file", "delete_file", "list_files", "run_command") -contains $tool
+                
+                if ($isInternalTool) {
+                    # Dispatch to internal tool dispatcher
+                    try {
+                        $projectRoot = Get-ProjectRoot
+                        $toolPayload = $job.metadata.payload ?? @{}
+                        
+                        $toolResult = & python -m dotagent_runtime.tool_dispatcher `
+                            --tool $tool `
+                            --payload (ConvertTo-Json $toolPayload -Compress) `
+                            --project-root $projectRoot `
+                            --json-output 2>$null
+
+                        if ($LASTEXITCODE -eq 0 -and $toolResult) {
+                            $result = $toolResult | ConvertFrom-Json
+                            $job.output.exit_code = if ($result.success) { 0 } else { 1 }
+                            $job.output.stdout = $result.stdout
+                            $job.output.stderr = $result.stderr
+                            $job.output.output_file = $result.output
+                            $job.status = if ($result.success) { "SUCCESS" } else { "FAILED" }
+                        } else {
+                            $job.status = "FAILED"
+                            $job.output.exit_code = 1
+                        }
+                    } catch {
+                        Write-Warning "Internal tool dispatch failed, falling back to agent: $_"
+                        $isInternalTool = $false
+                    }
+                }
+                
+                # STEP 2: If not internal tool or dispatch failed, call agent
+                if (-not $isInternalTool) {
+                    Invoke-AgentPreparedJob -JobId $jobRef.job_id -Model $Model -Sandbox $Sandbox | Out-Null
+                }
+                
                 $job = Read-JobRecord -JobId $jobRef.job_id
 
-                # Run real validation instead of just checking exit code
-                if ($job.status -eq "SUCCESS") {
+                # STEP 3: Real output validation (not just exit code)
+                if ($job.status -eq "SUCCESS" -or $job.status -eq "RUNNING") {
                     try {
                         $tempStepFile = Join-Path ([System.IO.Path]::GetTempPath()) "step_$(New-Guid).json"
                         $tempResultFile = Join-Path ([System.IO.Path]::GetTempPath()) "result_$(New-Guid).json"
@@ -968,22 +1046,17 @@ function Invoke-Workflow {
                             status = $job.status
                             output = $job.output
                             artifacts = $job.artifacts
-                            execution_time_ms = if ($job.end_time -and $job.start_time) {
-                                ($job.end_time - $job.start_time).TotalMilliseconds
-                            } else {
-                                0
-                            }
                         }
 
                         # Write to temp files
                         ConvertTo-Json $stepData | Set-Content -Path $tempStepFile -Encoding UTF8
                         ConvertTo-Json $resultData | Set-Content -Path $tempResultFile -Encoding UTF8
 
-                        # Call Python validator to check output quality, not just exit code
+                        # Call Python output validator for comprehensive checks
                         $validationOutput = $null
                         try {
                             $projectRoot = Get-ProjectRoot
-                            $validationJson = & python -m dotagent_runtime.validator_cli `
+                            $validationJson = & python -m dotagent_runtime.output_validator `
                                 --step-json $tempStepFile `
                                 --result-json $tempResultFile `
                                 --project-root $projectRoot `
@@ -993,26 +1066,74 @@ function Invoke-Workflow {
                                 $validationOutput = $validationJson | ConvertFrom-Json
                             }
                         } catch {
-                            Write-Warning "Validator error, proceeding with basic check: $_"
+                            Write-Warning "Output validator error, using basic checks: $_"
                         } finally {
-                            # Clean up temp files
                             if (Test-Path -LiteralPath $tempStepFile) { Remove-Item -LiteralPath $tempStepFile -Force -ErrorAction SilentlyContinue }
                             if (Test-Path -LiteralPath $tempResultFile) { Remove-Item -LiteralPath $tempResultFile -Force -ErrorAction SilentlyContinue }
                         }
 
+                        # Process validation result
                         if ($validationOutput -and $validationOutput.status -eq "PASS") {
                             $job.validation = $validationOutput
                             Save-JobRecord -Record $job | Out-Null
                             $stepPassed = $true
+                            Write-Output "  ✓ Output validation passed"
                         } elseif ($validationOutput -and $validationOutput.retryable -and $attempts -lt $maxAttempts) {
-                            # Corrective action: generate improved prompt for retry
-                            Write-Output "  Validation failed: $($validationOutput.feedback)"
-                            Write-Output "  Retrying with corrective action..." 
+                            # STEP 4: Use failure analyzer to generate intelligent corrective actions
+                            Write-Output "  ✗ Output validation failed: $($validationOutput.status)"
                             
-                            # Store failed attempt but allow retry
-                            $correctionPrompt = "Previous attempt had issues: $($validationOutput.feedback)`n"
+                            # Store failure lesson (Issue #5 - Memory Integration)
+                            try {
+                                $projectRoot = Get-ProjectRoot
+                                $tempStepFile2 = Join-Path ([System.IO.Path]::GetTempPath()) "step_mem_$(New-Guid).json"
+                                $tempResultFile2 = Join-Path ([System.IO.Path]::GetTempPath()) "result_mem_$(New-Guid).json"
+                                
+                                $stepJson = @{
+                                    step_id = $jobRef.step_id
+                                    kind = $jobRef.stage
+                                    action = $job.summary
+                                }
+                                $resultJson = @{
+                                    status = $job.status
+                                    errors = $validationOutput.errors
+                                    stderr = $job.output.stderr
+                                }
+                                
+                                ConvertTo-Json $stepJson | Set-Content -Path $tempStepFile2 -Encoding UTF8
+                                ConvertTo-Json $resultJson | Set-Content -Path $tempResultFile2 -Encoding UTF8
+                                
+                                # Store the failure as a lesson for future similar tasks
+                                & python -m dotagent_runtime.memory_integration_cli `
+                                    --goal "$($job.summary)" `
+                                    --step-json $tempStepFile2 `
+                                    --result-json $tempResultFile2 `
+                                    --attempt $(($attempts - 1)) `
+                                    --mode store `
+                                    --json-output 2>$null | Out-Null
+                                Write-Output "  💾 Failure pattern stored for learning"
+                                
+                                Remove-Item -LiteralPath $tempStepFile2 -Force -ErrorAction SilentlyContinue
+                                Remove-Item -LiteralPath $tempResultFile2 -Force -ErrorAction SilentlyContinue
+                            } catch {
+                                Write-Verbose "Memory storage skipped: $_"
+                            }
+                            
+                            # Generate corrective prompt using failure info
+                            $correctionPrompt = @"
+## Validation Feedback
+
+**Issues Found:**
+"@
+                            foreach ($error in $validationOutput.errors) {
+                                $correctionPrompt += "`n- [$($error.category)] $($error.detail)"
+                                $correctionPrompt += "`n  Fix: $($error.fix_suggestion)"
+                            }
+                            
                             if ($validationOutput.corrective_actions) {
-                                $correctionPrompt += "Suggestions: " + ($validationOutput.corrective_actions -join "; ")
+                                $correctionPrompt += "`n`n**What to fix:**`n"
+                                foreach ($action in $validationOutput.corrective_actions) {
+                                    $correctionPrompt += "- $action`n"
+                                }
                             }
                             
                             $job.correction_context = $correctionPrompt
@@ -1021,24 +1142,132 @@ function Invoke-Workflow {
                             # Mark as pending for retry with new prompt
                             $job.status = "PENDING"
                             Save-JobRecord -Record $job | Out-Null
+                            Write-Output "  Retrying with corrective guidance..."
                         } else {
                             # Non-retryable failure or max retries exhausted
                             $job.validation = $validationOutput
                             Save-JobRecord -Record $job | Out-Null
                             $stepPassed = $true
+                            if ($validationOutput -and $validationOutput.status -ne "PASS") {
+                                Write-Output "  ✗ Validation failed (non-retryable)"
+                                
+                                # Store non-retryable failure as critical lesson (Issue #5 - Memory Integration)
+                                try {
+                                    $tempStepFile3 = Join-Path ([System.IO.Path]::GetTempPath()) "step_mem_$(New-Guid).json"
+                                    $tempResultFile3 = Join-Path ([System.IO.Path]::GetTempPath()) "result_mem_$(New-Guid).json"
+                                    
+                                    $stepJson = @{
+                                        step_id = $jobRef.step_id
+                                        kind = $jobRef.stage
+                                        action = $job.summary
+                                    }
+                                    $resultJson = @{
+                                        status = "CRITICAL_FAILURE"
+                                        errors = $validationOutput.errors
+                                        non_retryable = $true
+                                    }
+                                    
+                                    ConvertTo-Json $stepJson | Set-Content -Path $tempStepFile3 -Encoding UTF8
+                                    ConvertTo-Json $resultJson | Set-Content -Path $tempResultFile3 -Encoding UTF8
+                                    
+                                    & python -m dotagent_runtime.memory_integration_cli `
+                                        --goal "$($job.summary)" `
+                                        --step-json $tempStepFile3 `
+                                        --result-json $tempResultFile3 `
+                                        --attempt $(($attempts - 1)) `
+                                        --mode store `
+                                        --json-output 2>$null | Out-Null
+                                    Write-Output "  💾 Critical failure stored for learning"
+                                    
+                                    Remove-Item -LiteralPath $tempStepFile3 -Force -ErrorAction SilentlyContinue
+                                    Remove-Item -LiteralPath $tempResultFile3 -Force -ErrorAction SilentlyContinue
+                                } catch {
+                                    Write-Verbose "Memory storage skipped: $_"
+                                }
+                            }
                         }
                     } catch {
-                        Write-Warning "Validation check failed, treating as success: $_"
+                        Write-Warning "Validation check error: $_"
                         $stepPassed = $true
                     }
                 } else {
                     # Job failed execution
                     if ($attempts -lt $maxAttempts) {
-                        Write-Output "  Execution failed, retrying..."
+                        Write-Output "  ✗ Execution failed, retrying..."
+                        
+                        # Store execution failure as lesson (Issue #5 - Memory Integration)
+                        try {
+                            $tempStepFile4 = Join-Path ([System.IO.Path]::GetTempPath()) "step_mem_$(New-Guid).json"
+                            $tempResultFile4 = Join-Path ([System.IO.Path]::GetTempPath()) "result_mem_$(New-Guid).json"
+                            
+                            $stepJson = @{
+                                step_id = $jobRef.step_id
+                                kind = $jobRef.stage
+                                action = $job.summary
+                            }
+                            $resultJson = @{
+                                status = $job.status
+                                exit_code = $job.output.exit_code
+                                stderr = $job.output.stderr
+                            }
+                            
+                            ConvertTo-Json $stepJson | Set-Content -Path $tempStepFile4 -Encoding UTF8
+                            ConvertTo-Json $resultJson | Set-Content -Path $tempResultFile4 -Encoding UTF8
+                            
+                            & python -m dotagent_runtime.memory_integration_cli `
+                                --goal "$($job.summary)" `
+                                --step-json $tempStepFile4 `
+                                --result-json $tempResultFile4 `
+                                --attempt $(($attempts - 1)) `
+                                --mode store `
+                                --json-output 2>$null | Out-Null
+                            Write-Output "  💾 Execution failure stored for learning"
+                            
+                            Remove-Item -LiteralPath $tempStepFile4 -Force -ErrorAction SilentlyContinue
+                            Remove-Item -LiteralPath $tempResultFile4 -Force -ErrorAction SilentlyContinue
+                        } catch {
+                            Write-Verbose "Memory storage skipped: $_"
+                        }
+                        
                         $job.status = "PENDING"
                         Save-JobRecord -Record $job | Out-Null
                     } else {
+                        Write-Output "  ✗ Execution failed after $maxAttempts attempts"
                         $stepPassed = $true
+                        
+                        # Store final failure as critical lesson
+                        try {
+                            $tempStepFile5 = Join-Path ([System.IO.Path]::GetTempPath()) "step_mem_$(New-Guid).json"
+                            $tempResultFile5 = Join-Path ([System.IO.Path]::GetTempPath()) "result_mem_$(New-Guid).json"
+                            
+                            $stepJson = @{
+                                step_id = $jobRef.step_id
+                                kind = $jobRef.stage
+                                action = $job.summary
+                            }
+                            $resultJson = @{
+                                status = "EXECUTION_EXHAUSTED"
+                                max_attempts = $maxAttempts
+                                stderr = $job.output.stderr
+                            }
+                            
+                            ConvertTo-Json $stepJson | Set-Content -Path $tempStepFile5 -Encoding UTF8
+                            ConvertTo-Json $resultJson | Set-Content -Path $tempResultFile5 -Encoding UTF8
+                            
+                            & python -m dotagent_runtime.memory_integration_cli `
+                                --goal "$($job.summary)" `
+                                --step-json $tempStepFile5 `
+                                --result-json $tempResultFile5 `
+                                --attempt $(($attempts - 1)) `
+                                --mode store `
+                                --json-output 2>$null | Out-Null
+                            Write-Output "  💾 Exhausted all attempts, critical failure stored"
+                            
+                            Remove-Item -LiteralPath $tempStepFile5 -Force -ErrorAction SilentlyContinue
+                            Remove-Item -LiteralPath $tempResultFile5 -Force -ErrorAction SilentlyContinue
+                        } catch {
+                            Write-Verbose "Memory storage skipped: $_"
+                        }
                     }
                 }
             }
