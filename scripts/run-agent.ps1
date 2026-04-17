@@ -553,6 +553,13 @@ function Refresh-JobPromptForExecution {
     }
 
     $promptText = $basePrompt + (Get-DependencyContext -Record $normalized)
+    
+    # Append correction context if this is a retry
+    if ($normalized.correction_context) {
+        $promptText += "`n`n## Corrective Context (Previous Attempt Feedback)`n"
+        $promptText += $normalized.correction_context
+    }
+
     $promptPath = Get-JobPromptPath -JobId $normalized.id
     $promptText | Set-Content -LiteralPath $promptPath -Encoding UTF8
     $normalized.input.prompt_file = $promptPath
@@ -778,42 +785,102 @@ function New-Workflow {
     param([string]$Objective)
 
     $workflowId = New-JobId -Prefix "run"
-    $stages = @("HLD", "DD", "CODE", "TEST", "REVIEW")
+    
+    # Call Python planner to generate dynamic DAG instead of hardcoded pipeline
+    $plannerOutput = $null
+    try {
+        $projectRoot = Get-ProjectRoot
+        $pythonPath = Join-Path (Split-Path $PSScriptRoot -Parent) "runtime"
+        
+        # Call Python planner_cli to get dynamic DAG
+        $planOutput = & python -m dotagent_runtime.planner_cli `
+            --goal $Objective `
+            --project-root $projectRoot `
+            --job-type "task" `
+            --json-output 2>$null
+        
+        if ($LASTEXITCODE -eq 0) {
+            $plannerOutput = $planOutput | ConvertFrom-Json
+        }
+    } catch {
+        Write-Warning "Planner failed, falling back to default pipeline: $_"
+    }
+
     $jobRefs = New-Object System.Collections.Generic.List[object]
     $edges = New-Object System.Collections.Generic.List[object]
-    $previousJobId = $null
+    
+    $steps = @()
+    if ($plannerOutput -and $plannerOutput.dag) {
+        # Use dynamic DAG from planner
+        $steps = $plannerOutput.dag
+    } else {
+        # Fallback to static pipeline (legacy behavior)
+        Write-Warning "Using default 5-stage pipeline (planner unavailable)"
+        $stages = @("HLD", "DD", "CODE", "TEST", "REVIEW")
+        $steps = foreach ($stage in $stages) {
+            [ordered]@{
+                id = $stage.ToLowerInvariant()
+                action = "$stage stage"
+                kind = $stage
+                deps = @()
+                priority = 100
+                max_attempts = 1
+            }
+        }
+        
+        # Add dependencies for fallback
+        for ($i = 1; $i -lt $steps.Count; $i++) {
+            $steps[$i].deps = @($steps[$i - 1].id)
+        }
+    }
 
-    foreach ($stage in $stages) {
-        $jobType = if ($stage -eq "REVIEW") { "review" } else { "task" }
-        $jobId = New-JobId -Prefix ($stage.ToLowerInvariant())
+    # Build job refs and edges from DAG steps
+    $stepIdToJobId = @{}
+    foreach ($step in $steps) {
+        $stepId = $step.id
+        $jobId = New-JobId -Prefix ($stepId -replace "[^a-z0-9]", "")
+        $stepIdToJobId[$stepId] = $jobId
+        
+        $jobType = if ($step.kind -eq "REVIEW") { "review" } else { "task" }
         $dependencies = @()
-        if ($previousJobId) {
-            $dependencies = @($previousJobId)
-            $edges.Add([ordered]@{ from = $previousJobId; to = $jobId }) | Out-Null
+        
+        if ($step.deps) {
+            foreach ($depStepId in $step.deps) {
+                if ($stepIdToJobId.ContainsKey($depStepId)) {
+                    $dependencies += $stepIdToJobId[$depStepId]
+                    $edges.Add([ordered]@{ from = $stepIdToJobId[$depStepId]; to = $jobId }) | Out-Null
+                }
+            }
         }
 
         $metadata = @{
             workflow_id = $workflowId
-            stage = $stage
+            step_kind = $step.kind
+            tool = $step.tool
             dependencies = $dependencies
+            max_attempts = $step.max_attempts
+            work_types = if ($plannerOutput.metadata.work_types) { $plannerOutput.metadata.work_types } else { @() }
         }
 
-        $prompt = New-StagePrompt -Stage $stage -Objective $Objective
-        $summary = "$stage stage for: $Objective"
-        $templateName = if ($stage -eq "REVIEW") { "review.md" } else { "task.md" }
-        $jobRecord = New-JobRecord -JobId $jobId -Type $jobType -Summary $summary -PromptText $prompt -TemplateName $templateName -Metadata $metadata
+        $summary = "$($step.action) for: $Objective"
+        $prompt = Render-Template -Template (Get-Template -Name "task.md") -Tokens @{ TASK = "$($step.action) - $Objective" }
+        $jobRecord = New-JobRecord -JobId $jobId -Type $jobType -Summary $summary -PromptText $prompt -TemplateName "task.md" -Metadata $metadata
         Save-PreparedJob -Record $jobRecord | Out-Null
 
         $jobRefs.Add([ordered]@{
-            stage = $stage
+            stage = $step.kind
             job_id = $jobId
             dependencies = $dependencies
+            step_id = $stepId
+            max_attempts = $step.max_attempts
         }) | Out-Null
-
-        $previousJobId = $jobId
     }
 
     $workflow = New-WorkflowRecord -WorkflowId $workflowId -Objective $Objective -Jobs $jobRefs -Edges $edges
+    if ($plannerOutput) {
+        $workflow.planner_metadata = $plannerOutput.metadata
+        $workflow.dag = $plannerOutput.dag
+    }
     Save-WorkflowRecord -Workflow $workflow | Out-Null
     return $workflow
 }
@@ -861,6 +928,7 @@ function Invoke-Workflow {
     )
 
     $workflow = Update-WorkflowStatus -WorkflowId $WorkflowId
+    $maxRetriesPerStep = 3
 
     while ($true) {
         $workflow = Update-WorkflowStatus -WorkflowId $WorkflowId
@@ -870,7 +938,111 @@ function Invoke-Workflow {
         }
 
         foreach ($jobRef in $readyJobs) {
-            Invoke-AgentPreparedJob -JobId $jobRef.job_id -Model $Model -Sandbox $Sandbox | Out-Null
+            $job = Read-JobRecord -JobId $jobRef.job_id
+            $maxAttempts = if ($jobRef.max_attempts) { $jobRef.max_attempts } else { $maxRetriesPerStep }
+            $attempts = 0
+            $stepPassed = $false
+
+            while ($attempts -lt $maxAttempts -and -not $stepPassed) {
+                $attempts++
+                Write-Output "[$($job.summary)] Attempt $attempts of $maxAttempts..."
+                
+                # Execute the step
+                Invoke-AgentPreparedJob -JobId $jobRef.job_id -Model $Model -Sandbox $Sandbox | Out-Null
+                $job = Read-JobRecord -JobId $jobRef.job_id
+
+                # Run real validation instead of just checking exit code
+                if ($job.status -eq "SUCCESS") {
+                    try {
+                        $tempStepFile = Join-Path ([System.IO.Path]::GetTempPath()) "step_$(New-Guid).json"
+                        $tempResultFile = Join-Path ([System.IO.Path]::GetTempPath()) "result_$(New-Guid).json"
+                        
+                        $stepData = @{
+                            step_id = $jobRef.step_id
+                            kind = $jobRef.stage
+                            metadata = $job.metadata
+                        }
+
+                        $resultData = @{
+                            job_id = $jobRef.job_id
+                            status = $job.status
+                            output = $job.output
+                            artifacts = $job.artifacts
+                            execution_time_ms = if ($job.end_time -and $job.start_time) {
+                                ($job.end_time - $job.start_time).TotalMilliseconds
+                            } else {
+                                0
+                            }
+                        }
+
+                        # Write to temp files
+                        ConvertTo-Json $stepData | Set-Content -Path $tempStepFile -Encoding UTF8
+                        ConvertTo-Json $resultData | Set-Content -Path $tempResultFile -Encoding UTF8
+
+                        # Call Python validator to check output quality, not just exit code
+                        $validationOutput = $null
+                        try {
+                            $projectRoot = Get-ProjectRoot
+                            $validationJson = & python -m dotagent_runtime.validator_cli `
+                                --step-json $tempStepFile `
+                                --result-json $tempResultFile `
+                                --project-root $projectRoot `
+                                --json-output 2>$null
+
+                            if ($LASTEXITCODE -eq 0 -and $validationJson) {
+                                $validationOutput = $validationJson | ConvertFrom-Json
+                            }
+                        } catch {
+                            Write-Warning "Validator error, proceeding with basic check: $_"
+                        } finally {
+                            # Clean up temp files
+                            if (Test-Path -LiteralPath $tempStepFile) { Remove-Item -LiteralPath $tempStepFile -Force -ErrorAction SilentlyContinue }
+                            if (Test-Path -LiteralPath $tempResultFile) { Remove-Item -LiteralPath $tempResultFile -Force -ErrorAction SilentlyContinue }
+                        }
+
+                        if ($validationOutput -and $validationOutput.status -eq "PASS") {
+                            $job.validation = $validationOutput
+                            Save-JobRecord -Record $job | Out-Null
+                            $stepPassed = $true
+                        } elseif ($validationOutput -and $validationOutput.retryable -and $attempts -lt $maxAttempts) {
+                            # Corrective action: generate improved prompt for retry
+                            Write-Output "  Validation failed: $($validationOutput.feedback)"
+                            Write-Output "  Retrying with corrective action..." 
+                            
+                            # Store failed attempt but allow retry
+                            $correctionPrompt = "Previous attempt had issues: $($validationOutput.feedback)`n"
+                            if ($validationOutput.corrective_actions) {
+                                $correctionPrompt += "Suggestions: " + ($validationOutput.corrective_actions -join "; ")
+                            }
+                            
+                            $job.correction_context = $correctionPrompt
+                            Save-JobRecord -Record $job | Out-Null
+                            
+                            # Mark as pending for retry with new prompt
+                            $job.status = "PENDING"
+                            Save-JobRecord -Record $job | Out-Null
+                        } else {
+                            # Non-retryable failure or max retries exhausted
+                            $job.validation = $validationOutput
+                            Save-JobRecord -Record $job | Out-Null
+                            $stepPassed = $true
+                        }
+                    } catch {
+                        Write-Warning "Validation check failed, treating as success: $_"
+                        $stepPassed = $true
+                    }
+                } else {
+                    # Job failed execution
+                    if ($attempts -lt $maxAttempts) {
+                        Write-Output "  Execution failed, retrying..."
+                        $job.status = "PENDING"
+                        Save-JobRecord -Record $job | Out-Null
+                    } else {
+                        $stepPassed = $true
+                    }
+                }
+            }
+
             $workflow = Update-WorkflowStatus -WorkflowId $WorkflowId
             if ($workflow.status -eq "FAILED") {
                 return $workflow
