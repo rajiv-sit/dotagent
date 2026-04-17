@@ -7,3 +7,4 @@ _tmp_runtime_tests/
 runtime/dotagent_runtime/__pycache__/
 runtime/tests/__pycache__/
 *.pyc
+docs/
