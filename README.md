@@ -138,11 +138,11 @@ powershell -ExecutionPolicy Bypass -File .\.agent\scripts\init-project-docs.ps1 
 
 This creates:
 
-- `Requirement.md`
-- `Architecture.md`
-- `HLD.md`
-- `DD.md`
-- `milestone.md`
+- `docs/design/Requirement.md`
+- `docs/design/Architecture.md`
+- `docs/design/HLD.md`
+- `docs/design/DD.md`
+- `docs/design/milestone.md`
 
 5. Initialize the local runtime:
 
@@ -182,7 +182,7 @@ powershell -ExecutionPolicy Bypass -File .\dotagent\scripts\install-dotagent.ps1
 
 Once installed into `novax`, the working loop is:
 
-1. Fill in the root docs.
+1. Fill in the root operational docs and the design docs under `docs/design/`.
 2. Ask your assistant to read `AGENTS.md`, `CONTEXT.md`, `PLAN.md`, and the design docs.
 3. Work one milestone at a time.
 4. Validate after each milestone.
@@ -253,7 +253,7 @@ Lifecycle states:
 
 - **default-agent** (everyday work)
   - Use for implementation, milestone completion, and architecture-aligned development
-  - Reads root docs first, applies project rules, updates CONTEXT.md and PLAN.md
+  - Reads operational root docs and `docs/design/` first, applies project rules, updates CONTEXT.md and PLAN.md
   
 - **code-reviewer** (pre-merge validation)
   - Use for PRs, code changes, and behavioral regressions
@@ -358,11 +358,11 @@ Having issues? Check [Troubleshooting Guide](docs/troubleshooting.md) for:
 
 Before substantial implementation, create:
 
-- `Requirement.md`
-- `Architecture.md`
-- `HLD.md`
-- `DD.md`
-- `milestone.md`
+- `docs/design/Requirement.md`
+- `docs/design/Architecture.md`
+- `docs/design/HLD.md`
+- `docs/design/DD.md`
+- `docs/design/milestone.md`
 
 Fastest path:
 
@@ -372,28 +372,28 @@ powershell -ExecutionPolicy Bypass -File .\.agent\scripts\init-project-docs.ps1 
 
 Recommended minimum contents:
 
-- `Requirement.md`
+- `docs/design/Requirement.md`
   - functional requirements
   - non-functional requirements
   - data definitions
   - edge cases
-- `Architecture.md`
+- `docs/design/Architecture.md`
   - system overview
   - architecture style
   - technology choices
   - interfaces
-- `HLD.md`
+- `docs/design/HLD.md`
   - modules
   - responsibilities
   - dependencies
   - integration points
-- `DD.md`
+- `docs/design/DD.md`
   - classes
   - algorithms
   - data structures
   - complexity
   - error handling
-- `milestone.md`
+- `docs/design/milestone.md`
   - milestone objective
   - files to modify
   - verification steps
@@ -405,11 +405,11 @@ Suppose `novax` is a backend service plus web frontend.
 
 After installing `dotagent`, your first session should look like this:
 
-1. Create `Requirement.md` describing the login flow, API behavior, latency goals, and error cases.
-2. Create or refine `Architecture.md` describing frontend, API, data store, and deployment shape.
-3. Create or refine `HLD.md` for module boundaries such as auth, billing, notifications, and UI.
-4. Create or refine `DD.md` for concrete classes, APIs, and failure handling.
-5. Create or refine `milestone.md` with milestones such as bootstrap, auth, payments, dashboard, and deploy.
+1. Create `docs/design/Requirement.md` describing the login flow, API behavior, latency goals, and error cases.
+2. Create or refine `docs/design/Architecture.md` describing frontend, API, data store, and deployment shape.
+3. Create or refine `docs/design/HLD.md` for module boundaries such as auth, billing, notifications, and UI.
+4. Create or refine `docs/design/DD.md` for concrete classes, APIs, and failure handling.
+5. Create or refine `docs/design/milestone.md` with milestones such as bootstrap, auth, payments, dashboard, and deploy.
 6. Ask your assistant to implement one milestone at a time using the installed `AGENTS.md` and `.agent/` rules.
 
 That gives you a repeatable operating model instead of starting each repo from scratch.
@@ -426,7 +426,7 @@ Suggested branch flow:
 4. Use `dotagent` review prompts against `branch vs main`.
 5. Open a PR or MR in GitHub, GitLab, or Azure DevOps.
 6. Copy the review summary or findings into the PR or MR description if useful.
-7. Update `PLAN.md` and `milestone.md` after merge.
+7. Update `PLAN.md` and `docs/design/milestone.md` after merge.
 
 Suggested review targets:
 
@@ -448,10 +448,10 @@ Recommended pattern:
   - mirror ticket IDs in `PLAN.md` and branch names
 - Confluence or internal wiki
   - keep larger architecture and ADR-style documents there
-  - link the important pages from `CONTEXT.md` or `Architecture.md`
+  - link the important pages from `CONTEXT.md` or `docs/design/Architecture.md`
 - Zephyr or test management tools
   - track formal test cases and release validation
-  - link test plans from `milestone.md`
+  - link test plans from `docs/design/milestone.md`
 - GitHub/GitLab/Azure DevOps
   - keep the actual code review and merge workflow there
 
@@ -506,7 +506,7 @@ If you use `graphify`:
 
 If you use Obsidian:
 
-- keep root docs linked together
+- keep root operational docs and `docs/design/` linked together
 - use Graph view for architecture navigation
 
 Both integrations are optional.
@@ -528,4 +528,3 @@ That is the shortest path from a repo with a `dotagent/` folder to a repo that a
 - `dotagent` is intended to be reused across many repos
 - the installed project files are what your assistant should read and follow
 - the `dotagent/` folder is the source pack and installer source
-

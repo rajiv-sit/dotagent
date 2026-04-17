@@ -28,9 +28,9 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       
-      - name: Check required root docs exist
+      - name: Check required project docs exist
         run: |
-          files=(CONTEXT.md PLAN.md Requirement.md Architecture.md HLD.md DD.md milestone.md)
+          files=(CONTEXT.md PLAN.md docs/design/Requirement.md docs/design/Architecture.md docs/design/HLD.md docs/design/DD.md docs/design/milestone.md)
           missing=()
           for file in "${files[@]}"; do
             if [ ! -f "$file" ]; then
@@ -60,13 +60,13 @@ jobs:
             echo "WARN: PLAN.md was not updated. Did you forget to record completion?"
           fi
       
-      - name: Verify Architecture.md has Components section
+      - name: Verify docs/design/Architecture.md has Components section
         run: |
-          if ! grep -q "## Components" Architecture.md; then
-            echo "WARN: Architecture.md missing 'Components' section"
+          if ! grep -q "## Components" docs/design/Architecture.md; then
+            echo "WARN: docs/design/Architecture.md missing 'Components' section"
             exit 1
           fi
-          echo "OK: Architecture.md has Components"
+          echo "OK: docs/design/Architecture.md has Components"
 ```
 
 ## Language-Specific Rules Enforcement
@@ -300,7 +300,7 @@ jobs:
       
       - name: Check docs exist
         run: |
-          for doc in CONTEXT.md PLAN.md Requirement.md Architecture.md; do
+          for doc in CONTEXT.md PLAN.md docs/design/Requirement.md docs/design/Architecture.md; do
             test -f "$doc" || {
               echo "ERROR: Missing $doc"
               exit 1

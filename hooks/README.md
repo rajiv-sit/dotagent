@@ -16,12 +16,12 @@ Each hook emits a message that Agent sees, guiding its behavior without blocking
 
 **When:** Fires once at the start of each Agent session  
 **Purpose:** Remind Agent of available context sources  
-**Output:** Tells Agent about graphify reports, Obsidian vaults, and root design docs
+**Output:** Tells Agent about graphify reports, Obsidian vaults, and design docs
 
 **What it does:**
 - Checks if `graphify-out/GRAPH_REPORT.md` exists and reports it
 - Checks if project uses Obsidian and reports graph nav capabilities
-- Reminds Agent to read root docs (CONTEXT.md, PLAN.md, etc.) first
+- Reminds Agent to read operational root docs plus `docs/design/` design docs first
 
 **Why:** Reduces token waste by surfacing available context once instead of Agent rediscovering it each turn.
 
@@ -31,11 +31,11 @@ Each hook emits a message that Agent sees, guiding its behavior without blocking
 
 **When:** Fires before Agent reads, edits, or writes files  
 **Matcher:** Read, Edit, Write tools  
-**Purpose:** Surface root design documents before broad codebase work  
+**Purpose:** Surface design documents before broad codebase work  
 **Output:** Reminds Agent to read design docs if they exist
 
 **What it does:**
-- Checks for Requirement.md, Architecture.md, HLD.md, DD.md, milestone.md
+- Checks for docs/design/Requirement.md, docs/design/Architecture.md, docs/design/HLD.md, docs/design/DD.md, docs/design/milestone.md
 - If they exist, reminds Agent to read them before implementation
 
 **Why:** Prevents Agent from inferring design from code when design docs already exist.
@@ -93,24 +93,29 @@ Each hook emits a message that Agent sees, guiding its behavior without blocking
 
 ```
 Session Starts
-    â†“
+    |
+    v
 SessionStart hooks fire
-    â”œâ”€ session-start.ps1: "graphify reports available, design docs exist"
-    â†“
+    |- session-start.ps1: "graphify reports available, design docs exist"
+    |
+    v
 User asks Agent to work on task
-    â†“
+    |
+    v
 Agent reads files
-    â”œâ”€ PreToolUse: doc-presence.ps1 â†’ "Read design docs first"
-    â†“
+    |- PreToolUse: doc-presence.ps1 -> "Read design docs first"
+    |
+    v
 Agent needs to explore codebase
-    â”œâ”€ PreToolUse: pre-bash-context.ps1 â†’ "Use graphify instead"
-    â”œâ”€ PreToolUse: path-guard.ps1 â†’ "Don't explore whole repo"
-    â”œâ”€ PreToolUse: graph-staleness.ps1 â†’ "Graph may be stale"
-    â†“
+    |- PreToolUse: pre-bash-context.ps1 -> "Use graphify instead"
+    |- PreToolUse: path-guard.ps1 -> "Don't explore whole repo"
+    |- PreToolUse: graph-staleness.ps1 -> "Graph may be stale"
+    |
+    v
 Agent makes decision
-    â”œâ”€ Uses graphify-out if available
-    â”œâ”€ Reads CONTEXT.md instead of exploring
-    â”œâ”€ Asks for clarification instead of guessing
+    |- Uses graphify-out if available
+    |- Reads CONTEXT.md instead of exploring
+    `- Asks for clarification instead of guessing
 ```
 
 ## Token Reduction Purpose
@@ -122,7 +127,7 @@ These hooks save tokens by:
    - Design docs exist? Read them now instead of inferring
 
 2. **Preventing redundant exploration** (doc-presence, pre-bash-context)
-   - Design doc exists? Don't rebuild understanding from code
+- Design doc exists? Don't rebuild understanding from code
    - Graphify report exists? Don't grep
 
 3. **Guarding against expensive searches** (path-guard)
@@ -254,13 +259,13 @@ if ($env:VSCODE_CURRENT_FILE -like "*auth*" -or $env:VSCODE_CURRENT_FILE -like "
 }
 
 if ($editingSecurityModule) {
-    Write-Host "âš ï¸  Editing security-sensitive code. Review against .agent/rules/security.md"
+    Write-Host "WARNING: Editing security-sensitive code. Review against .agent/rules/security.md"
 }
 ```
 
 ## Best Practices
 
-- **Keep hooks deterministic:** Same input â†’ same output
+- **Keep hooks deterministic:** Same input -> same output
 - **Avoid side effects:** Don't modify files or state
 - **Keep output concise:** 1-3 lines; Agent will read longer output but it costs tokens
 - **Prefer context injection:** Tell Agent what exists rather than running tests/checks

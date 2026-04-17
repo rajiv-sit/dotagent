@@ -20,8 +20,12 @@ from .models import Plan
 def load_context(project_root: str) -> Dict[str, Any]:
     """Load project context from root docs."""
     context = {}
-    for doc_name in ["CONTEXT.md", "PLAN.md", "Architecture.md"]:
-        doc_path = Path(project_root) / doc_name
+    doc_paths = {
+        "CONTEXT.md": Path(project_root) / "CONTEXT.md",
+        "PLAN.md": Path(project_root) / "PLAN.md",
+        "docs/design/Architecture.md": Path(project_root) / "docs" / "design" / "Architecture.md",
+    }
+    for doc_name, doc_path in doc_paths.items():
         if doc_path.exists():
             try:
                 context[doc_name] = doc_path.read_text(encoding="utf-8")[:2000]

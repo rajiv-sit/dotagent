@@ -3,7 +3,7 @@
 </task>
 
 <project_context>
-- Read `CONTEXT.md`, `PLAN.md`, `Requirement.md`, `Architecture.md`, `HLD.md`, `DD.md`, and `milestone.md` when relevant.
+- Read `CONTEXT.md`, `PLAN.md`, and the relevant design docs under `docs/design/` when relevant.
 - Prefer `graphify-out/GRAPH_REPORT.md` over broad raw-file exploration when available.
 - Prefer linked markdown navigation when the project uses Obsidian.
 </project_context>

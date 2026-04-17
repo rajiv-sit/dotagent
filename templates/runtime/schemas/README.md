@@ -18,9 +18,9 @@ These schemas define structured output contracts and document templates for proj
 ### Document Templates
 
 - `requirement.schema.json`
-  - Structure for Requirement.md: functional/non-functional requirements, constraints, glossary
+  - Structure for docs/design/Requirement.md: functional/non-functional requirements, constraints, glossary
 - `architecture.schema.json`
-  - Structure for Architecture.md: components, data flows, key decisions, technology stack, quality attributes
+  - Structure for docs/design/Architecture.md: components, data flows, key decisions, technology stack, quality attributes
 - `context.schema.json`
   - Structure for CONTEXT.md durable memory: purpose, key decisions, constraints, risks, important paths, assumptions, domain terms
 - `plan.schema.json`

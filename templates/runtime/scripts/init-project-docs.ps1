@@ -43,11 +43,13 @@ function Write-ManagedFile {
 
 $root = (Resolve-Path -LiteralPath $ProjectRoot).Path
 $templateRoot = Get-TemplateRoot
+$designRoot = Join-Path $root "docs\design"
 
 foreach ($name in @("Requirement.md", "Architecture.md", "HLD.md", "DD.md", "milestone.md")) {
-    Write-ManagedFile -Source (Join-Path $templateRoot $name) -Destination (Join-Path $root $name) -Force:$Force
+    Write-ManagedFile -Source (Join-Path $templateRoot $name) -Destination (Join-Path $designRoot $name) -Force:$Force
 }
 
 Write-Output ""
 Write-Output "Project document bootstrap complete."
 Write-Output "Project root: $root"
+Write-Output "Design docs path: $designRoot"

@@ -55,10 +55,10 @@ The active enhancement is to raise the runtime from a simple prompt wrapper into
 
 ## Linked Docs
 
-- `Requirement.md`
-- `Architecture.md`
-- `HLD.md`
-- `DD.md`
-- `milestone.md`
+- `docs/design/Requirement.md`
+- `docs/design/Architecture.md`
+- `docs/design/HLD.md`
+- `docs/design/DD.md`
+- `docs/design/milestone.md`
 - `PLAN.md`
 

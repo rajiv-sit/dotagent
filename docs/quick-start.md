@@ -35,12 +35,12 @@ This copies `AGENTS.md`, `CONTEXT.md`, `PLAN.md`, and `.agent/` into your projec
 powershell -ExecutionPolicy Bypass -File .\.agent\scripts\init-project-docs.ps1 -ProjectRoot .
 ```
 
-This creates the required root design documents:
-- `Requirement.md`
-- `Architecture.md`
-- `HLD.md`
-- `DD.md`
-- `milestone.md`
+This creates the required design documents under `docs/design/`:
+- `docs/design/Requirement.md`
+- `docs/design/Architecture.md`
+- `docs/design/HLD.md`
+- `docs/design/DD.md`
+- `docs/design/milestone.md`
 
 **Result:** Basic document templates ready for your team to fill in.
 
@@ -65,10 +65,10 @@ Fill in these sections **only** (skip the rest for now):
 
 ## Linked Docs
 
-- `Requirement.md`
-- `Architecture.md`
-- `HLD.md`
-- `DD.md`
+- `docs/design/Requirement.md`
+- `docs/design/Architecture.md`
+- `docs/design/HLD.md`
+- `docs/design/DD.md`
 - `PLAN.md`
 ```
 
@@ -100,7 +100,7 @@ Fill in these sections **only** (skip the rest for now):
 None yet.
 ```
 
-### Requirement.md
+### docs/design/Requirement.md
 
 ```markdown
 # Requirement
@@ -123,7 +123,7 @@ None yet.
 - Reliability: [target]
 ```
 
-### Architecture.md
+### docs/design/Architecture.md
 
 ```markdown
 # Architecture
@@ -163,7 +163,7 @@ powershell -ExecutionPolicy Bypass -File .\.agent\scripts\dotagent.ps1 task "Imp
 ```
 
 Expected flow:
-1. Your assistant reads your CONTEXT.md, PLAN.md, and Requirement.md
+1. Your assistant reads your CONTEXT.md, PLAN.md, and docs/design/Requirement.md
 2. Your assistant implements the feature
 3. Your assistant validates against `.agent/rules/`
 4. You review the result
@@ -189,11 +189,11 @@ Expected flow:
 
 After your first 2-3 features:
 
-- **Requirement.md:** Add edge cases, data definitions, failure scenarios
-- **Architecture.md:** Add data flow diagrams, rationale for technology choices
-- **HLD.md:** Add module boundaries and dependencies
-- **DD.md:** Add algorithm details, error handling, complexity analysis
-- **milestone.md:** Add specific file modifications and verification steps
+- **docs/design/Requirement.md:** Add edge cases, data definitions, failure scenarios
+- **docs/design/Architecture.md:** Add data flow diagrams, rationale for technology choices
+- **docs/design/HLD.md:** Add module boundaries and dependencies
+- **docs/design/DD.md:** Add algorithm details, error handling, complexity analysis
+- **docs/design/milestone.md:** Add specific file modifications and verification steps
 
 ## Minimal Ongoing Workflow
 

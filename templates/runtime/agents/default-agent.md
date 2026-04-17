@@ -4,15 +4,18 @@ This is the default Agent agent profile for everyday development.
 
 ## Primary Context
 
-Read these root-level markdown files directly before substantial work:
+Read these operational root docs directly before substantial work:
 
 - `CONTEXT.md`
 - `PLAN.md`
-- `Requirement.md`
-- `Architecture.md`
-- `HLD.md`
-- `DD.md`
-- `milestone.md`
+
+Then read these design docs under `docs/design/`:
+
+- `docs/design/Requirement.md`
+- `docs/design/Architecture.md`
+- `docs/design/HLD.md`
+- `docs/design/DD.md`
+- `docs/design/milestone.md`
 
 If they are incomplete, treat completion of those documents as the first task before major implementation.
 

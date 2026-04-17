@@ -141,32 +141,32 @@ graph TB
 ## Component Connections
 
 ### Root Level (Project Memory)
-- **[AGENTS.md](AGENTS.md)** â€” Project instructions, defines how Agent should behave
+- **[AGENTS.md](AGENTS.md)** - Project instructions, defines how Agent should behave
   - Reads: [CONTEXT.md](CONTEXT.md), [PLAN.md](PLAN.md)
   - Loads: [.agent](agents/) structure
   - Links to: [docs/](docs/README.md), [rules/](rules/), [rules/code-quality.md](rules/code-quality.md)
   - Updated when: Project workflow changes, new specialist agents needed
 
-- **[CONTEXT.md](CONTEXT.md)** â€” Durable project memory across sessions
+- **[CONTEXT.md](CONTEXT.md)** - Durable project memory across sessions
   - Referenced by: [AGENTS.md](AGENTS.md), [PLAN.md](PLAN.md)
   - Links to: Architecture decisions, constraints, risks
-  - Related to: [Architecture.md](#architecture), design documents
+  - Related to: [docs/design/Architecture.md](docs/design/Architecture.md), design documents
   - Updated when: Major decisions made, context changes
 
-- **[PLAN.md](PLAN.md)** â€” Active execution tracker (updated every sprint)
+- **[PLAN.md](PLAN.md)** - Active execution tracker (updated every sprint)
   - References: [CONTEXT.md](CONTEXT.md), [AGENTS.md](AGENTS.md)
   - Linked from: [GitHub Actions](.github/workflows/plan-md-reminder.yml)
   - Follows: [schemas/plan.schema.json](schemas/plan.schema.json)
-  - Related to: [milestone.md](#milestone), weekly sprints
+  - Related to: [docs/design/milestone.md](docs/design/milestone.md), weekly sprints
   - Updated when: Weekly [PLAN.md reminder](CHANGELOG.md#staying-updated)
 
-- **[README.md](README.md)** â€” Project overview and getting started
+- **[README.md](README.md)** - Project overview and getting started
   - Links to: [docs/quick-start.md](docs/quick-start.md), [docs/migration-guide.md](docs/migration-guide.md), [docs/](docs/README.md)
   - References: Installation via [dotagent/scripts/](scripts/), [agents/default-agent.md](agents/default-agent.md)
   - Audience: New users and integrators
   - Updated when: Major feature releases
 
-- **[CHANGELOG.md](CHANGELOG.md)** â€” Version history and what changed
+- **[CHANGELOG.md](CHANGELOG.md)** - Version history and what changed
   - Tracks: Changes to [rules/](rules/), [docs/](docs/README.md), [agents/](agents/), [skills/](skills/)
   - References: [docs/migration-guide.md](docs/migration-guide.md) for version upgrades
   - Links to: [GitHub Actions](.github/workflows/plan-md-reminder.yml)
@@ -175,43 +175,43 @@ graph TB
 
 ### Configuration Layer (`.agent/`)
 
-#### [agents/](agents/) â€” Specialist Profiles
+#### [agents/](agents/) - Specialist Profiles
 Current agents:
-- [default-agent.md](agents/default-agent.md) â€” Default Agent behavior (reads [AGENTS.md](AGENTS.md))
-- [code-reviewer.md](agents/code-reviewer.md) â€” Code review specialist (uses [rules/code-quality.md](rules/code-quality.md))
-- [backend-engineer.md](agents/backend-engineer.md) â€” Backend implementation and service design focus (uses [rules/code-quality.md](rules/code-quality.md), [rules/security.md](rules/security.md), [rules/error-handling.md](rules/error-handling.md))
-- [security-reviewer.md](agents/security-reviewer.md) â€” Security focus (uses [rules/security.md](rules/security.md))
-- [performance-reviewer.md](agents/performance-reviewer.md) â€” Performance focus (uses [rules/code-quality.md](rules/code-quality.md))
-- [doc-reviewer.md](agents/doc-reviewer.md) â€” Documentation focus (validates [docs/](docs/README.md))
-- [frontend-designer.md](agents/frontend-designer.md) â€” Frontend focus (uses [rules/frontend.md](rules/frontend.md))
+- [default-agent.md](agents/default-agent.md) - Default Agent behavior (reads [AGENTS.md](AGENTS.md))
+- [code-reviewer.md](agents/code-reviewer.md) - Code review specialist (uses [rules/code-quality.md](rules/code-quality.md))
+- [backend-engineer.md](agents/backend-engineer.md) - Backend implementation and service design focus (uses [rules/code-quality.md](rules/code-quality.md), [rules/security.md](rules/security.md), [rules/error-handling.md](rules/error-handling.md))
+- [security-reviewer.md](agents/security-reviewer.md) - Security focus (uses [rules/security.md](rules/security.md))
+- [performance-reviewer.md](agents/performance-reviewer.md) - Performance focus (uses [rules/code-quality.md](rules/code-quality.md))
+- [doc-reviewer.md](agents/doc-reviewer.md) - Documentation focus (validates [docs/](docs/README.md))
+- [frontend-designer.md](agents/frontend-designer.md) - Frontend focus (uses [rules/frontend.md](rules/frontend.md))
 
-**Uses**: [rules/](rules/) for project standards â†’ [rule-hierarchy.md](docs/rule-hierarchy.md)  
+**Uses**: [rules/](rules/) for project standards -> [rule-hierarchy.md](docs/rule-hierarchy.md)  
 **Runs**: [skills/](skills/) for workflows  
 **Linked to**: [docs/using-skills.md](docs/using-skills.md)  
 **Validated by**: [schemas/](schemas/) output schemas
 
-#### [rules/](rules/) â€” Engineering Standards
+#### [rules/](rules/) - Engineering Standards
 Current rules:
-- [code-quality.md](rules/code-quality.md) â€” Code standards (used by [agents/code-reviewer.md](agents/code-reviewer.md))
-- [testing.md](rules/testing.md) â€” Testing requirements (enforced by [skills/test-writer.md](skills/test-writer/SKILL.md), [skills/tdd/](skills/tdd/SKILL.md))
-- [security.md](rules/security.md) â€” Security practices (enforced by [agents/security-reviewer.md](agents/security-reviewer.md))
-- [error-handling.md](rules/error-handling.md) â€” Error handling patterns (documented in [docs/](docs/README.md))
-- [frontend.md](rules/frontend.md) â€” Frontend standards (used by [agents/frontend-designer.md](agents/frontend-designer.md))
-- [knowledge-graphs.md](rules/knowledge-graphs.md) â€” Knowledge network standards (documents [GRAPH.md](GRAPH.md) approach)
+- [code-quality.md](rules/code-quality.md) - Code standards (used by [agents/code-reviewer.md](agents/code-reviewer.md))
+- [testing.md](rules/testing.md) - Testing requirements (enforced by [skills/test-writer.md](skills/test-writer/SKILL.md), [skills/tdd/](skills/tdd/SKILL.md))
+- [security.md](rules/security.md) - Security practices (enforced by [agents/security-reviewer.md](agents/security-reviewer.md))
+- [error-handling.md](rules/error-handling.md) - Error handling patterns (documented in [docs/](docs/README.md))
+- [frontend.md](rules/frontend.md) - Frontend standards (used by [agents/frontend-designer.md](agents/frontend-designer.md))
+- [knowledge-graphs.md](rules/knowledge-graphs.md) - Knowledge network standards (documents [GRAPH.md](GRAPH.md) approach)
 
-**Enforced by**: [skills/](skills/) during execution â†’ referenced in [docs/using-skills.md](docs/using-skills.md)  
+**Enforced by**: [skills/](skills/) during execution -> referenced in [docs/using-skills.md](docs/using-skills.md)  
 **Organized by**: [rule-hierarchy.md](docs/rule-hierarchy.md)  
 **Tracked in**: [CHANGELOG.md](CHANGELOG.md#added)  
 **Validated by**: [schemas/](schemas/) output
 
-#### [skills/](skills/) â€” Reusable Workflows
+#### [skills/](skills/) - Reusable Workflows
 Current skills:
-- [setupdotagent/SKILL.md](skills/setupdotagent/SKILL.md) â€” Bootstrap new project (uses [scripts/install-dotagent.ps1](scripts/install-dotagent.ps1))
-- [tdd/SKILL.md](skills/tdd/SKILL.md) â€” Test-driven development (enforces [rules/testing.md](rules/testing.md))
-- [debug-fix/SKILL.md](skills/debug-fix/SKILL.md) â€” Debugging workflow (uses [rules/error-handling.md](rules/error-handling.md))
-- [explain/SKILL.md](skills/explain/SKILL.md) â€” Code explanation (references [knowledge-graphs.md](rules/knowledge-graphs.md))
-- [refactor/SKILL.md](skills/refactor/SKILL.md) â€” Code refactoring (enforces [rules/code-quality.md](rules/code-quality.md))
-- [test-writer/SKILL.md](skills/test-writer/SKILL.md) â€” Test generation (enforces [rules/testing.md](rules/testing.md))
+- [setupdotagent/SKILL.md](skills/setupdotagent/SKILL.md) - Bootstrap new project (uses [scripts/install-dotagent.ps1](scripts/install-dotagent.ps1))
+- [tdd/SKILL.md](skills/tdd/SKILL.md) - Test-driven development (enforces [rules/testing.md](rules/testing.md))
+- [debug-fix/SKILL.md](skills/debug-fix/SKILL.md) - Debugging workflow (uses [rules/error-handling.md](rules/error-handling.md))
+- [explain/SKILL.md](skills/explain/SKILL.md) - Code explanation (references [knowledge-graphs.md](rules/knowledge-graphs.md))
+- [refactor/SKILL.md](skills/refactor/SKILL.md) - Code refactoring (enforces [rules/code-quality.md](rules/code-quality.md))
+- [test-writer/SKILL.md](skills/test-writer/SKILL.md) - Test generation (enforces [rules/testing.md](rules/testing.md))
 
 **Uses**: [rules/](rules/) for validation  
 **Triggered by**: [agents/](agents/) and [PLAN.md](PLAN.md)  
@@ -219,35 +219,35 @@ Current skills:
 **Documented in**: [docs/using-skills.md](docs/using-skills.md)  
 **Output validated by**: [schemas/](schemas/)
 
-#### [hooks/](hooks/) â€” Automation Scripts  
+#### [hooks/](hooks/) - Automation Scripts  
 Current hooks (documented in [hooks/README.md](hooks/README.md)):
-- session-start.ps1 â€” Initialize session (validates [AGENTS.md](AGENTS.md))
-- pre-bash-context.ps1 â€” Pre-execution setup (reads [CONTEXT.md](CONTEXT.md))
-- doc-presence.ps1 â€” Verify docs exist (checks [docs/](docs/README.md))
-- path-guard.ps1 â€” Validate paths (finds [.agent/](agents/))
-- graph-staleness.ps1 â€” Check [GRAPH.md](GRAPH.md) freshness
+- session-start.ps1 - Initialize session (validates [AGENTS.md](AGENTS.md))
+- pre-bash-context.ps1 - Pre-execution setup (reads [CONTEXT.md](CONTEXT.md))
+- doc-presence.ps1 - Verify docs exist (checks [docs/](docs/README.md))
+- path-guard.ps1 - Validate paths (finds [.agent/](agents/))
+- graph-staleness.ps1 - Check [GRAPH.md](GRAPH.md) freshness
 
 **Trigger**: [scripts/](scripts/) execution  
 **Validate**: Output against [schemas/](schemas/)  
 **Documented in**: [hooks/README.md](hooks/README.md)  
 **Part of**: Overall automation flow
 
-#### [scripts/](scripts/) â€” Automation Tools
+#### [scripts/](scripts/) - Automation Tools
 Current scripts (documented in [scripts/README.md](scripts/README.md)):
-- [install-dotagent.ps1](scripts/install-dotagent.ps1) â€” Bootstrap installation (sets up [agents/default-agent.md](agents/default-agent.md))
-- [init-project-docs.ps1](scripts/init-project-docs.ps1) â€” Initialize documentation (creates [CONTEXT.md](CONTEXT.md), [PLAN.md](PLAN.md))
-- [health-check.ps1](.agent/scripts/health-check.ps1) â€” Validate setup (checks [.agent/](agents/) exists)
-- [validate-links.ps1](.agent/scripts/validate-links.ps1) â€” Check markdown links (validates [docs/](docs/README.md))
-- [dotagent.ps1](scripts/dotagent.ps1) â€” Main orchestrator
+- [install-dotagent.ps1](scripts/install-dotagent.ps1) - Bootstrap installation (sets up [agents/default-agent.md](agents/default-agent.md))
+- [init-project-docs.ps1](scripts/init-project-docs.ps1) - Initialize documentation (creates [CONTEXT.md](CONTEXT.md), [PLAN.md](PLAN.md))
+- [health-check.ps1](.agent/scripts/health-check.ps1) - Validate setup (checks [.agent/](agents/) exists)
+- [validate-links.ps1](.agent/scripts/validate-links.ps1) - Check markdown links (validates [docs/](docs/README.md))
+- [dotagent.ps1](scripts/dotagent.ps1) - Main orchestrator
 
 **Validate using**: [schemas/](schemas/)  
 **Documented in**: [scripts/README.md](scripts/README.md)  
 **Called by**: [hooks/](hooks/) and manual execution
 
-#### [prompts/](prompts/) â€” Execution Templates
+#### [prompts/](prompts/) - Execution Templates
 Current prompts:
-- [task.md](prompts/task.md) â€” Task execution template (follows [PLAN.md](PLAN.md) format)
-- [review.md](prompts/review.md) â€” Review template (output validated by [schemas/review-output.schema.json](schemas/review-output.schema.json))
+- [task.md](prompts/task.md) - Task execution template (follows [PLAN.md](PLAN.md) format)
+- [review.md](prompts/review.md) - Review template (output validated by [schemas/review-output.schema.json](schemas/review-output.schema.json))
 
 **Used by**: [dotagent.ps1](scripts/dotagent.ps1) for single-job flows and staged `run` workflows
 
@@ -255,16 +255,16 @@ Current prompts:
 **Referenced in**: [docs/using-skills.md](docs/using-skills.md)  
 **Output format**: Defined by [schemas/](schemas/)
 
-#### [schemas/](schemas/) â€” Validation & Documentation
+#### [schemas/](schemas/) - Validation & Documentation
 Current schemas (documented in [schemas/README.md](schemas/README.md)):
-- [job.schema.json](schemas/job.schema.json) â€” Formal persisted job contract
-- [workflow.schema.json](schemas/workflow.schema.json) â€” Workflow DAG contract
-- [requirement.schema.json](schemas/requirement.schema.json) â€” Template for Requirement.md
-- [architecture.schema.json](schemas/architecture.schema.json) â€” Template for Architecture.md
-- [context.schema.json](schemas/context.schema.json) â€” Template for [CONTEXT.md](CONTEXT.md)
-- [plan.schema.json](schemas/plan.schema.json) â€” Template for [PLAN.md](PLAN.md)
-- [review-output.schema.json](schemas/review-output.schema.json) â€” Validates [review.md](prompts/review.md) output
-- [task-output.schema.json](schemas/task-output.schema.json) â€” Validates [task.md](prompts/task.md) output
+- [job.schema.json](schemas/job.schema.json) - Formal persisted job contract
+- [workflow.schema.json](schemas/workflow.schema.json) - Workflow DAG contract
+- [requirement.schema.json](schemas/requirement.schema.json) - Template for Requirement.md
+- [architecture.schema.json](schemas/architecture.schema.json) - Template for Architecture.md
+- [context.schema.json](schemas/context.schema.json) - Template for [CONTEXT.md](CONTEXT.md)
+- [plan.schema.json](schemas/plan.schema.json) - Template for [PLAN.md](PLAN.md)
+- [review-output.schema.json](schemas/review-output.schema.json) - Validates [review.md](prompts/review.md) output
+- [task-output.schema.json](schemas/task-output.schema.json) - Validates [task.md](prompts/task.md) output
 
 **Validate**: [scripts/](scripts/) output  
 **Used by**: Root documentation  
@@ -278,19 +278,20 @@ Current schemas (documented in [schemas/README.md](schemas/README.md)):
 ### Documentation Layer (`docs/`)
 
 Entry points for different audiences:
-- [index.md](docs/index.md) â€” Navigation hub (by role, question, time)
-- [quick-start.md](docs/quick-start.md) â€” 5-minute setup (new projects)
-- [migration-guide.md](docs/migration-guide.md) â€” 5-phase adoption (existing projects)
-- [faq.md](docs/faq.md) â€” 30+ common questions
-- [troubleshooting.md](docs/troubleshooting.md) â€” Solutions for 20+ issues
-- [customize-for-your-stack.md](docs/customize-for-your-stack.md) â€” Language-specific setup
-- [rule-hierarchy.md](docs/rule-hierarchy.md) â€” Rule precedence and conflicts
-- [using-skills.md](docs/using-skills.md) â€” Walkthrough of all 6 skills
-- [github-actions-integration.md](docs/github-actions-integration.md) â€” CI/CD workflows
-- [case-study.md](docs/case-study.md) â€” Real team metrics and validation
-- [obsidian-integration.md](docs/obsidian-integration.md) â€” Obsidian vault setup
-- [starter-templates.md](docs/starter-templates.md) â€” Copy-paste document templates
-- [README.md](docs/README.md) â€” Documentation orientation guide
+- [index.md](docs/index.md) - Navigation hub (by role, question, time)
+- [index.md](docs/index.md) - Navigation hub (by role, question, time)
+- [quick-start.md](docs/quick-start.md) - 5-minute setup (new projects)
+- [migration-guide.md](docs/migration-guide.md) - 5-phase adoption (existing projects)
+- [faq.md](docs/faq.md) - 30+ common questions
+- [troubleshooting.md](docs/troubleshooting.md) - Solutions for 20+ issues
+- [customize-for-your-stack.md](docs/customize-for-your-stack.md) - Language-specific setup
+- [rule-hierarchy.md](docs/rule-hierarchy.md) - Rule precedence and conflicts
+- [using-skills.md](docs/using-skills.md) - Walkthrough of all 6 skills
+- [github-actions-integration.md](docs/github-actions-integration.md) - CI/CD workflows
+- [case-study.md](docs/case-study.md) - Real team metrics and validation
+- [obsidian-integration.md](docs/obsidian-integration.md) - Obsidian vault setup
+- [starter-templates.md](docs/starter-templates.md) - Copy-paste document templates
+- [README.md](docs/README.md) - Documentation orientation guide
 
 **Linked from**: Root files and [AGENTS.md](AGENTS.md)  
 **Updated when**: New features, guides, or breaking changes
@@ -356,24 +357,24 @@ graph LR
 
 ### Critical Path (must exist)
 ```
-AGENTS.md â†’ .agent/ â†’ agents/ â†’ rules/
-AGENTS.md â†’ CONTEXT.md, PLAN.md
-AGENTS.md â†’ docs/README.md
+AGENTS.md -> .agent/ -> agents/ -> rules/
+AGENTS.md -> CONTEXT.md, PLAN.md
+AGENTS.md -> docs/README.md
 ```
 
 ### Optional but Recommended
 ```
-hooks/ â†’ scripts/ â†’ schemas/
-skills/ â†’ prompts/ â†’ rules/
-CHANGELOG.md â†’ docs/ updates
+hooks/ -> scripts/ -> schemas/
+skills/ -> prompts/ -> rules/
+CHANGELOG.md -> docs/ updates
 ```
 
 ### External Integrations
 ```
-GitHub Actions (.github/workflows/) â†’ PLAN.md reminder
-Obsidian (optional) â†’ docs/ with backlinks
-graphify (optional) â†’ generates GRAPH_REPORT.md
-Jira, Confluence (optional) â†’ referenced in rules/
+GitHub Actions (.github/workflows/) -> PLAN.md reminder
+Obsidian (optional) -> docs/ with backlinks
+graphify (optional) -> generates GRAPH_REPORT.md
+Jira, Confluence (optional) -> referenced in rules/
 ```
 
 ## Visualization Tips
@@ -387,16 +388,16 @@ This file uses **internal markdown links** which Obsidian's Graph plugin automat
 3. All internal links below will render as an interactive network graph
 
 **What you'll see:**
-- **Nodes** â€” Files and components (colored by type)
+- **Nodes** - Files and components (colored by type)
   - Cyan: Root docs
   - Orange: AGENTS.md references
   - Purple: CONTEXT.md references
   - Green: PLAN.md references
   - Pink: .agent/ files
   - Blue: docs/ guides
-- **Edges** â€” Links showing dependencies and relationships
-- **Breadcrumbs** â€” Navigation path in upper left
-- **Search/Filter** â€” Find specific components by name
+- **Edges** - Links showing dependencies and relationships
+- **Breadcrumbs** - Navigation path in upper left
+- **Search/Filter** - Find specific components by name
 
 **Tips:**
 1. Click any node to focus on it and its connections
@@ -443,9 +444,9 @@ If you have graphify installed:
 
 ## See Also
 
-- [AGENTS.md](AGENTS.md) â€” Project setup and workflow
-- [Obsidian Integration](docs/obsidian-integration.md) â€” How to view this graph in Obsidian
-- [docs/index.md](docs/index.md) â€” Navigation hub
-- [CHANGELOG.md](CHANGELOG.md) â€” What changed and when
+- [AGENTS.md](AGENTS.md) - Project setup and workflow
+- [Obsidian Integration](docs/obsidian-integration.md) - How to view this graph in Obsidian
+- [docs/index.md](docs/index.md) - Navigation hub
+- [CHANGELOG.md](CHANGELOG.md) - What changed and when
 
 

@@ -8,10 +8,10 @@ Define and land formal runtime contracts for jobs, workflows, lifecycle states, 
 
 ### Files To Modify
 
-- `Requirement.md`
-- `Architecture.md`
-- `HLD.md`
-- `DD.md`
+- `docs/design/Requirement.md`
+- `docs/design/Architecture.md`
+- `docs/design/HLD.md`
+- `docs/design/DD.md`
 - `schemas/job.schema.json`
 - `scripts/dotagent.ps1`
 

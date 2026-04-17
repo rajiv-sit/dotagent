@@ -8,7 +8,7 @@ Upgrade `dotagent` into a Python-led local orchestration runtime with PowerShell
 
 - Audited the existing repo layout, docs, and runtime scripts.
 - Identified missing production primitives: formal job schema, orchestration layer, lifecycle states, dependency chaining, and artifact indexing.
-- Created `Requirement.md`, `Architecture.md`, `HLD.md`, `DD.md`, and `milestone.md` for the enhancement.
+- Created `docs/design/Requirement.md`, `docs/design/Architecture.md`, `docs/design/HLD.md`, `docs/design/DD.md`, and `docs/design/milestone.md` for the enhancement.
 
 ## In Progress
 

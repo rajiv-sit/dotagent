@@ -8,15 +8,18 @@ If `.agent/agents/default-agent.md` is not present, follow these rules directly.
 
 ## Root Docs First
 
-Before substantial implementation, read these root markdown files directly when they exist:
+Before substantial implementation, read these operational root markdown files directly when they exist:
 
 - `CONTEXT.md`
 - `PLAN.md`
-- `Requirement.md`
-- `Architecture.md`
-- `HLD.md`
-- `DD.md`
-- `milestone.md`
+
+Then read these design documents under `docs/design/` when they exist:
+
+- `docs/design/Requirement.md`
+- `docs/design/Architecture.md`
+- `docs/design/HLD.md`
+- `docs/design/DD.md`
+- `docs/design/milestone.md`
 
 If they are missing or incomplete, prefer completing them before major implementation.
 
@@ -46,7 +49,7 @@ If they are missing or incomplete, prefer completing them before major implement
 - if project architecture docs live in an Obsidian vault, prefer linked markdown navigation over broad raw-file search
 - open `GRAPH.md` in Obsidian to see component connections and network topology
 - use Obsidian Graph View (Ctrl+G) to visualize backlinks and relationships
-- keep root design notes cross-linked so Obsidian Graph and Local Graph stay useful as low-token navigation tools
+- keep design notes under `docs/design/` cross-linked so Obsidian Graph and Local Graph stay useful as low-token navigation tools
 
 ## Rules
 

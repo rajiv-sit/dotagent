@@ -53,7 +53,7 @@ Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser
 
 ---
 
-### Issue: "Project docs weren't created" (Requirement.md, Architecture.md, etc. missing)
+### Issue: "Project docs weren't created" (`docs/design/Requirement.md`, `docs/design/Architecture.md`, etc. missing)
 
 **Cause:** `init-project-docs.ps1` didn't run or failed.
 
@@ -67,7 +67,7 @@ ls .agent/scripts/init-project-docs.ps1
 powershell -ExecutionPolicy Bypass -File .\.agent\scripts\init-project-docs.ps1 -ProjectRoot .
 
 # Verify docs were created
-ls Requirement.md Architecture.md HLD.md DD.md milestone.md
+ls docs/design/Requirement.md docs/design/Architecture.md docs/design/HLD.md docs/design/DD.md docs/design/milestone.md
 ```
 
 If script is missing, copy it from dotagent:
@@ -261,7 +261,7 @@ Then alert Agent to the clarification in AGENTS.md or directly in the task promp
 
 ## Documentation & Context
 
-### Issue: "Agent asks me to create Requirement.md when it already exists"
+### Issue: "Agent asks me to create docs/design/Requirement.md when it already exists"
 
 **Causes:**
 1. Root doc paths incorrect in AGENTS.md
@@ -270,17 +270,17 @@ Then alert Agent to the clarification in AGENTS.md or directly in the task promp
 
 **Solution:**
 
-1. Verify root docs are in project root, not `.agent/`:
+1. Verify operational docs are in project root and design docs are under `docs/design/`, not `.agent/`:
    ```powershell
-   ls Requirement.md Architecture.md HLD.md DD.md milestone.md
+   ls docs/design/Requirement.md docs/design/Architecture.md docs/design/HLD.md docs/design/DD.md docs/design/milestone.md
    ```
-   Should list files in project root.
+   Should list files under `docs/design/`.
 
 2. Verify AGENTS.md doesn't specify full paths:
    ```markdown
    - `CONTEXT.md`
    - `PLAN.md`
-   - `Requirement.md`
+   - `docs/design/Requirement.md`
    # NOT
    - `.agent/CONTEXT.md`
    - `.agent/rules/CONTEXT.md`
@@ -288,7 +288,7 @@ Then alert Agent to the clarification in AGENTS.md or directly in the task promp
 
 3. Verify docs aren't empty or only whitespace:
    ```powershell
-   cat Requirement.md | Measure-Object -Line
+   cat docs/design/Requirement.md | Measure-Object -Line
    ```
    Should show >0 lines of actual content.
 
@@ -381,13 +381,13 @@ Then alert Agent to the clarification in AGENTS.md or directly in the task promp
    ```
    Should warn about broad file exploration.
 
-3. Complete root design docs (Requirement.md, Architecture.md) so Agent doesn't need to infer.
+3. Complete the design docs (`docs/design/Requirement.md`, `docs/design/Architecture.md`) so Agent doesn't need to infer.
 
 4. Add a hook to AGENTS.md:
    ```markdown
    ## Guardrails
 
-   - Prefer `.agent/` local files and root docs over broad searches.
+   - Prefer `.agent/` local files, root operational docs, and `docs/design/` over broad searches.
    - If graphify-out/GRAPH_REPORT.md exists, use it instead of grepping the repo.
    - Ask for missing context instead of exploring whole-repo.
    ```

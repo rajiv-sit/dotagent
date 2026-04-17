@@ -2,18 +2,18 @@
 
 ## Project Structure & Documentation
 
-### Q: Can I skip some root docs (like DD.md) if we're a small team?
+### Q: Can I skip some design docs (like `docs/design/DD.md`) if we're a small team?
 
 **A:** Yes, adjust for your team size:
 
 | Team Size | Keep | Skip |
 |-----------|------|------|
-| **Solo** | CONTEXT.md, PLAN.md, Requirement.md, Architecture.md | DD.md, HLD.md, milestone.md (optional) |
-| **2-3 people** | + HLD.md, milestone.md | DD.md (if not complex) |
+| **Solo** | CONTEXT.md, PLAN.md, docs/design/Requirement.md, docs/design/Architecture.md | docs/design/DD.md, docs/design/HLD.md, docs/design/milestone.md (optional) |
+| **2-3 people** | + docs/design/HLD.md, docs/design/milestone.md | docs/design/DD.md (if not complex) |
 | **4-10 people** | All 7 docs | None |
 | **10+ people** | All 7 docs + custom docs | None |
 
-**Rule of thumb:** If you can describe the system in 30 minutes verbally, you can skip DD.md. If implementation details matter (algorithms, error codes, performance constraints), include DD.md.
+**Rule of thumb:** If you can describe the system in 30 minutes verbally, you can skip `docs/design/DD.md`. If implementation details matter (algorithms, error codes, performance constraints), include it.
 
 ---
 
@@ -115,8 +115,8 @@ Monthly:
 
 1. Open CONTEXT.md
 2. Open PLAN.md
-3. Open Architecture.md
-4. Open current milestone.md
+3. Open docs/design/Architecture.md
+4. Open current docs/design/milestone.md
 
 ## Understand the Workflow (15 minutes)
 
@@ -143,19 +143,19 @@ Ask lead which task to pick from PLAN.md Next section.
 
 | Level | Use | Benefit |
 |-------|-----|---------|
-| **Rules only** | `.agent/rules/` without root docs | Enforce code standards without doc burden |
+| **Rules only** | `.agent/rules/` without design docs | Enforce code standards without doc burden |
 | **Rules + PLAN** | Add PLAN.md | Track what you're working on |
-| **Rules + PLAN + Design** | Add all root docs | Full architecture as code |
+| **Rules + PLAN + Design** | Add `CONTEXT.md`, `PLAN.md`, and `docs/design/` | Full architecture as code |
 
 **Typical progression:**
 1. Install dotagent (get rules into .agent/)
 2. Fill CONTEXT.md (capture decisions)
 3. Fill PLAN.md (track work)
-4. Add Requirement.md (define what you're building)
-5. Add Architecture.md (design the system)
-6. Add HLD.md (module boundaries)
-7. Add DD.md (implementation details)
-8. Add milestone.md (break into milestones)
+4. Add docs/design/Requirement.md (define what you're building)
+5. Add docs/design/Architecture.md (design the system)
+6. Add docs/design/HLD.md (module boundaries)
+7. Add docs/design/DD.md (implementation details)
+8. Add docs/design/milestone.md (break into milestones)
 
 You don't have to do all at once.
 
@@ -284,13 +284,13 @@ team-a-project/
 - Jira issues -> items in PLAN.md Next section
 - PLAN.md Completed -> Jira resolved/closed
 - CONTEXT.md decisions -> Jira decision link in issue description
-- milestone.md -> Jira epic
+- docs/design/milestone.md -> Jira epic
 
 No built-in sync (would require custom script), but manual sync is straightforward.
 
 ---
 
-### Q: Can we publish Architecture.md or Requirement.md to Confluence?
+### Q: Can we publish `docs/design/Architecture.md` or `docs/design/Requirement.md` to Confluence?
 
 **A:** Yes, manually:
 

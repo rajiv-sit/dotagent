@@ -74,8 +74,8 @@ Link each existing doc to a dotagent doc:
 
 | Existing Doc | Maps To | Action |
 |--------------|---------|--------|
-| design/system-overview.md | Architecture.md | Copy content, adapt format |
-| docs/api.md | Requirement.md (API section) | Include as reference |
+| design/system-overview.md | docs/design/Architecture.md | Copy content, adapt format |
+| docs/api.md | docs/design/Requirement.md (API section) | Include as reference |
 | CODE_OF_CONDUCT.md | (Keep separate) | Reference from AGENTS.md |
 ```
 
@@ -107,8 +107,8 @@ docs/
 
 **After:**
 ```
-Architecture.md (combines overview + database sections)
-Requirement.md (API section from api.md)
+docs/design/Architecture.md (combines overview + database sections)
+docs/design/Requirement.md (API section from api.md)
 contributing.md (stays as-is, referenced from AGENTS.md)
 README.md (setup guide, kept)
 ```
@@ -120,14 +120,14 @@ README.md (setup guide, kept)
 Best if: Your existing docs are detailed and would be painful to migrate.
 
 **Strategy:**
-1. Create brief dotagent docs (Requirement.md, Architecture.md, etc.)
+1. Create brief dotagent docs under `docs/design/` (Requirement.md, Architecture.md, etc.)
 2. Link to detailed docs elsewhere
 3. Gradually migrate content over time
 
 **Example:**
 
 ```markdown
-# Requirement.md
+# docs/design/Requirement.md
 
 See detailed spec in your project's docs/requirements-full.md
 
@@ -145,7 +145,7 @@ For complete requirements, see your detailed specifications document.
 ### Option C: Hybrid (Recommended for Teams)
 
 **Strategy:**
-1. Create lightweight dotagent structure (Architecture.md, etc.)
+1. Create lightweight dotagent structure under `docs/design/` (Architecture.md, etc.)
 2. Link to existing detailed docs
 3. Gradually adopt dotagent as you refactor
 4. Migrate 10-20% per sprint
@@ -153,7 +153,7 @@ For complete requirements, see your detailed specifications document.
 **Example:**
 
 ```
-Architecture.md
+docs/design/Architecture.md
 |-- Brief system overview
 `-- Link to detailed design wiki (if you have one)
 
@@ -192,8 +192,8 @@ Purpose: [One-sentence description]
 
 ## Linked Docs
 
-- `Requirement.md`
-- `Architecture.md`
+- `docs/design/Requirement.md`
+- `docs/design/Architecture.md`
 - `PLAN.md`
 
 ---
@@ -220,7 +220,7 @@ Purpose: [One-sentence description]
 
 ---
 
-# Requirement.md
+# docs/design/Requirement.md
 
 ## Overview
 
@@ -241,7 +241,7 @@ Purpose: [One-sentence description]
 
 ---
 
-# Architecture.md
+# docs/design/Architecture.md
 
 ## Overview
 
@@ -274,7 +274,7 @@ If you have existing docs:
 Example:
 ```
 # Old: docs/api-design.md (section "Request/Response")
--> # New: Requirement.md (section "API Contract")
+-> # New: docs/design/Requirement.md (section "API Contract")
 
 # Old: design/decisions.txt (line "Use Redis for caching")
 -> # New: CONTEXT.md (section "Key Decisions")
@@ -323,7 +323,7 @@ Follow your project's ESLint config and Prettier configuration.
 
 After migration, use dotagent for all new work:
 
-1. **Start of sprint:** Ask Agent to read CONTEXT.md, PLAN.md, Requirement.md, Architecture.md
+1. **Start of sprint:** Ask Agent to read CONTEXT.md, PLAN.md, docs/design/Requirement.md, docs/design/Architecture.md
 2. **During sprint:** Use Agent with your rules for implementation
 3. **End of sprint:** Update PLAN.md and CONTEXT.md with completion + new decisions
 
@@ -342,7 +342,7 @@ After migration, use dotagent for all new work:
 
 **After:**
 ```
-Architecture.md -> [Condensed from GitHub Wiki]
+docs/design/Architecture.md -> [Condensed from GitHub Wiki]
 CONTEXT.md     -> [Decisions from ADR files]
 README.md      -> [Keep as-is or link to quick-start.md]
 CONTRIBUTING   -> [Keep as-is, referenced from AGENTS.md]
@@ -357,9 +357,9 @@ CONTRIBUTING   -> [Keep as-is, referenced from AGENTS.md]
 - Database schema docs
 
 **After Strategy:**
-- Architecture.md: Link to detailed docs (don't migrate)
-- Requirement.md: Include API contracts (extract from OpenAPI)
-- HLD.md: Add if you break into 5+ modules
+- docs/design/Architecture.md: Link to detailed docs (don't migrate)
+- docs/design/Requirement.md: Include API contracts (extract from OpenAPI)
+- docs/design/HLD.md: Add if you break into 5+ modules
 - Keep PDFs/UML as reference; point to them from dotagent docs
 
 ### Scenario 3: No Existing Docs
@@ -393,9 +393,9 @@ Use this to track progress:
 ## Phase 3: Create Dotagent Docs
 - [ ] Create CONTEXT.md (minimal)
 - [ ] Create PLAN.md (minimal)
-- [ ] Create Requirement.md (minimal)
-- [ ] Create Architecture.md (minimal)
-- [ ] Create other root docs as needed
+- [ ] Create docs/design/Requirement.md (minimal)
+- [ ] Create docs/design/Architecture.md (minimal)
+- [ ] Create other docs/design files as needed
 
 ## Phase 4: Set Up Rules
 - [ ] Map existing code standards to .agent/rules/
@@ -429,7 +429,7 @@ If migration causes problems:
 2. **Keep old docs:** Don't delete old docs immediately:
    ```
    docs.deprecated/
-   `-- architecture-old.md (has "# DEPRECATED - See Architecture.md instead")
+   `-- architecture-old.md (has "# DEPRECATED - See docs/design/Architecture.md instead")
    ```
 
 3. **Gradual switch:** You don't have to switch everything at once. Start with CONTEXT.md + PLAN.md, keep everything else as-is.
@@ -459,7 +459,7 @@ If migration causes problems:
 
 ### Q: What if we have 20 conflicting architecture docs?
 
-**A:** This is the real value of migration. Create ONE Architecture.md that references the others, then gradually consolidate. Use this as a chance to clean up.
+**A:** This is the real value of migration. Create ONE `docs/design/Architecture.md` that references the others, then gradually consolidate. Use this as a chance to clean up.
 
 ---
 
