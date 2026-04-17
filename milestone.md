@@ -63,7 +63,7 @@ Add the missing agentic runtime loop in the Python runtime with explicit planner
 
 ### Files To Modify
 
-- `REQUIREMENTS.md`
+- `Requirement.md`
 - `Architecture.md`
 - `HLD.md`
 - `DD.md`
@@ -101,7 +101,7 @@ Close the next runtime gaps by adding semantic memory, adaptive planning, bounde
 
 ### Files To Modify
 
-- `REQUIREMENTS.md`
+- `Requirement.md`
 - `Architecture.md`
 - `HLD.md`
 - `DD.md`
@@ -134,3 +134,39 @@ Close the next runtime gaps by adding semantic memory, adaptive planning, bounde
 - executor supports bounded parallel batches
 - external adapters exist for Slurm and Kubernetes planning
 - validator enforces policy-based checks
+
+## Milestone 5
+
+### Objective
+
+Make the Python runtime the single orchestration engine and reduce PowerShell to a compatibility wrapper.
+
+### Files To Modify
+
+- `Requirement.md`
+- `Architecture.md`
+- `HLD.md`
+- `DD.md`
+- `PLAN.md`
+- `README.md`
+- `scripts/run-agent.ps1`
+- `scripts/install-pack.ps1`
+- `runtime/dotagent_runtime/cli.py`
+- `runtime/dotagent_runtime/orchestrator.py`
+- `runtime/dotagent_runtime/bootstrap.py`
+- `templates/runtime/scripts/run-agent.ps1`
+- `templates/root-docs/CONTEXT.md`
+- `templates/root-docs/PLAN.md`
+- `templates/root-docs/Architecture.md`
+
+### Verification Steps
+
+- Run Python runtime unit tests
+- Run `run-agent.ps1 setup`, `task`, `status`, and `result` as PowerShell smoke checks
+- Confirm install-pack copies the Python runtime into `.agent/runtime/`
+
+### Exit Criteria
+
+- PowerShell no longer owns orchestration logic
+- Python CLI supports the preserved command surface including `cancel`
+- Installed consumer repos receive the Python runtime package they need

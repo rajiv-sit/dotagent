@@ -12,7 +12,7 @@ This folder contains the install and runtime scripts for `dotagent`.
 - `init-project-docs.ps1`
   - creates the required root design documents for a new project from `templates/root-docs/`
 - `run-agent.ps1`
-  - local runtime for prompt packaging, job tracking, workflow orchestration, and artifact indexing
+  - thin PowerShell wrapper over the Python runtime for setup, preparation, execution, and status queries
 - `dotagent.ps1`
   - compatibility wrapper for `run-agent.ps1`
 - `adapters/`
@@ -28,13 +28,12 @@ powershell -ExecutionPolicy Bypass -File .\.agent\scripts\init-project-docs.ps1 
 powershell -ExecutionPolicy Bypass -File .\.agent\scripts\run-agent.ps1 setup
 ```
 
-`run-agent.ps1` does not depend on provider-specific plugin APIs. Instead it:
+`run-agent.ps1` forwards to `python -m dotagent_runtime.cli`. The Python runtime:
 
-- renders workflow templates from `workflows/`
 - stores local job records under `.dotagent-state/`
-- stores workflow graphs under `.dotagent-state/graphs/`
+- stores plan records under `.dotagent-state/plans/`
 - lets a team track `task`, `review`, `run`, `status`, `result`, and `cancel`
-- can optionally execute prepared prompts through the local assistant CLI when `agent.cmd exec` is available
+- can execute steps through its tool registry and local shell adapters
 
 Lifecycle states:
 
@@ -45,12 +44,6 @@ Lifecycle states:
 - `REVIEWED`
 - `CANCELLED`
 
-Workflow orchestration:
-
-- `run` creates a local DAG for `HLD -> DD -> CODE -> TEST -> REVIEW`
-- dependency metadata is persisted on each job
-- artifact evidence bundles include SHA256 digests for prompt, output, stderr, and event files
-
-This gives `dotagent` the same separation-of-concerns pattern as a plugin-backed system without requiring a plugin runtime.
+The installed Python package is copied into `.agent/runtime/dotagent_runtime/` by `install-pack.ps1`, which keeps consumer repos self-contained.
 
 

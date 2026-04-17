@@ -2,7 +2,7 @@
 
 ## System Overview
 
-`dotagent` remains a local, file-backed orchestration runtime, but the control loop is now defined explicitly instead of being implied by prepared prompts. The runtime decomposes execution into planner, executor, validator, memory, and orchestrator modules. The orchestrator owns lifecycle control and drives a bounded `PLAN -> EXECUTE -> VALIDATE -> REPLAN` loop until the plan succeeds or reaches a terminal failure.
+`dotagent` remains a local, file-backed orchestration runtime, but the control loop is now defined explicitly instead of being implied by prepared prompts. The Python runtime under `runtime/dotagent_runtime/` is the canonical orchestration engine. It decomposes execution into planner, executor, validator, memory, and orchestrator modules. The orchestrator owns lifecycle control and drives a bounded `PLAN -> EXECUTE -> VALIDATE -> REPLAN` loop until the plan succeeds or reaches a terminal failure. PowerShell entrypoints remain as thin Windows-first wrappers that forward commands into the Python CLI.
 
 The architecture remains vendor-neutral. The stable interface is still the local repo contract: docs, rules, prompts, schemas, plans, jobs, evidence bundles, and telemetry records. Tool execution can stay local and can later be pointed at an assistant CLI, shell command, or API-backed adapter.
 
@@ -37,7 +37,8 @@ This is intentionally simpler than a distributed scheduler but strong enough to 
   - portable implementation path while remaining local-first
 - PowerShell wrappers:
   - preserve Windows-first ergonomics and installation flow
-  - maintain compatibility with the existing source-pack usage model
+  - translate the existing command surface into Python CLI invocations
+  - avoid carrying duplicate orchestration logic
 - JSON persistence:
   - keeps jobs, plans, evidence, and memory inspectable
   - avoids requiring a service process or external database
@@ -51,6 +52,7 @@ This is intentionally simpler than a distributed scheduler but strong enough to 
   - `run`
   - `status`
   - `result`
+  - `cancel`
 - Runtime interfaces:
   - planner interface creates plans and corrective updates
   - executor interface dispatches tools and captures execution results
@@ -65,6 +67,7 @@ This is intentionally simpler than a distributed scheduler but strong enough to 
   - `.dotagent-state/evidence/<job-id>.json`
   - `.dotagent-state/memory/<namespace>.jsonl`
   - `.dotagent-state/telemetry/<job-id>.json`
+  - `.agent/runtime/dotagent_runtime/*` in installed consumer repos
 
 ## Visualization And Debugging
 

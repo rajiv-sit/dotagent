@@ -26,6 +26,8 @@ The Python runtime is class-oriented with explicit module boundaries.
   - responsibility: scheduling loop, job transitions, evidence generation, and finalization
 - `PolicyEngine`
   - responsibility: enforce richer SLO and policy checks across validator steps
+- PowerShell wrapper script
+  - responsibility: resolve the installed runtime package location, preserve legacy flags, and invoke `python -m dotagent_runtime.cli`
 
 ## Algorithms
 
@@ -42,6 +44,15 @@ The Python runtime is class-oriented with explicit module boundaries.
 9. If validation fails without recovery, mark the step `FAILED` and end the job as `FAILED`.
 10. When all required steps succeed, mark the job `SUCCESS`.
 11. Persist evidence and write a memory summary.
+
+### Cancellation
+
+1. Load the target job.
+2. If the job is already terminal, return current state.
+3. Mark the job `CANCELLED`.
+4. Load the linked plan from job metadata.
+5. Mark any `PENDING` or `RUNNING` steps as `CANCELLED`.
+6. Persist cancellation metadata on the plan and emit a cancellation event.
 
 ### Step replanning
 
@@ -63,6 +74,7 @@ The Python runtime is class-oriented with explicit module boundaries.
 - dataclass-backed runtime records for job, plan, step, execution result, and validation result
 - JSON files for persisted state, evidence, and memory
 - adjacency-by-dependency lists for plan DAG evaluation
+- installer-copied Python package under `.agent/runtime/dotagent_runtime` in consumer repos
 
 ## Complexity
 
@@ -79,3 +91,4 @@ The Python runtime is class-oriented with explicit module boundaries.
 - Persist step-level failure summaries and corrective actions
 - Stop orchestration when a dependency chain can no longer reach success
 - Keep retries bounded by `max_attempts`
+- Treat compatibility-only PowerShell flags such as `-Model` and `-Sandbox` as accepted but non-authoritative when they no longer affect Python runtime behavior

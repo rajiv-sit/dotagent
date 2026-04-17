@@ -3,7 +3,9 @@
 ## Modules
 
 - CLI command parser
-  - parses command, options, and execution intent
+  - Python CLI is authoritative for command parsing, execution intent, and JSON output
+- PowerShell compatibility wrapper
+  - preserves the Windows command surface and forwards commands into the Python CLI
 - State store
   - persists jobs, plans, events, evidence, and memory files
 - Planner
@@ -20,7 +22,7 @@
 ## System Decomposition
 
 - Preparation flow:
-  - `task`, `review`, and `run` create a job and a persisted plan
+  - `task`, `review`, and `run` create a job and a persisted plan through the Python CLI
   - the plan carries step dependencies, retry limits, and acceptance criteria
 - Execution flow:
   - orchestrator loads job and plan
@@ -32,6 +34,7 @@
   - job status is derived from plan outcome
   - evidence bundle is written
   - a memory entry is appended for future retrieval
+  - `cancel` marks non-terminal jobs and their plans consistently
 
 ## Data Flow
 
@@ -48,6 +51,7 @@
 ## External Dependencies
 
 - local filesystem under project root
+- Python interpreter on PATH
 - optional local assistant CLI or shell-accessible tools
 - no database, vector service, queue, or remote scheduler
 

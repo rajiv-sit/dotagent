@@ -61,24 +61,24 @@ The active enhancement is to raise the runtime from a simple prompt wrapper into
 - `milestone.md`
 - `PLAN.md`
 
-## Recent Enhancements (Latest Session)
+## Architecture Decision (April 16, 2026)
 
-### ✅ Issue #1: Real DAG Planner (100% Complete)
-- **What**: Replaced fixed 5-stage pipeline (HLD→DD→CODE→TEST→REVIEW) with intelligent DAG generation
-- **How**: Created `dag_planner.py` with component decomposition and dependency analysis
-- **Impact**: Goals like "Build UI + backend + database" now generate 3 independent parallel tasks instead of 5 sequential stages
-- **Status**: Integrated into `New-Workflow()`, tested with 7/7 validation checks
-- **Location**: `runtime/dotagent_runtime/dag_planner.py`, `scripts/run-agent.ps1`
+**Split responsibility clearly:**
 
-### ✅ Issue #5: Memory Integration (100% Complete)  
-- **What**: Integrated memory system into orchestration lifecycle
-- **How**: Added pre-planning lesson retrieval and post-failure lesson storage
-- **Impact**: System now learns from failures (extract keywords → store lesson → inject into future tasks)
-- **Status**: Integrated into `New-Workflow()` and `Invoke-Workflow()`, tested with 6/6 validation checks  
-- **Location**: `runtime/dotagent_runtime/memory_integration.py`, `scripts/run-agent.ps1`
+- **dotagent does**: Execution, validation, feedback, state management
+- **External LLM does**: Reasoning, planning, deciding, learning
 
-### Overall Impact
-- Agentic Score: 75% → **95%**
-- System now exhibits true autonomous characteristics: dynamic planning, parallel execution, learning from experience
-- See `INTEGRATION_REPORT_ISSUES_1_5.md` for detailed analysis and test results
+**Why**: Each layer does one thing well instead of pretending to do everything
+
+See `docs/ARCHITECTURE_HONEST_DESIGN.md` for detailed rationale and design.
+
+### Production-Ready Components
+
+- ✅ **Execution Engine**: Deterministic tool execution with timeouts and retries
+- ✅ **Output Validator**: Rigorous property checking (syntax, tests, requirements, artifacts)
+- ✅ **State Manager**: Reliable job tracking and artifact persistence
+- ✅ **Feedback Collector**: Comprehensive error reporting to external LLM
+- ✅ **Orchestrator**: Reliable coordination of jobs and workflows
+
+All components tested and integrated into `scripts/run-agent.ps1`
 

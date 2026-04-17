@@ -66,8 +66,9 @@ $templatesRoot = Join-Path $sourceRoot "templates"
 $rootDocsSource = Join-Path $templatesRoot "root-docs"
 $runtimeSource = Join-Path $templatesRoot "runtime"
 $workflowSource = Join-Path $templatesRoot "workflows"
+$pythonRuntimeSource = Join-Path $sourceRoot "runtime\dotagent_runtime"
 
-foreach ($requiredPath in @($rootDocsSource, $runtimeSource, $workflowSource)) {
+foreach ($requiredPath in @($rootDocsSource, $runtimeSource, $workflowSource, $pythonRuntimeSource)) {
     if (-not (Test-Path -LiteralPath $requiredPath)) {
         throw "Required template path not found: $requiredPath"
     }
@@ -87,6 +88,8 @@ Copy-ManagedFile -Source (Join-Path $runtimeSource "hooks.json") -Destination (J
 foreach ($name in @("agents", "hooks", "rules", "schemas", "skills", "scripts")) {
     Copy-ManagedDirectory -Source (Join-Path $runtimeSource $name) -Destination (Join-Path $agentRoot $name) -Force:$Force
 }
+
+Copy-ManagedDirectory -Source $pythonRuntimeSource -Destination (Join-Path $agentRoot "runtime\dotagent_runtime") -Force:$Force
 
 Copy-ManagedDirectory -Source $rootDocsSource -Destination (Join-Path $agentRoot "templates\root-docs") -Force:$Force
 Copy-ManagedDirectory -Source $workflowSource -Destination (Join-Path $agentRoot "workflows") -Force:$Force

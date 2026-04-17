@@ -1,0 +1,33 @@
+﻿{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "dotagent task output",
+  "type": "object",
+  "required": ["summary"],
+  "properties": {
+    "summary": {
+      "type": "string"
+    },
+    "observed_facts": {
+      "type": "array",
+      "items": { "type": "string" }
+    },
+    "inferences": {
+      "type": "array",
+      "items": { "type": "string" }
+    },
+    "files_touched": {
+      "type": "array",
+      "items": { "type": "string" }
+    },
+    "verification": {
+      "type": "array",
+      "items": { "type": "string" }
+    },
+    "risks": {
+      "type": "array",
+      "items": { "type": "string" }
+    }
+  },
+  "additionalProperties": true
+}
+

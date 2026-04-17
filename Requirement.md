@@ -21,7 +21,7 @@ This enhancement targets the in-repo runtime implementation, with priority on th
 - FR-7: The validator must evaluate step outputs against explicit acceptance criteria and produce corrective actions on failure.
 - FR-8: The runtime must persist evidence bundles containing the job, plan, outputs, validation results, and a reproducibility hash.
 - FR-9: The runtime must store run history in local memory and expose enough context for later runs to retrieve relevant prior outcomes.
-- FR-10: The CLI must preserve existing `setup`, `task`, `review`, `run`, `status`, and `result` flows.
+- FR-10: The CLI must preserve existing `setup`, `task`, `review`, `run`, `status`, `result`, and `cancel` flows.
 - FR-11: The runtime must persist per-run telemetry including step traces, durations, retries, and aggregate metrics.
 - FR-12: `status` and `result` must surface telemetry summaries without requiring users to inspect raw event logs manually.
 - FR-13: The memory subsystem must support semantic-style retrieval, not only exact token matching.
@@ -30,6 +30,8 @@ This enhancement targets the in-repo runtime implementation, with priority on th
 - FR-16: The runtime must model explicit agent roles for planner, executor, validator, memory, and review responsibilities.
 - FR-17: The runtime must support external execution targets such as Slurm and Kubernetes through local adapter tools.
 - FR-18: The validator must support richer policy-based SLO checks including latency and metric policies.
+- FR-19: PowerShell entrypoints must remain thin compatibility wrappers over the Python runtime rather than owning orchestration logic themselves.
+- FR-20: The installer must deploy the Python runtime package into consumer repos so `.agent/scripts/run-agent.ps1` can execute without depending on this source repo layout.
 
 ## Non-Functional Requirements
 
@@ -45,7 +47,7 @@ This enhancement targets the in-repo runtime implementation, with priority on th
 ## Data Definition
 
 - Input:
-  - CLI command arguments (`setup`, `task`, `review`, `run`, `status`, `result`)
+  - CLI command arguments (`setup`, `task`, `review`, `run`, `status`, `result`, `cancel`)
   - job objective or review target
   - optional step payloads such as shell commands, fallback commands, and acceptance criteria
 - Output:
@@ -67,3 +69,4 @@ This enhancement targets the in-repo runtime implementation, with priority on th
 - Existing jobs or plans that predate the new step metadata fields
 - Dry-run style execution where a shell step has no command and should remain safe
 - Telemetry files missing for legacy jobs should not break `status` or `result`
+- Cancellation requests against non-terminal jobs must mark both the job and its plan consistently

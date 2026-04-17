@@ -97,6 +97,26 @@ class TestOrchestrator(unittest.TestCase):
         self.assertEqual(result["job"]["status"], "SUCCESS")
         self.assertTrue(semantic_hits)
 
+    def test_cancel_marks_job_and_plan(self):
+        root = self._make_test_root()
+        self._seed_required_docs(root)
+        setup_runtime(str(root))
+        orch = Orchestrator(str(root))
+        prepared = orch.prepare_task("cancel me")
+
+        cancelled = orch.cancel(prepared["job"]["id"])
+
+        self.assertEqual(cancelled["job"]["status"], "CANCELLED")
+        self.assertIsNotNone(cancelled["plan"])
+        self.assertTrue(cancelled["plan"]["metadata"]["cancelled"])
+        self.assertTrue(
+            all(
+                step["status"] == "CANCELLED"
+                for step in cancelled["plan"]["steps"]
+                if step["status"] == "CANCELLED"
+            )
+        )
+
 
 if __name__ == "__main__":
     unittest.main()

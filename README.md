@@ -23,6 +23,7 @@ Your assistant should use the project-local `AGENTS.md` and `your-project\.agent
 ## Prerequisites
 
 - Windows with PowerShell
+- Python 3 available as `python`
 - a working local assistant CLI installation available as `agent` or `agent.cmd`
 - a repo where you want project-local assistant behavior
 
@@ -480,20 +481,19 @@ That model makes the project portable for any developer who clones the repo.
 
 ## Local Runtime
 
-`.agent/scripts/dotagent.ps1` is a small local runtime for prompt packaging and job tracking.
+`.agent/scripts/dotagent.ps1` is a thin PowerShell entrypoint over the Python runtime.
 
-It can:
+The Python runtime can:
 
 - prepare task prompts
 - prepare review prompts
 - track local job records
-- optionally execute prepared prompts through the local agent CLI
+- optionally execute prepared plans directly through its local tool registry
 
 Notes:
 
-- `-Execute` requires a working local agent CLI and authentication state
 - prepare-only mode is the safe default
-- `cancel` updates local job state only; it does not terminate an already running external assistant process
+- `cancel` updates local job and plan state only; it does not terminate an already running external process
 
 ## Optional Graph And Wiki Support
 
@@ -528,5 +528,4 @@ That is the shortest path from a repo with a `dotagent/` folder to a repo that a
 - `dotagent` is intended to be reused across many repos
 - the installed project files are what your assistant should read and follow
 - the `dotagent/` folder is the source pack and installer source
-
 
