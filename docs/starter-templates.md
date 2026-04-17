@@ -2,6 +2,8 @@
 
 Copy-and-paste templates for common document types. Customize with your project details.
 
+For the installable source templates that ship with `dotagent`, see [templates/README.md](../templates/README.md).
+
 ## CONTEXT.md - Starter Template
 
 ```markdown
@@ -532,4 +534,15 @@ $ npm run build
 4. **Refine** based on feedback
 
 All templates are markdown - easy to version control and edit collaboratively.
+
+## Repo Template Sources
+
+- [templates/root-docs/AGENTS.md](../templates/root-docs/AGENTS.md)
+- [templates/root-docs/CONTEXT.md](../templates/root-docs/CONTEXT.md)
+- [templates/root-docs/PLAN.md](../templates/root-docs/PLAN.md)
+- [templates/root-docs/Requirement.md](../templates/root-docs/Requirement.md)
+- [templates/root-docs/Architecture.md](../templates/root-docs/Architecture.md)
+- [templates/root-docs/HLD.md](../templates/root-docs/HLD.md)
+- [templates/root-docs/DD.md](../templates/root-docs/DD.md)
+- [templates/root-docs/milestone.md](../templates/root-docs/milestone.md)
 

@@ -29,3 +29,8 @@ These schemas define structured output contracts and document templates for proj
 ## Notes
 
 Schemas are intentionally simple so teams can evolve them without coupling to a plugin runtime. Use them to enforce consistency across projects rather than strict validation.
+
+## Related Docs
+
+- [templates/README.md](../../README.md)
+- [runtime/rules/README.md](../rules/README.md)

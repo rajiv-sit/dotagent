@@ -68,6 +68,15 @@ Optional:
 
 **[-> Start with Navigation Hub if you're lost](docs/index.md)**
 
+**Design docs hub** -> [docs/design/README.md](docs/design/README.md)
+
+**Maintainer indexes**:
+- [agents/README.md](agents/README.md)
+- [rules/README.md](rules/README.md)
+- [skills/README.md](skills/README.md)
+- [prompts/README.md](prompts/README.md)
+- [docs/IMPLEMENTATION_INDEX.md](docs/IMPLEMENTATION_INDEX.md)
+
 ---
 
 ## Staying Updated
@@ -138,11 +147,12 @@ powershell -ExecutionPolicy Bypass -File .\.agent\scripts\init-project-docs.ps1 
 
 This creates:
 
-- `docs/design/Requirement.md`
-- `docs/design/Architecture.md`
-- `docs/design/HLD.md`
-- `docs/design/DD.md`
-- `docs/design/milestone.md`
+- [docs/design/Requirement.md](docs/design/Requirement.md)
+- [docs/design/Architecture.md](docs/design/Architecture.md)
+- [docs/design/HLD.md](docs/design/HLD.md)
+- [docs/design/DD.md](docs/design/DD.md)
+- [docs/design/milestone.md](docs/design/milestone.md)
+- [docs/design/README.md](docs/design/README.md)
 
 5. Initialize the local runtime:
 
@@ -358,11 +368,13 @@ Having issues? Check [Troubleshooting Guide](docs/troubleshooting.md) for:
 
 Before substantial implementation, create:
 
-- `docs/design/Requirement.md`
-- `docs/design/Architecture.md`
-- `docs/design/HLD.md`
-- `docs/design/DD.md`
-- `docs/design/milestone.md`
+- [docs/design/Requirement.md](docs/design/Requirement.md)
+- [docs/design/Architecture.md](docs/design/Architecture.md)
+- [docs/design/HLD.md](docs/design/HLD.md)
+- [docs/design/DD.md](docs/design/DD.md)
+- [docs/design/milestone.md](docs/design/milestone.md)
+
+Use [docs/design/README.md](docs/design/README.md) as the design-doc index.
 
 Fastest path:
 

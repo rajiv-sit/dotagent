@@ -6,6 +6,12 @@ Use them through the local runtime in `scripts/dotagent.ps1` or copy/adapt them 
 
 ## Included
 
-- `task.md`
-- `review.md`
+- [task.md](task.md)
+- [review.md](review.md)
+
+## Related Docs
+
+- [README.md](../README.md#local-runtime)
+- [skills/README.md](../skills/README.md)
+- [docs/IMPLEMENTATION_INDEX.md](../docs/IMPLEMENTATION_INDEX.md)
 

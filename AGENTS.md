@@ -15,11 +15,12 @@ Before substantial implementation, read these operational root markdown files di
 
 Then read these design documents under `docs/design/` when they exist:
 
-- `docs/design/Requirement.md`
-- `docs/design/Architecture.md`
-- `docs/design/HLD.md`
-- `docs/design/DD.md`
-- `docs/design/milestone.md`
+- [docs/design/README.md](docs/design/README.md)
+- [docs/design/Requirement.md](docs/design/Requirement.md)
+- [docs/design/Architecture.md](docs/design/Architecture.md)
+- [docs/design/HLD.md](docs/design/HLD.md)
+- [docs/design/DD.md](docs/design/DD.md)
+- [docs/design/milestone.md](docs/design/milestone.md)
 
 If they are missing or incomplete, prefer completing them before major implementation.
 

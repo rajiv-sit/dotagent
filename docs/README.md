@@ -128,6 +128,28 @@ The main project documentation lives in the root folder:
 | [AGENTS.md](../AGENTS.md) | Project setup and assistant instructions |
 | [README.md](../README.md) | Project overview and getting started |
 
+## Design Docs
+
+The required design artifacts live under [`docs/design/`](design/README.md):
+
+- [Design Docs Hub](design/README.md)
+- [Requirement.md](design/Requirement.md)
+- [Architecture.md](design/Architecture.md)
+- [HLD.md](design/HLD.md)
+- [DD.md](design/DD.md)
+- [milestone.md](design/milestone.md)
+
+## Maintainer References
+
+If you are extending dotagent itself, use these indexes:
+
+- [Agents Index](../agents/README.md)
+- [Rules Index](../rules/README.md)
+- [Skills Index](../skills/README.md)
+- [Prompts Index](../prompts/README.md)
+- [Templates Index](../templates/README.md)
+- [Implementation Index](IMPLEMENTATION_INDEX.md)
+
 ## Next Steps
 
 1. **New to dotagent?** -> [Quick Start](quick-start.md)

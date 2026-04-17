@@ -47,7 +47,7 @@ You're building something from scratch and want to use dotagent from day one.
 
 **Start here:**
 1. [Quick Start](quick-start.md) (10 min) - Install and set up
-2. Fill minimal docs (CONTEXT.md, PLAN.md, Requirement.md, Architecture.md)
+2. Open [Design Docs Hub](design/README.md) and fill the minimum set: [Requirement.md](design/Requirement.md), [Architecture.md](design/Architecture.md), [HLD.md](design/HLD.md), [DD.md](design/DD.md), [milestone.md](design/milestone.md)
 3. [When to Use Each Skill](../README.md#when-to-use-each-skill) - Understand the workflow
 4. Ask your assistant to implement your first feature
 
@@ -216,6 +216,8 @@ You know what you want to do, just need the how-to.
 | [GitHub Actions Integration](github-actions-integration.md) | 30 min | Teams with CI/CD |
 | [Case Study](case-study.md) | 15 min | Learning by example |
 | [Starter Templates](starter-templates.md) | 10 min | Copying example docs |
+| [Design Docs Hub](design/README.md) | 5 min | Anyone creating project design artifacts |
+| [Implementation Index](IMPLEMENTATION_INDEX.md) | 10 min | Maintainers and contributors |
 
 ---
 
@@ -225,6 +227,7 @@ You know what you want to do, just need the how-to.
 - [What is dotagent?](../README.md#what-it-is)
 - [When to use each agent](../README.md#when-to-use-each-agent)
 - [When to use each skill](../README.md#when-to-use-each-skill)
+- [Design docs hub](design/README.md)
 
 **Getting Started:**
 - [5-minute setup](quick-start.md#5-minute-setup)
@@ -235,11 +238,19 @@ You know what you want to do, just need the how-to.
 - [Creating stack rules](customize-for-your-stack.md)
 - [Rule precedence](rule-hierarchy.md)
 - [Multi-team governance](customize-for-your-stack.md#keeping-rules-dry-across-teams)
+- [Rules index](../rules/README.md)
 
 **Troubleshooting:**
 - [Installation issues](troubleshooting.md#installation--setup)
 - [Rules not working](troubleshooting.md#rules--validation)
 - [Performance issues](troubleshooting.md#performance--token-usage)
+
+**Maintainers:**
+- [Agents index](../agents/README.md)
+- [Skills index](../skills/README.md)
+- [Prompts index](../prompts/README.md)
+- [Templates index](../templates/README.md)
+- [Implementation index](IMPLEMENTATION_INDEX.md)
 
 ---
 

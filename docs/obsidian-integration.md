@@ -31,6 +31,8 @@ your-project/
 
 Open the project root as a vault in Obsidian: `File > Open folder as vault > select project root`
 
+If you want an example starter note, see [obsidian/Welcome.md](../obsidian/Welcome.md).
+
 ### 2. Enable Core Plugins
 
 In Obsidian settings:

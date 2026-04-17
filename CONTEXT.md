@@ -45,21 +45,24 @@ The active enhancement is to raise the runtime from a simple prompt wrapper into
 
 ## Important Paths
 
-- `scripts/dotagent.ps1`: main runtime and orchestration entry point
+- `runtime/dotagent_runtime/cli.py`: canonical runtime and orchestration entry point
+- `scripts/dotagent.ps1`: PowerShell compatibility wrapper over the Python runtime
 - `scripts/install-dotagent.ps1`: source-pack installer
-- `scripts/init-project-docs.ps1`: root doc bootstrapper
+- `scripts/init-project-docs.ps1`: project-doc bootstrapper
 - `schemas/*.json`: output and document contracts
 - `prompts/task.md`, `prompts/review.md`: prompt templates
 - `.dotagent-state/`: runtime persistence
 
 ## Linked Docs
 
-- `docs/design/Requirement.md`
-- `docs/design/Architecture.md`
-- `docs/design/HLD.md`
-- `docs/design/DD.md`
-- `docs/design/milestone.md`
-- `PLAN.md`
+- [docs/design/README.md](docs/design/README.md)
+- [docs/design/Requirement.md](docs/design/Requirement.md)
+- [docs/design/Architecture.md](docs/design/Architecture.md)
+- [docs/design/HLD.md](docs/design/HLD.md)
+- [docs/design/DD.md](docs/design/DD.md)
+- [docs/design/milestone.md](docs/design/milestone.md)
+- [docs/ARCHITECTURE_HONEST_DESIGN.md](docs/ARCHITECTURE_HONEST_DESIGN.md)
+- [PLAN.md](PLAN.md)
 
 ## Architecture Decision (April 16, 2026)
 
@@ -70,7 +73,7 @@ The active enhancement is to raise the runtime from a simple prompt wrapper into
 
 **Why**: Each layer does one thing well instead of pretending to do everything
 
-See `docs/ARCHITECTURE_HONEST_DESIGN.md` for detailed rationale and design.
+See [docs/ARCHITECTURE_HONEST_DESIGN.md](docs/ARCHITECTURE_HONEST_DESIGN.md) for detailed rationale and design.
 
 ### Production-Ready Components
 
