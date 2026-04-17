@@ -121,7 +121,6 @@ novax/
 |   |-- hooks.json
 |   |-- agents/
 |   |-- hooks/
-|   |-- prompts/
 |   |-- rules/
 |   |-- schemas/
 |   |-- scripts/
@@ -162,7 +161,6 @@ The installer copies:
 - `dotagent/hooks.json` -> `./.agent/hooks.json`
 - `dotagent/agents/*` -> `./.agent/agents/*`
 - `dotagent/hooks/*` -> `./.agent/hooks/*`
-- `dotagent/prompts/*` -> `./.agent/prompts/*`
 - `dotagent/rules/*` -> `./.agent/rules/*`
 - `dotagent/schemas/*` -> `./.agent/schemas/*`
 - `dotagent/scripts/*` -> `./.agent/scripts/*`

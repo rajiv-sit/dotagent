@@ -65,6 +65,17 @@ class Orchestrator:
 
         query = target or job["input"].get("goal") or job["input"].get("target", "")
         memory_hits = self.memory.build_context(query)
+        
+        # Retrieve applicable lessons and success patterns to inform execution
+        applicable_lessons = self.memory.get_applicable_lessons(query, limit=3)
+        success_patterns = self.memory.get_success_patterns(query, limit=3)
+        
+        # Add adaptive recommendations to metadata
+        if not plan.get("metadata"):
+            plan["metadata"] = {}
+        plan["metadata"]["adaptive_lessons"] = applicable_lessons
+        plan["metadata"]["prior_successes"] = success_patterns
+        
         self.store.update_job(job_id, status="RUNNING", metadata={**job.get("metadata", {}), "prepared_only": False})
         self.store.emit_event("job_running", {"job_id": job_id, "plan_id": plan_id})
 
@@ -198,6 +209,26 @@ class Orchestrator:
                 metadata={"job_id": job_id, "status": final_status, "timestamp": utc_now()},
             )
         )
+        
+        # Record adaptive lessons for future runs
+        if final_status == "SUCCESS":
+            # Store successful approach pattern
+            work_types = plan.get("metadata", {}).get("work_types", [])
+            if work_types:
+                approach = f"Goals with {len(work_types)} specialized checks: {', '.join(work_types)}"
+                self.memory.put_success_pattern(plan.get("goal"), approach)
+        else:
+            # Record failure lessons for future adaptive planning
+            failed_steps = [s for s in plan.get("steps", []) if s.get("status") == "FAILED"]
+            for step in failed_steps:
+                pattern = f"Failed {step.get('kind')}: {step.get('last_error', 'unknown')}"
+                correctives = step.get("payload", {}).get("replan", {}).get("corrective_actions", [])
+                if correctives:
+                    self.memory.put_failure_lesson(
+                        pattern,
+                        f"Try: {'; '.join(correctives)}",
+                        [plan.get("goal", "").lower()],
+                    )
         self.memory.put_semantic_summary(
             text=f"{plan.get('goal')} {final_status} {' '.join(output['step_id'] for output in outputs)}",
             metadata={"job_id": job_id, "plan_id": plan_id, "status": final_status},

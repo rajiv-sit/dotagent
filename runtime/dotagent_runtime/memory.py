@@ -76,6 +76,51 @@ class MemoryManager:
     def put_semantic_summary(self, text: str, metadata: Dict[str, Any]) -> None:
         self.put(MemoryEntry(namespace="semantic", text=text, metadata=metadata))
 
+    def put_failure_lesson(self, pattern: str, corrective_action: str, keywords: List[str]) -> None:
+        """
+        Record a learned lesson from a failure for future adaptive planning.
+        
+        Args:
+            pattern: Description of the failure pattern (e.g., "timeout_on_large_data")
+            corrective_action: Recommended action or workaround
+            keywords: Relevant keywords to match against future goals
+        """
+        self.put(MemoryEntry(
+            namespace="lessons",
+            text=f"{pattern}: {corrective_action}",
+            metadata={
+                "pattern": pattern,
+                "corrective_action": corrective_action,
+                "keywords": keywords,
+                "learned_at": utc_now(),
+            },
+        ))
+
+    def get_applicable_lessons(self, goal: str, limit: int = 3) -> List[Dict[str, Any]]:
+        """Retrieve lessons learned that might apply to the current goal."""
+        return self.search("lessons", goal, limit=limit)
+
+    def put_success_pattern(self, goal_pattern: str, successful_approach: str) -> None:
+        """
+        Record a successful execution pattern for reuse.
+        
+        Args:
+            goal_pattern: Pattern of goals this approach worked for
+            successful_approach: Description of the successful approach
+        """
+        self.put(MemoryEntry(
+            namespace="success_patterns",
+            text=goal_pattern,
+            metadata={
+                "approach": successful_approach,
+                "recorded_at": utc_now(),
+            },
+        ))
+
+    def get_success_patterns(self, goal: str, limit: int = 3) -> List[Dict[str, Any]]:
+        """Retrieve similar successful patterns from prior runs."""
+        return self.search("success_patterns", goal, limit=limit)
+
     def _tokenize(self, text: str) -> List[str]:
         return [token.lower() for token in TOKEN_RE.findall(text)]
 

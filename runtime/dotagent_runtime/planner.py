@@ -10,7 +10,199 @@ class Planner:
     Adaptive local planner.
     It creates a persisted DAG, assigns roles/priority, and can apply
     bounded corrective updates when a step fails.
+    
+    Goal decomposition patterns:
+    - auth/security -> add security validation
+    - performance/optimize -> add benchmarking
+    - refactor -> add impact analysis
+    - deploy -> add packaging and rollout
+    - test/coverage -> add coverage analysis
+    - database/migrate -> add migration safety checks
+    - api -> add contract testing
+    - documentation -> add doc validation
     """
+
+    def _decompose_goal(self, goal: str, context: Dict[str, Any] | None = None) -> List[str]:
+        """
+        Analyze goal and return content-specific work types to include in plan.
+        Returns list of step kinds to add beyond base discover/plan/execute/validate/review.
+        """
+        lower_goal = goal.lower()
+        work_types = []
+
+        # Security/auth patterns
+        if any(keyword in lower_goal for keyword in ["auth", "security", "encrypt", "token", "credential"]):
+            work_types.append("SECURITY_CHECK")
+        
+        # Performance patterns
+        if any(keyword in lower_goal for keyword in ["performance", "optimize", "speed", "benchmark", "latency"]):
+            work_types.append("PERFORMANCE_CHECK")
+        
+        # Testing patterns
+        if any(keyword in lower_goal for keyword in ["test", "coverage", "mock"]):
+            work_types.append("COVERAGE_ANALYSIS")
+        
+        # Database patterns
+        if any(keyword in lower_goal for keyword in ["database", "migrate", "schema", "sql"]):
+            work_types.append("MIGRATION_CHECK")
+        
+        # API patterns
+        if any(keyword in lower_goal for keyword in ["api", "endpoint", "interface"]):
+            work_types.append("CONTRACT_TEST")
+        
+        # Refactor patterns
+        if any(keyword in lower_goal for keyword in ["refactor", "restructure", "reorganize"]):
+            work_types.append("IMPACT_ANALYSIS")
+        
+        # Documentation patterns
+        if any(keyword in lower_goal for keyword in ["document", "readme", "guide"]):
+            work_types.append("DOC_VALIDATION")
+        
+        # Deployment patterns
+        if any(keyword in lower_goal for keyword in ["deploy", "release", "rollout"]):
+            work_types.append("PACKAGING")
+            work_types.append("DEPLOYMENT_CHECK")
+        
+        return work_types
+
+    def _create_specialized_steps(self, work_types: List[str], base_priority: int = 45) -> List[Step]:
+        """Create specialized validation/check steps based on goal decomposition."""
+        steps = []
+        priority = base_priority
+
+        if "SECURITY_CHECK" in work_types:
+            steps.append(Step(
+                id="security_check",
+                name="Security and authentication review",
+                kind="SECURITY_CHECK",
+                depends_on=["execute"],
+                tool="security_validator",
+                payload={"exclude_patterns": ["*.pyc", "__pycache__"]},
+                acceptance={"status_equals": "PASS"},
+                priority=priority,
+                agent_role="security_agent",
+                parallel_group="post_execute",
+            ))
+            priority += 1
+
+        if "PERFORMANCE_CHECK" in work_types:
+            steps.append(Step(
+                id="performance_check",
+                name="Performance profiling and benchmarking",
+                kind="PERFORMANCE_CHECK",
+                depends_on=["execute"],
+                tool="performance_validator",
+                payload={},
+                acceptance={"status_equals": "PASS"},
+                priority=priority,
+                agent_role="performance_agent",
+                parallel_group="post_execute",
+            ))
+            priority += 1
+
+        if "COVERAGE_ANALYSIS" in work_types:
+            steps.append(Step(
+                id="coverage",
+                name="Code coverage analysis",
+                kind="COVERAGE_ANALYSIS",
+                depends_on=["execute"],
+                tool="coverage_validator",
+                payload={"coverage_threshold": 80.0},
+                acceptance={"status_equals": "PASS"},
+                priority=priority,
+                agent_role="validator_agent",
+                parallel_group="post_execute",
+            ))
+            priority += 1
+
+        if "MIGRATION_CHECK" in work_types:
+            steps.append(Step(
+                id="migration_check",
+                name="Database migration safety check",
+                kind="MIGRATION_CHECK",
+                depends_on=["execute"],
+                tool="validator",
+                payload={"checks": ["migration_reversible", "no_data_loss"]},
+                acceptance={"status_equals": "PASS"},
+                priority=priority,
+                agent_role="validator_agent",
+                parallel_group="post_execute",
+            ))
+            priority += 1
+
+        if "CONTRACT_TEST" in work_types:
+            steps.append(Step(
+                id="contract_test",
+                name="API contract and interface testing",
+                kind="CONTRACT_TEST",
+                depends_on=["execute"],
+                tool="test_runner",
+                payload={"command": None},
+                acceptance={"status_equals": "PASS"},
+                priority=priority,
+                agent_role="validator_agent",
+                parallel_group="post_execute",
+            ))
+            priority += 1
+
+        if "IMPACT_ANALYSIS" in work_types:
+            steps.append(Step(
+                id="impact_analysis",
+                name="Refactoring impact analysis",
+                kind="IMPACT_ANALYSIS",
+                depends_on=["execute"],
+                tool="validator",
+                payload={"checks": ["no_breaking_changes", "backwards_compatible"]},
+                acceptance={"status_equals": "PASS"},
+                priority=priority,
+                agent_role="validator_agent",
+                parallel_group="post_execute",
+            ))
+            priority += 1
+
+        if "DOC_VALIDATION" in work_types:
+            steps.append(Step(
+                id="doc_validation",
+                name="Documentation accuracy and completeness",
+                kind="DOC_VALIDATION",
+                depends_on=["execute"],
+                tool="validator",
+                payload={"checks": ["no_broken_links", "commands_valid"]},
+                acceptance={"status_equals": "PASS"},
+                priority=priority,
+                agent_role="doc_agent",
+                parallel_group="post_execute",
+            ))
+            priority += 1
+
+        # Add build and lint validators if not already covered
+        if not any(w in work_types for w in ["PERFORMANCE_CHECK", "SECURITY_CHECK"]):
+            steps.append(Step(
+                id="build_check",
+                name="Build artifact and lint validation",
+                kind="BUILD_CHECK",
+                depends_on=["execute"],
+                tool="build_validator",
+                payload={"build_dirs": ["build/", "dist/", "bin/", "out/", "target/"]},
+                acceptance={"status_equals": "PASS"},
+                priority=priority,
+                agent_role="executor_agent",
+                parallel_group="post_execute",
+            ))
+            steps.append(Step(
+                id="lint_check",
+                name="Code quality and linting validation",
+                kind="LINT_CHECK",
+                depends_on=["execute"],
+                tool="lint_validator",
+                payload={},
+                acceptance={"status_equals": "PASS"},
+                priority=priority + 1,
+                agent_role="validator_agent",
+                parallel_group="post_execute",
+            ))
+
+        return steps
 
     def create_plan(
         self,
@@ -28,6 +220,9 @@ class Planner:
             inferred_target = "slurm"
         elif "kubernetes" in lower_goal or "k8s" in lower_goal:
             inferred_target = "kubernetes"
+
+        # Decompose goal to determine specialized steps
+        work_types = self._decompose_goal(goal, context)
 
         base = [
             Step(
@@ -132,11 +327,14 @@ class Planner:
                 payload={"checks": []},
             )
 
+            # Add specialized steps based on goal decomposition
+            specialized_steps = self._create_specialized_steps(work_types, base_priority=45)
+
             validate = Step(
                 id="validate",
                 name="Validate execution result",
                 kind="VALIDATE",
-                depends_on=["tests", "policy"],
+                depends_on=["tests", "policy"] + [s.id for s in specialized_steps],
                 tool="validator",
                 acceptance={"status_equals": "PASS"},
                 priority=70,
@@ -154,27 +352,31 @@ class Planner:
                 agent_role="review_agent",
             )
 
-            extra = [execute, verify_tests, policy, validate, review]
+            extra = [execute, verify_tests, policy] + specialized_steps + [validate, review]
 
         steps = base + extra
         if "deploy" in lower_goal and inferred_target == "local":
-            steps.insert(
-                -1,
-                Step(
-                    id="package",
-                    name="Package deployment artifact",
-                    kind="PACKAGE",
-                    depends_on=["execute"],
-                    tool="shell",
-                    payload={"command": 'python -c "print(\'package-ready\')"'},
-                    acceptance={"contains_text": "package-ready"},
-                    priority=55,
-                    agent_role="executor_agent",
-                    parallel_group="post_execute",
-                ),
+            # Insert package step before the final validate and review
+            package_step = Step(
+                id="package",
+                name="Package deployment artifact",
+                kind="PACKAGE",
+                depends_on=["execute"],
+                tool="shell",
+                payload={"command": 'python -c "print(\'package-ready\')"'},
+                acceptance={"contains_text": "package-ready"},
+                priority=55,
+                agent_role="executor_agent",
+                parallel_group="post_execute",
             )
-            validate = next(step for step in steps if step.id == "validate")
-            validate.depends_on = [dependency for dependency in validate.depends_on if dependency != "policy"] + ["policy", "package", "tests"]
+            validate_step = next((s for s in steps if s.id == "validate"), None)
+            if validate_step:
+                validate_step.depends_on = list(set(validate_step.depends_on + [package_step.id]))
+                # Insert package step right before validate
+                validate_idx = steps.index(validate_step)
+                steps.insert(validate_idx, package_step)
+            else:
+                steps.insert(-1, package_step)
 
         metadata = {
             "job_type": job_type,
@@ -184,6 +386,7 @@ class Planner:
             "planner_mode": "adaptive",
             "context_hits": sum(len(entries) for entries in (context or {}).values()) if context else 0,
             "roles": sorted({step.agent_role for step in steps}),
+            "work_types": work_types,
         }
         return Plan(
             id=new_id("plan"),
