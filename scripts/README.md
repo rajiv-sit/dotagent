@@ -11,6 +11,7 @@ This folder contains the install and runtime scripts for `dotagent`.
   - compatibility wrapper for `install-pack.ps1`
 - `init-project-docs.ps1`
   - creates the required design documents under `docs/design/` for a new project from `templates/root-docs/`
+  - writes `docs/dotagent-user-guide.html` from `templates/docs/` as the user-facing lifecycle manual
 - `run-agent.ps1`
   - thin PowerShell wrapper over the Python runtime for setup, preparation, execution, and status queries
   - forwards supported `task` and `run` options such as `-RuntimeCommand`, `-ExecutionTarget`, and `-Serial`

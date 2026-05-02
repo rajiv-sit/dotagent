@@ -69,11 +69,12 @@ function Copy-ManagedDirectory {
 $sourceRoot = Split-Path -Parent $PSScriptRoot
 $templatesRoot = Join-Path $sourceRoot "templates"
 $rootDocsSource = Join-Path $templatesRoot "root-docs"
+$docsTemplateSource = Join-Path $templatesRoot "docs"
 $runtimeSource = Join-Path $templatesRoot "runtime"
 $workflowSource = Join-Path $templatesRoot "workflows"
 $pythonRuntimeSource = Join-Path $sourceRoot "runtime\dotagent_runtime"
 
-foreach ($requiredPath in @($rootDocsSource, $runtimeSource, $workflowSource, $pythonRuntimeSource)) {
+foreach ($requiredPath in @($rootDocsSource, $docsTemplateSource, $runtimeSource, $workflowSource, $pythonRuntimeSource)) {
     if (-not (Test-Path -LiteralPath $requiredPath)) {
         throw "Required template path not found: $requiredPath"
     }
@@ -97,6 +98,7 @@ foreach ($name in @("agents", "hooks", "rules", "schemas", "skills", "scripts"))
 Copy-ManagedDirectory -Source $pythonRuntimeSource -Destination (Join-Path $agentRoot "runtime\dotagent_runtime") -Force:$Force
 
 Copy-ManagedDirectory -Source $rootDocsSource -Destination (Join-Path $agentRoot "templates\root-docs") -Force:$Force
+Copy-ManagedDirectory -Source $docsTemplateSource -Destination (Join-Path $agentRoot "templates\docs") -Force:$Force
 Copy-ManagedDirectory -Source $workflowSource -Destination (Join-Path $agentRoot "workflows") -Force:$Force
 
 Write-Output ""

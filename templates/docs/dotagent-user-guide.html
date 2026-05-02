@@ -1,0 +1,477 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>DotAgent User Guide</title>
+  <style>
+    :root {
+      color-scheme: light;
+      --bg: #f7f8fa;
+      --panel: #ffffff;
+      --text: #1d232f;
+      --muted: #5d6675;
+      --border: #d8dde6;
+      --accent: #255f85;
+      --accent-2: #2f7d57;
+      --code: #eef2f6;
+      --warn: #805b10;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--text);
+      font-family: "Segoe UI", Arial, sans-serif;
+      line-height: 1.55;
+    }
+
+    header {
+      background: #182230;
+      color: #ffffff;
+      padding: 40px 24px;
+      border-bottom: 4px solid var(--accent-2);
+    }
+
+    header h1 {
+      margin: 0 0 8px;
+      font-size: 32px;
+      letter-spacing: 0;
+    }
+
+    header p {
+      margin: 0;
+      max-width: 960px;
+      color: #d8e0ea;
+      font-size: 17px;
+    }
+
+    main {
+      width: min(1120px, calc(100% - 32px));
+      margin: 24px auto 48px;
+    }
+
+    section, nav {
+      background: var(--panel);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 24px;
+      margin: 16px 0;
+    }
+
+    h2 {
+      margin: 0 0 12px;
+      font-size: 24px;
+      color: var(--accent);
+    }
+
+    h3 {
+      margin: 22px 0 8px;
+      font-size: 18px;
+    }
+
+    p {
+      margin: 8px 0;
+    }
+
+    ul, ol {
+      margin: 8px 0 8px 22px;
+      padding: 0;
+    }
+
+    li {
+      margin: 5px 0;
+    }
+
+    code {
+      background: var(--code);
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      padding: 1px 5px;
+      font-family: Consolas, "Courier New", monospace;
+      font-size: 0.95em;
+    }
+
+    pre {
+      background: #111827;
+      color: #f3f4f6;
+      border-radius: 8px;
+      padding: 16px;
+      overflow-x: auto;
+      border: 1px solid #263244;
+    }
+
+    pre code {
+      background: transparent;
+      border: 0;
+      padding: 0;
+      color: inherit;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 12px 0;
+    }
+
+    th, td {
+      border: 1px solid var(--border);
+      padding: 10px;
+      vertical-align: top;
+      text-align: left;
+    }
+
+    th {
+      background: #edf3f8;
+      color: #16364d;
+    }
+
+    .note {
+      border-left: 4px solid var(--accent-2);
+      padding: 10px 12px;
+      background: #eff7f2;
+      color: #1d3b2b;
+    }
+
+    .warning {
+      border-left: 4px solid var(--warn);
+      padding: 10px 12px;
+      background: #fff7e6;
+      color: #4d370a;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 12px;
+    }
+
+    .card {
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 14px;
+      background: #fbfcfe;
+    }
+
+    .card h3 {
+      margin-top: 0;
+    }
+
+    .toc a {
+      color: var(--accent);
+      text-decoration: none;
+    }
+
+    .toc a:hover {
+      text-decoration: underline;
+    }
+
+    footer {
+      color: var(--muted);
+      text-align: center;
+      margin-top: 24px;
+      font-size: 14px;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>DotAgent User Guide</h1>
+    <p>Operational manual for moving from setup to a full engineering workflow: epics, Jira, codebase digestion, planning, implementation, peer review, validation, and evidence.</p>
+  </header>
+
+  <main>
+    <nav class="toc" aria-label="Table of contents">
+      <h2>Workflow Map</h2>
+      <div class="grid">
+        <div class="card"><a href="#bootstrap">1. Bootstrap</a><br>Install DotAgent and create project docs.</div>
+        <div class="card"><a href="#epics">2. Epics and Stories</a><br>Turn objectives into traceable work.</div>
+        <div class="card"><a href="#jira">3. Jira Intake</a><br>Interpret tickets, priorities, and dependencies.</div>
+        <div class="card"><a href="#digest">4. Codebase Digest</a><br>Build context from source, tests, and docs.</div>
+        <div class="card"><a href="#planning">5. Planning</a><br>Create a deterministic execution plan.</div>
+        <div class="card"><a href="#implementation">6. Implementation</a><br>Execute milestone by milestone.</div>
+        <div class="card"><a href="#review">7. Review and Validation</a><br>Respond to feedback and verify behavior.</div>
+        <div class="card"><a href="#evidence">8. Evidence</a><br>Produce auditable artifacts and reports.</div>
+      </div>
+    </nav>
+
+    <section id="bootstrap">
+      <h2>1. Bootstrap a Project</h2>
+      <p>Run these commands from the target project root after the <code>dotagent/</code> source pack is present:</p>
+      <pre><code>powershell -ExecutionPolicy Bypass -File .\dotagent\scripts\install-dotagent.ps1 -ProjectRoot .
+powershell -ExecutionPolicy Bypass -File .\.agent\scripts\init-project-docs.ps1 -ProjectRoot .
+powershell -ExecutionPolicy Bypass -File .\.agent\scripts\dotagent.ps1 setup</code></pre>
+      <p>This creates the operating surface for the assistant: <code>AGENTS.md</code>, <code>CONTEXT.md</code>, <code>PLAN.md</code>, <code>.agent/</code>, and <code>docs/design/</code>. Setup is not the end state. It is the starting point for the lifecycle below.</p>
+      <p class="note">Before asking for implementation, ask the assistant to read <code>AGENTS.md</code>, <code>CONTEXT.md</code>, <code>PLAN.md</code>, and <code>docs/design/</code>.</p>
+    </section>
+
+    <section id="epics">
+      <h2>2. Epic and Story Generation</h2>
+      <h3>Derive Epics From Objectives</h3>
+      <p>Start with a business objective, product requirement, incident theme, or platform goal. Ask DotAgent to identify the durable outcomes, system boundaries, users, constraints, and measurable success criteria.</p>
+      <pre><code>Read AGENTS.md, CONTEXT.md, PLAN.md, and docs/design/.
+Objective:
+&lt;paste product objective or requirement&gt;
+
+Generate candidate epics with:
+- business outcome
+- user or system actor
+- affected systems
+- functional scope
+- non-functional constraints
+- dependencies
+- measurable acceptance signals</code></pre>
+
+      <h3>Decompose Epics Into Stories</h3>
+      <p>Each story should be independently reviewable and traceable. Prefer small stories with explicit acceptance criteria, validation commands, and expected artifacts.</p>
+      <table>
+        <thead>
+          <tr><th>Field</th><th>Purpose</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>Story ID</td><td>Stable identifier, usually Jira key or local prefix.</td></tr>
+          <tr><td>User/System Goal</td><td>Who benefits and what outcome is needed.</td></tr>
+          <tr><td>Functional Requirements</td><td>Inputs, outputs, state changes, and interactions.</td></tr>
+          <tr><td>Non-Functional Requirements</td><td>Performance, reliability, security, determinism, scalability, and resource constraints.</td></tr>
+          <tr><td>Acceptance Criteria</td><td>Observable conditions that prove the story is complete.</td></tr>
+          <tr><td>Trace Links</td><td>References to requirements, architecture, code modules, tests, and evidence.</td></tr>
+        </tbody>
+      </table>
+
+      <pre><code>Decompose epic &lt;EPIC-ID&gt; into traceable user stories.
+For each story include:
+- story title
+- user/system value
+- functional requirements
+- non-functional requirements
+- acceptance criteria
+- dependencies
+- validation commands
+- expected evidence artifacts</code></pre>
+    </section>
+
+    <section id="jira">
+      <h2>3. Jira Integration and Interpretation</h2>
+      <p>DotAgent can work from pasted Jira content or from connected tooling when available. The important step is to normalize Jira artifacts into local, assistant-readable context.</p>
+
+      <h3>Ingest Jira Tickets</h3>
+      <pre><code>Read AGENTS.md, CONTEXT.md, PLAN.md, and docs/design/.
+Jira ticket:
+&lt;paste epic, story, task, comments, acceptance criteria, links, and priority&gt;
+
+Interpret this ticket and produce docs/plans/&lt;feature-name&gt;-plan.md.
+Include:
+- ticket summary
+- acceptance criteria
+- dependencies and blockers
+- priority and risk
+- system requirements mapping
+- architecture impact
+- implementation milestones
+- validation plan</code></pre>
+
+      <h3>Interpret Jira Fields</h3>
+      <ul>
+        <li><strong>Summary and description:</strong> derive intent, scope, and system boundary.</li>
+        <li><strong>Acceptance criteria:</strong> convert into validation checks and tests.</li>
+        <li><strong>Priority:</strong> influence sequencing, not correctness.</li>
+        <li><strong>Dependencies:</strong> identify prerequisite code, data, API, design, or team decisions.</li>
+        <li><strong>Comments:</strong> extract late-breaking decisions and unresolved questions.</li>
+        <li><strong>Linked issues:</strong> map upstream epics, related defects, and downstream tasks.</li>
+      </ul>
+
+      <p class="warning">Do not implement from a Jira title alone. Ask DotAgent to identify missing acceptance criteria, unknown dependencies, and assumptions before coding.</p>
+    </section>
+
+    <section id="digest">
+      <h2>4. Codebase Digestion and Context Building</h2>
+      <p>For existing projects, ask DotAgent to digest the repository before planning. The digest should connect source structure to requirements and Jira stories.</p>
+
+      <h3>Recommended Prompt</h3>
+      <pre><code>Digest this codebase for story &lt;JIRA-ID&gt;.
+Read AGENTS.md, CONTEXT.md, PLAN.md, docs/design/, package/build files, source modules, tests, and existing docs.
+
+Produce docs/plans/&lt;feature-name&gt;-codebase-digest.md with:
+- module map
+- key dependencies
+- current implementation relevant to the story
+- tests already covering the area
+- gaps and partial implementations
+- technical debt and risk
+- files likely to change</code></pre>
+
+      <h3>What to Analyze</h3>
+      <ul>
+        <li>Static structure: folders, modules, packages, entry points, and public APIs.</li>
+        <li>Dependency graph: framework dependencies, local module imports, external services, data stores, queues, and build tools.</li>
+        <li>Existing behavior: code paths, tests, fixtures, configuration, logs, and generated artifacts.</li>
+        <li>Traceability: which implementation already satisfies Jira acceptance criteria and which criteria are unmet.</li>
+        <li>Debt: duplication, missing tests, brittle boundaries, unsafe error handling, and unclear ownership.</li>
+      </ul>
+    </section>
+
+    <section id="planning">
+      <h2>5. Planning Phase</h2>
+      <p>The plan is the bridge between Jira, codebase context, and implementation. Store feature plans under <code>docs/plans/</code> so they can be reviewed and updated.</p>
+
+      <h3>Plan Contents</h3>
+      <table>
+        <thead>
+          <tr><th>Section</th><th>Required Content</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>Objective</td><td>What this feature, fix, or task must accomplish.</td></tr>
+          <tr><td>Inputs</td><td>Jira links, requirements, design docs, existing code references, and assumptions.</td></tr>
+          <tr><td>Milestones</td><td>Sequenced units of work with exit criteria.</td></tr>
+          <tr><td>Traceability Matrix</td><td>Jira item to requirement to code to test to evidence.</td></tr>
+          <tr><td>Validation</td><td>Commands, expected outputs, coverage expectations, and manual checks.</td></tr>
+          <tr><td>Risks</td><td>Known risks, mitigations, rollback notes, and open questions.</td></tr>
+        </tbody>
+      </table>
+
+      <pre><code>Using the Jira interpretation and codebase digest, generate docs/plans/&lt;feature-name&gt;-plan.md.
+The plan must include:
+- deterministic milestone order
+- task breakdown
+- file-level impact
+- test strategy
+- validation criteria
+- expected outputs
+- traceability from Jira to code and tests
+- risks, assumptions, and rollback notes</code></pre>
+    </section>
+
+    <section id="implementation">
+      <h2>6. Implementation Workflow</h2>
+      <p>Implementation starts only after the feature plan is clear. Work one milestone at a time and keep evidence current.</p>
+
+      <h3>Create a Branch and Execute</h3>
+      <pre><code>Read docs/plans/&lt;feature-name&gt;-plan.md.
+Create branch feature/&lt;feature-name&gt;.
+Implement milestone 1 only.
+Run the milestone validation commands.
+Fix failures.
+Update PLAN.md with progress and evidence.
+Then continue to the next milestone.</code></pre>
+
+      <h3>Maintain Traceability</h3>
+      <ul>
+        <li>Reference Jira IDs in branch names, commits, plans, tests, and PR summaries when possible.</li>
+        <li>Update <code>PLAN.md</code> when milestone status changes.</li>
+        <li>Update <code>CONTEXT.md</code> when a durable decision, constraint, risk, or architecture fact changes.</li>
+        <li>Keep code changes aligned with <code>docs/design/Requirement.md</code>, <code>Architecture.md</code>, <code>HLD.md</code>, <code>DD.md</code>, and <code>milestone.md</code>.</li>
+      </ul>
+    </section>
+
+    <section id="review">
+      <h2>7. Peer Review and Validation</h2>
+      <h3>Structured Peer Review</h3>
+      <pre><code>Review this branch against the feature plan and Jira acceptance criteria.
+Focus on:
+- correctness
+- requirement coverage
+- missing tests
+- security and reliability risks
+- regressions
+- maintainability
+- unclear assumptions
+
+Return findings ordered by severity with file and line references.</code></pre>
+
+      <h3>Respond to Review Comments</h3>
+      <pre><code>Read the peer review comments below.
+Address only actionable feedback.
+Keep the diff minimal.
+Run relevant validation after fixes.
+Update the plan or context only if project state changed.
+
+Review comments:
+&lt;paste comments&gt;</code></pre>
+
+      <h3>Pre-PR Validation</h3>
+      <p>Ask DotAgent to run the project-specific checks and fix failures before preparing a PR.</p>
+      <pre><code>Prepare this branch for PR.
+Run:
+- lint
+- unit tests
+- integration tests where available
+- coverage
+- pre-commit checks
+- markdown link checks where available
+
+Fix all failures.
+Summarize commands, results, changed files, risks, and remaining gaps.</code></pre>
+    </section>
+
+    <section id="evidence">
+      <h2>8. Evidence and Documentation</h2>
+      <p>Evidence makes the workflow auditable and reproducible. Every meaningful change should leave a clear record of what was requested, what changed, and how it was validated.</p>
+
+      <h3>Expected Artifacts</h3>
+      <ul>
+        <li><code>docs/plans/&lt;feature-name&gt;-plan.md</code>: feature execution plan.</li>
+        <li><code>docs/plans/&lt;feature-name&gt;-codebase-digest.md</code>: optional existing-code analysis.</li>
+        <li><code>docs/design/*.md</code>: requirement, architecture, HLD, DD, and milestone updates.</li>
+        <li><code>PLAN.md</code>: active progress and verification tracker.</li>
+        <li><code>CONTEXT.md</code>: durable decisions and architecture facts.</li>
+        <li>Test output, coverage reports, lint results, screenshots, logs, or runtime evidence as appropriate for the project.</li>
+      </ul>
+
+      <h3>PR Summary Template</h3>
+      <pre><code>Summary
+- What changed:
+- Why:
+- Jira/story links:
+- Requirements covered:
+- Architecture/design impact:
+
+Validation
+- Lint:
+- Tests:
+- Coverage:
+- Pre-commit:
+- Manual checks:
+
+Evidence
+- Plans:
+- Test reports:
+- Screenshots/logs:
+
+Risks
+- Known risks:
+- Rollback:
+- Follow-up:</code></pre>
+    </section>
+
+    <section id="full-prompt">
+      <h2>Full Lifecycle Prompt</h2>
+      <p>Use this when you want DotAgent to perform the whole workflow from task intake to PR readiness.</p>
+      <pre><code>Read AGENTS.md, CONTEXT.md, PLAN.md, and docs/design/.
+Use Jira ticket &lt;JIRA-ID&gt; below.
+
+Do the following:
+1. Interpret the Jira ticket and acceptance criteria.
+2. Digest the relevant codebase area.
+3. Generate docs/plans/&lt;feature-name&gt;-plan.md.
+4. Create branch feature/&lt;feature-name&gt;.
+5. Implement the plan one milestone at a time.
+6. Maintain traceability from Jira to requirements, code, tests, and evidence.
+7. Run lint, tests, coverage, pre-commit, and markdown link checks where available.
+8. Fix validation failures.
+9. Update PLAN.md and CONTEXT.md if project state changed.
+10. Prepare a PR summary with evidence, risks, and rollback notes.
+
+Jira ticket:
+&lt;paste ticket&gt;</code></pre>
+    </section>
+
+    <footer>
+      DotAgent operational guide. Keep this document with project docs so setup leads directly into engineering execution.
+    </footer>
+  </main>
+</body>
+</html>

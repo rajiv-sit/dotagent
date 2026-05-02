@@ -6,6 +6,8 @@ All notable dotagent source-pack changes are tracked here.
 
 ### Changed
 
+- Added `docs/dotagent-user-guide.html` as the single user-facing operational manual for the full engineering lifecycle after setup.
+- Updated project document initialization to place `docs/dotagent-user-guide.html` into new consumer projects automatically.
 - Kept the repository root intentionally small with only `AGENTS.md` and `README.md`.
 - Moved source-pack operational docs into `docs/root/`.
 - Updated hooks, health checks, runtime discovery, and documentation links for the `docs/root/` source layout.

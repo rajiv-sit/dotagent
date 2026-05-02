@@ -12,6 +12,34 @@ The active enhancement is to raise the runtime from a simple prompt wrapper into
 
 ## Key Decisions
 
+- Use a simple three-command bootstrap for new consumer projects.
+  - Run from the project root after the `dotagent/` folder is present:
+    - `powershell -ExecutionPolicy Bypass -File .\dotagent\scripts\install-dotagent.ps1 -ProjectRoot .`
+    - `powershell -ExecutionPolicy Bypass -File .\.agent\scripts\init-project-docs.ps1 -ProjectRoot .`
+    - `powershell -ExecutionPolicy Bypass -File .\.agent\scripts\dotagent.ps1 setup`
+  - Impact: a new project gets `AGENTS.md`, `CONTEXT.md`, `PLAN.md`, `.agent/`, `docs/design/`, and `docs/dotagent-user-guide.html` before feature work starts.
+
+- Setup must bridge into an operational lifecycle guide.
+  - Reason: environment initialization alone does not explain how to run epics, Jira intake, codebase digestion, planning, implementation, review, validation, and evidence workflows.
+  - Impact: `init-project-docs.ps1` writes `docs/dotagent-user-guide.html` so users have a single manual after setup.
+
+- Treat task or Jira intake as a plan-first workflow.
+  - Recommended request pattern: read `AGENTS.md`, `CONTEXT.md`, `PLAN.md`, and `docs/design/`; then generate `docs/plans/<feature-name>-plan.md` from the task or Jira ticket.
+  - The generated plan should capture requirements, architecture impact, implementation steps, likely files, tests, risks, and verification commands.
+  - Impact: implementation starts from a traceable feature plan instead of an unstructured prompt.
+
+- Use branch-per-feature execution after the plan exists.
+  - Recommended request pattern: create `feature/<feature-name>`, implement the generated plan one milestone at a time, validate after each milestone, and update `PLAN.md` plus `CONTEXT.md` when project state changes.
+  - Impact: work stays reviewable and aligned with the current execution tracker.
+
+- Treat peer review as a targeted fix workflow.
+  - Recommended request pattern: paste review comments, address only actionable feedback, keep diffs minimal, and rerun relevant validation.
+  - Impact: review response stays focused instead of turning into unrelated refactoring.
+
+- Require pre-PR validation.
+  - Recommended request pattern: run lint, tests, coverage, pre-commit checks, and markdown link checks where available; fix failures and summarize commands plus results.
+  - Impact: PRs carry concrete evidence for correctness and remaining risk.
+
 - Keep orchestration local and file-backed.
   - Reason: the current repo already uses local PowerShell scripts and JSON records.
   - Impact: easier debugging and adoption, but no distributed scheduler.
@@ -49,6 +77,7 @@ The active enhancement is to raise the runtime from a simple prompt wrapper into
 - `scripts/dotagent.ps1`: PowerShell compatibility wrapper over the Python runtime
 - `scripts/install-dotagent.ps1`: source-pack installer
 - `scripts/init-project-docs.ps1`: project-doc bootstrapper
+- `docs/dotagent-user-guide.html`: user-facing operational manual generated into consumer projects
 - `schemas/*.json`: output and document contracts
 - `prompts/task.md`, `prompts/review.md`: prompt templates
 - `.dotagent-state/`: runtime persistence

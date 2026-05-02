@@ -5,6 +5,7 @@ This directory contains the reusable source templates that `dotagent` installs o
 ## Template Groups
 
 - [Root Docs](root-docs/AGENTS.md)
+- [User Guide](docs/dotagent-user-guide.html)
 - [Runtime Agents](runtime/agents/README.md)
 - [Runtime Hooks](runtime/hooks/README.md)
 - [Runtime Rules](runtime/rules/README.md)
@@ -27,6 +28,10 @@ This directory contains the reusable source templates that `dotagent` installs o
 
 - [task.md](workflows/task.md)
 - [review.md](workflows/review.md)
+
+## User-Facing Docs
+
+- [dotagent-user-guide.html](docs/dotagent-user-guide.html)
 
 ## Related Docs
 

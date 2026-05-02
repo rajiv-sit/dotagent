@@ -7,8 +7,9 @@ This folder contains comprehensive guides for understanding, using, and extendin
 ### I'm New to dotagent
 Start here for fastest onboarding:
 1. [Quick Start](quick-start.md) - 5-minute setup and first task (5 min)
-2. [Navigation Hub](index.md) - Find guides by role, question, or time (2 min)
-3. [FAQ](faq.md) - Common questions answered (5-10 min)
+2. [DotAgent User Guide](dotagent-user-guide.html) - Full engineering workflow after setup (20 min)
+3. [Navigation Hub](index.md) - Find guides by role, question, or time (2 min)
+4. [FAQ](faq.md) - Common questions answered (5-10 min)
 
 ### I'm Integrating dotagent into My Project
 Follow this path:
@@ -35,6 +36,7 @@ All guides organized by purpose:
 | Guide | Purpose | Audience | Time |
 |-------|---------|----------|------|
 | [Quick Start](quick-start.md) | Get running in 5 minutes | New users | 5 min |
+| [DotAgent User Guide](dotagent-user-guide.html) | Operate the full lifecycle after setup | Developers, leads | 20 min |
 | [Navigation Hub](index.md) | Find guides by role, question, time | Any | 2 min |
 | [FAQ](faq.md) | Common questions answered | Any | 5-10 min |
 | [Troubleshooting](troubleshooting.md) | Solve 20+ common issues | Stuck users | 5 min |
@@ -53,6 +55,7 @@ All guides organized by purpose:
 ```
 docs/
 |-- README.md (you are here)
+|-- dotagent-user-guide.html - Full lifecycle operating manual
 |-- quick-start.md - Fastest path to value
 |-- index.md - Navigation hub by role/question
 |-- faq.md - Common Q&As with answers
@@ -77,9 +80,10 @@ docs/
 
 ### Developer
 1. [Quick Start](quick-start.md) - Get set up (5 min)
-2. [Using Skills](using-skills.md) - Learn workflows (15 min)
-3. [Customize for Your Stack](customize-for-your-stack.md) - Configure your language (10 min)
-4. [Rule Hierarchy](rule-hierarchy.md) - Understand project rules (5 min)
+2. [DotAgent User Guide](dotagent-user-guide.html) - Run the lifecycle after setup (20 min)
+3. [Using Skills](using-skills.md) - Learn workflows (15 min)
+4. [Customize for Your Stack](customize-for-your-stack.md) - Configure your language (10 min)
+5. [Rule Hierarchy](rule-hierarchy.md) - Understand project rules (5 min)
 
 ### Architect / Senior Engineer
 1. [Navigation Hub](index.md) - Overview of all docs (2 min)
@@ -127,6 +131,7 @@ The main project documentation lives in the root folder:
 | [PLAN.md](root/PLAN.md) | Active execution tracker (completed, in-progress, next steps) |
 | [AGENTS.md](../AGENTS.md) | Project setup and assistant instructions |
 | [README.md](../README.md) | Project overview and getting started |
+| [dotagent-user-guide.html](dotagent-user-guide.html) | User-facing operational manual for the engineering lifecycle |
 
 ## Design Docs
 
@@ -153,7 +158,8 @@ If you are extending dotagent itself, use these indexes:
 ## Next Steps
 
 1. **New to dotagent?** -> [Quick Start](quick-start.md)
-2. **Have a problem?** -> [Troubleshooting](troubleshooting.md)
-3. **Want to integrate?** -> [Migration Guide](migration-guide.md)
-4. **Need help?** -> [FAQ](faq.md)
+2. **Ready to operate a workflow?** -> [DotAgent User Guide](dotagent-user-guide.html)
+3. **Have a problem?** -> [Troubleshooting](troubleshooting.md)
+4. **Want to integrate?** -> [Migration Guide](migration-guide.md)
+5. **Need help?** -> [FAQ](faq.md)
 

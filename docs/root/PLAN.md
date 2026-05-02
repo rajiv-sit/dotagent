@@ -26,6 +26,8 @@ Consolidate `dotagent` onto the Python runtime as the single orchestration engin
 - Updated `README.md` with the current source-pack layout, installer copy map, runtime status, and optional Obsidian policy.
 - Removed remaining tracked remote noise: `.obsidian/`, duplicate `docs/CHANGELOG.md`, duplicate `agents/reviewer-agent.md`, and unused root `hooks.json`.
 - Updated health checks to validate the real installed `.agent/hooks.json` location.
+- Added `docs/dotagent-user-guide.html` as the user-facing lifecycle manual generated from `templates/docs/dotagent-user-guide.html`.
+- Updated project-doc initialization so new projects receive the operational guide automatically under `docs/`.
 
 ## In Progress
 
@@ -51,7 +53,7 @@ Consolidate `dotagent` onto the Python runtime as the single orchestration engin
   - `powershell -ExecutionPolicy Bypass -File .\scripts\install-pack.ps1 -ProjectRoot <workspace-temp>`
 - latest results:
   - runtime unit tests: 18 passed
-  - markdown link validation: 558 valid links, 0 broken links
+  - markdown link validation: 568 valid links, 0 broken links
   - health check: passed with 15 checks and 0 warnings
   - wrapper smoke: command forwarding, Slurm target selection, and serial mode reached the Python plan
   - installer smoke: installed runtime contained `cli.py` and excluded `__pycache__` plus `.pyc` files
@@ -64,6 +66,7 @@ Consolidate `dotagent` onto the Python runtime as the single orchestration engin
   - graph reachability check: 89 markdown files reachable from `AGENTS.md`, 0 unreachable, 0 orphan files
   - README refresh validation: links, health check, runtime tests, and `AGENTS.md` reachability all passed after the update
   - remote cleanup smoke: installed health check passed with `.agent/hooks.json` and no root `hooks.json`
+  - user guide install/init smoke: `docs/dotagent-user-guide.html` generated in a fresh project with required lifecycle sections
 - manual checks:
   - inspected the PowerShell shim, Python runtime modules, installer, schemas, docs, templates, and validation scripts
 - known gaps:

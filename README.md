@@ -62,6 +62,7 @@ Optional:
 |-------|----------|------|
 | [Navigation Hub](docs/index.md) | Finding the right doc | 5 min |
 | [Quick Start](docs/quick-start.md) | New projects | 10 min |
+| [DotAgent User Guide](docs/dotagent-user-guide.html) | Full engineering lifecycle after setup | 20 min |
 | [Migration Guide](docs/migration-guide.md) | Existing projects | 60 min |
 | [FAQ](docs/faq.md) | Common questions | 15 min |
 | [Customize for Your Stack](docs/customize-for-your-stack.md) | Language-specific rules | 30 min |
@@ -84,6 +85,7 @@ Optional:
 - [rules/README.md](rules/README.md)
 - [skills/README.md](skills/README.md)
 - [prompts/README.md](prompts/README.md)
+- [docs/dotagent-user-guide.html](docs/dotagent-user-guide.html)
 - [docs/design/README.md](docs/design/README.md)
 
 ---
@@ -162,6 +164,7 @@ This creates:
 - [docs/design/DD.md](docs/design/DD.md)
 - [docs/design/milestone.md](docs/design/milestone.md)
 - [docs/design/README.md](docs/design/README.md)
+- [docs/dotagent-user-guide.html](docs/dotagent-user-guide.html)
 
 5. Initialize the local runtime:
 
@@ -170,6 +173,8 @@ powershell -ExecutionPolicy Bypass -File .\.agent\scripts\dotagent.ps1 setup
 ```
 
 At that point your assistant can treat `novax` as a project with stable local instructions and working memory.
+
+Open `docs/dotagent-user-guide.html` for the full operating workflow after setup: epic and story generation, Jira intake, codebase digestion, planning, implementation, peer review, validation, and evidence.
 
 ## What The Installer Does
 
@@ -187,6 +192,7 @@ The installer copies:
 - `dotagent/templates/runtime/skills/*` -> `./.agent/skills/*`
 - `dotagent/runtime/dotagent_runtime/*` -> `./.agent/runtime/dotagent_runtime/*`
 - `dotagent/templates/root-docs/*` -> `./.agent/templates/root-docs/*`
+- `dotagent/templates/docs/*` -> `./.agent/templates/docs/*`
 - `dotagent/templates/workflows/*` -> `./.agent/workflows/*`
 
 Default behavior:
