@@ -11,7 +11,6 @@ These are specialist Agent agent profiles for direct reuse in projects.
 - [performance-reviewer.md](performance-reviewer.md)
 - [doc-reviewer.md](doc-reviewer.md)
 - [frontend-designer.md](frontend-designer.md)
-- [reviewer-agent.md](reviewer-agent.md)
 
 ## Related Docs
 

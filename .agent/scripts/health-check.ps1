@@ -116,9 +116,10 @@ Write-Host "`n2. Agent Configuration" -ForegroundColor Yellow
 $null = Test-DirectoryExists "$projectRoot\.agent" ".agent directory exists"
 $defaultAgentPath = Resolve-LayoutPath -InstalledRelative ".agent\agents\default-agent.md" -SourcePackRelative "agents\default-agent.md"
 $rulesPath = Resolve-LayoutPath -InstalledRelative ".agent\rules" -SourcePackRelative "rules"
+$hooksConfigPath = Resolve-LayoutPath -InstalledRelative ".agent\hooks.json" -SourcePackRelative "templates\runtime\hooks.json"
 $null = Test-FileExists $defaultAgentPath "Default agent profile exists"
 $null = Test-DirectoryExists $rulesPath "Rules directory exists"
-$null = Test-FileExists "$projectRoot\hooks.json" "hooks.json exists" $false
+$null = Test-FileExists $hooksConfigPath "hooks.json exists" $false
 
 Write-Host "`n3. Rules and Standards" -ForegroundColor Yellow
 $rulesDir = $rulesPath

@@ -17,7 +17,5 @@ _tmp_runtime_tests/
 _tmp_install_verify_*/
 _tmp_consumer_verify_*/
 _pack_verify_*/
-.obsidian/workspace.json
-.obsidian/appearance.json
-.obsidian/themes/
+.obsidian/
 obsidian/

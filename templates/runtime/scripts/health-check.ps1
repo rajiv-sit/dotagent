@@ -87,7 +87,7 @@ Write-Host "`n2. Agent Configuration" -ForegroundColor Yellow
 $null = Test-DirectoryExists "$projectRoot\.agent" ".agent directory exists"
 $null = Test-FileExists "$projectRoot\.agent\agents\default-agent.md" "Default agent profile exists"
 $null = Test-DirectoryExists "$projectRoot\.agent\rules" "Rules directory exists"
-$null = Test-FileExists "$projectRoot\hooks.json" "hooks.json exists" $false
+$null = Test-FileExists "$projectRoot\.agent\hooks.json" "hooks.json exists" $false
 
 Write-Host "`n3. Rules and Standards" -ForegroundColor Yellow
 $rulesDir = "$projectRoot\.agent\rules"
@@ -146,7 +146,7 @@ if (Test-Path $scriptsDir) {
 
 Write-Host "`n8. Documentation" -ForegroundColor Yellow
 $null = Test-DirectoryExists "$projectRoot\docs" "Documentation directory exists" $false
-$null = Test-FileExists "$projectRoot\README.md" "README.md exists"
+$null = Test-FileExists "$projectRoot\README.md" "README.md exists" $false
 $null = Test-FileExists "$projectRoot\CONTRIBUTING.md" "CONTRIBUTING.md exists" $false
 
 Write-Host "`n"
@@ -179,12 +179,12 @@ if ($script:warnings.Count -gt 0) {
 
 if ($script:errors.Count -gt 0) {
     Write-Host "`nFailed Checks ($($script:errors.Count)):" -ForegroundColor Red
-    foreach ($error in $script:errors) {
-        Write-Host "  FAIL: $($error.Check)" -ForegroundColor Red
-        Write-Host "        Path: $($error.Path)" -ForegroundColor DarkRed
-        Write-Host "        Status: $($error.Status)" -ForegroundColor DarkRed
-        if ($error.Fix) {
-            Write-Host "        Fix: $($error.Fix)" -ForegroundColor Yellow
+    foreach ($failedCheck in $script:errors) {
+        Write-Host "  FAIL: $($failedCheck.Check)" -ForegroundColor Red
+        Write-Host "        Path: $($failedCheck.Path)" -ForegroundColor DarkRed
+        Write-Host "        Status: $($failedCheck.Status)" -ForegroundColor DarkRed
+        if ($failedCheck.Fix) {
+            Write-Host "        Fix: $($failedCheck.Fix)" -ForegroundColor Yellow
         }
     }
 }

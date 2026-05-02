@@ -207,10 +207,9 @@ Total context gathered: 3 highly relevant docs instead of grepping the whole rep
 In `.gitignore`:
 ```
 .obsidian/
-!.obsidian/vault.json
 ```
 
-This keeps personal Obsidian customizations (window state, plugin configs) out of the repo while preserving the vault definition.
+This keeps personal Obsidian customizations, window state, plugin configs, and graph settings out of the repo. The Markdown links remain portable without committing Obsidian metadata.
 
 ## Advanced: Obsidian Templater
 

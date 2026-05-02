@@ -16,12 +16,12 @@ jobs:
             const today = new Date();
             const weekOf = today.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
             
-            const issueTitle = `[Monday Checklist] Update PLAN.md for week of ${weekOf}`;
-            const issueBody = `## Weekly PLAN.md Update Reminder
+            const issueTitle = `[Monday Checklist] Update docs/root/PLAN.md for week of ${weekOf}`;
+            const issueBody = `## Weekly docs/root/PLAN.md Update Reminder
 
 Good morning!
 
-It's time to update **PLAN.md** with this week's progress.
+It's time to update **docs/root/PLAN.md** with this week's progress.
 
 ### Checklist
 - [ ] **Completed** - Add finished work from last week
@@ -32,7 +32,7 @@ It's time to update **PLAN.md** with this week's progress.
 
 ### PLAN.md Sections
 
-Your PLAN.md should include:
+Your source-pack PLAN.md should include:
 
 \`\`\`markdown
 # Objective
@@ -61,7 +61,7 @@ What are we solving this week?
 
 ### Resources
 
-- [PLAN.md Documentation](https://github.com/${{ github.repository }}/blob/main/PLAN.md)
+- [PLAN.md Documentation](https://github.com/${{ github.repository }}/blob/main/docs/root/PLAN.md)
 - [PLAN.md Schema](https://github.com/${{ github.repository }}/blob/main/schemas/plan.schema.json)
 - [dotagent Guide](https://github.com/${{ github.repository }}/blob/main/docs/index.md)
 
@@ -70,7 +70,7 @@ What are we solving this week?
 See [FAQ](https://github.com/${{ github.repository }}/blob/main/docs/faq.md) or open a discussion.
 
 ---
-**Bot Note:** This reminder runs every Monday at 9 AM UTC. Dismiss this issue once PLAN.md is updated.`;
+**Bot Note:** This reminder runs every Monday at 9 AM UTC. Dismiss this issue once docs/root/PLAN.md is updated.`;
 
             // Check if an issue with this title already exists this week
             const issues = await github.rest.issues.listForRepo({
@@ -81,7 +81,7 @@ See [FAQ](https://github.com/${{ github.repository }}/blob/main/docs/faq.md) or 
             });
 
             const existingIssue = issues.data.find(issue => 
-              issue.title.includes('[Monday Checklist]') &&
+                issue.title.includes('[Monday Checklist]') &&
               new Date(issue.created_at).toLocaleDateString() === today.toLocaleDateString()
             );
 
@@ -93,8 +93,8 @@ See [FAQ](https://github.com/${{ github.repository }}/blob/main/docs/faq.md) or 
                 body: issueBody,
                 labels: ['checklist', 'weekly']
               });
-              console.log('PLAN.md reminder issue created');
+              console.log('docs/root/PLAN.md reminder issue created');
             } else {
-              console.log('PLAN.md reminder already exists for today');
+              console.log('docs/root/PLAN.md reminder already exists for today');
             }
 

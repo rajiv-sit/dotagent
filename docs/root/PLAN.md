@@ -24,6 +24,8 @@ Consolidate `dotagent` onto the Python runtime as the single orchestration engin
 - Moved source-pack operational markdown from the repository root into `docs/root/`, leaving only `AGENTS.md` and `README.md` at root.
 - Updated hooks, health checks, runtime discovery, and documentation links for the new `docs/root/` source layout.
 - Updated `README.md` with the current source-pack layout, installer copy map, runtime status, and optional Obsidian policy.
+- Removed remaining tracked remote noise: `.obsidian/`, duplicate `docs/CHANGELOG.md`, duplicate `agents/reviewer-agent.md`, and unused root `hooks.json`.
+- Updated health checks to validate the real installed `.agent/hooks.json` location.
 
 ## In Progress
 
@@ -49,7 +51,7 @@ Consolidate `dotagent` onto the Python runtime as the single orchestration engin
   - `powershell -ExecutionPolicy Bypass -File .\scripts\install-pack.ps1 -ProjectRoot <workspace-temp>`
 - latest results:
   - runtime unit tests: 18 passed
-  - markdown link validation: 564 valid links, 0 broken links
+  - markdown link validation: 558 valid links, 0 broken links
   - health check: passed with 15 checks and 0 warnings
   - wrapper smoke: command forwarding, Slurm target selection, and serial mode reached the Python plan
   - installer smoke: installed runtime contained `cli.py` and excluded `__pycache__` plus `.pyc` files
@@ -59,8 +61,9 @@ Consolidate `dotagent` onto the Python runtime as the single orchestration engin
   - cleanup reference search: no references to pruned legacy files remain
   - cleanup install smoke: setup and task execution succeeded with 0 runtime `.pyc` files
   - source root markdown check: only `AGENTS.md` and `README.md` remain at repository root
-  - graph reachability check: 91 markdown files reachable from `AGENTS.md`, 0 unreachable, 0 orphan files
+  - graph reachability check: 89 markdown files reachable from `AGENTS.md`, 0 unreachable, 0 orphan files
   - README refresh validation: links, health check, runtime tests, and `AGENTS.md` reachability all passed after the update
+  - remote cleanup smoke: installed health check passed with `.agent/hooks.json` and no root `hooks.json`
 - manual checks:
   - inspected the PowerShell shim, Python runtime modules, installer, schemas, docs, templates, and validation scripts
 - known gaps:
