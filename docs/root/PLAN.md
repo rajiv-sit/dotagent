@@ -19,6 +19,11 @@ Consolidate `dotagent` onto the Python runtime as the single orchestration engin
 - Marked legacy PowerShell-era integration reports as historical and pointed readers to the Python-canonical runtime.
 - Updated `GRAPH.md` and `CONTEXT.md` to describe PowerShell as a compatibility layer over the Python CLI.
 - Verified the installed consumer runtime works end-to-end after installer changes.
+- Pruned obsolete transition reports, legacy standalone runtime helpers, duplicate Obsidian starter vault files, and generated local state.
+- Expanded `.gitignore` for runtime state, temp workspaces, Python caches, coverage output, and local Obsidian workspace artifacts.
+- Moved source-pack operational markdown from the repository root into `docs/root/`, leaving only `AGENTS.md` and `README.md` at root.
+- Updated hooks, health checks, runtime discovery, and documentation links for the new `docs/root/` source layout.
+- Updated `README.md` with the current source-pack layout, installer copy map, runtime status, and optional Obsidian policy.
 
 ## In Progress
 
@@ -26,7 +31,6 @@ Consolidate `dotagent` onto the Python runtime as the single orchestration engin
 
 ## Next
 
-- Optional: decide whether historical implementation reports should remain in `docs/` or move under a dedicated archive folder.
 - Optional: decide whether to add more consumer smoke coverage for non-Windows shells if cross-platform wrappers are introduced.
 
 ## Blockers
@@ -44,14 +48,19 @@ Consolidate `dotagent` onto the Python runtime as the single orchestration engin
   - `powershell -ExecutionPolicy Bypass -File .\scripts\run-agent.ps1 task "wrapper command smoke" -RuntimeCommand 'python --version' -ExecutionTarget slurm -Serial`
   - `powershell -ExecutionPolicy Bypass -File .\scripts\install-pack.ps1 -ProjectRoot <workspace-temp>`
 - latest results:
-  - runtime unit tests: 17 passed
-  - markdown link validation: 622 valid links, 0 broken links
+  - runtime unit tests: 18 passed
+  - markdown link validation: 564 valid links, 0 broken links
   - health check: passed with 15 checks and 0 warnings
   - wrapper smoke: command forwarding, Slurm target selection, and serial mode reached the Python plan
   - installer smoke: installed runtime contained `cli.py` and excluded `__pycache__` plus `.pyc` files
   - installed consumer smoke: install, init docs, setup, task execute, review prepare, run prepare, status, and result succeeded
   - runtime cache smoke: installed runtime remained free of `__pycache__` and `.pyc` after wrapper execution
   - stale PowerShell orchestration reference search: no current-doc matches
+  - cleanup reference search: no references to pruned legacy files remain
+  - cleanup install smoke: setup and task execution succeeded with 0 runtime `.pyc` files
+  - source root markdown check: only `AGENTS.md` and `README.md` remain at repository root
+  - graph reachability check: 91 markdown files reachable from `AGENTS.md`, 0 unreachable, 0 orphan files
+  - README refresh validation: links, health check, runtime tests, and `AGENTS.md` reachability all passed after the update
 - manual checks:
   - inspected the PowerShell shim, Python runtime modules, installer, schemas, docs, templates, and validation scripts
 - known gaps:

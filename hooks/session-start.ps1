@@ -7,7 +7,7 @@ try {
     $branch = ""
 }
 
-$docs = @("CONTEXT.md", "PLAN.md", "docs\\design\\Requirement.md", "docs\\design\\Architecture.md", "docs\\design\\HLD.md", "docs\\design\\DD.md", "docs\\design\\milestone.md") |
+$docs = @("docs\\root\\CONTEXT.md", "docs\\root\\PLAN.md", "docs\\design\\Requirement.md", "docs\\design\\Architecture.md", "docs\\design\\HLD.md", "docs\\design\\DD.md", "docs\\design\\milestone.md") |
     Where-Object { Test-Path -LiteralPath (Join-Path $projectRoot $_) }
 
 $graphReport = Test-Path -LiteralPath (Join-Path $projectRoot "graphify-out\GRAPH_REPORT.md")

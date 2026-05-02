@@ -6,12 +6,14 @@ The default operating profile for this project is `.agent/agents/default-agent.m
 
 If `.agent/agents/default-agent.md` is not present, follow these rules directly.
 
-## Root Docs First
+## Source Docs First
 
-Before substantial implementation, read these operational root markdown files directly when they exist:
+Before substantial implementation, read these operational source-pack docs directly when they exist:
 
-- `CONTEXT.md`
-- `PLAN.md`
+- [docs/root/CONTEXT.md](docs/root/CONTEXT.md)
+- [docs/root/PLAN.md](docs/root/PLAN.md)
+- [docs/root/GRAPH.md](docs/root/GRAPH.md)
+- [README.md](README.md)
 
 Then read these design documents under `docs/design/` when they exist:
 
@@ -33,7 +35,7 @@ If they are missing or incomplete, prefer completing them before major implement
 
 ## graphify
 
-- if `GRAPH.md` exists, it provides visual architecture and component connections
+- if [docs/root/GRAPH.md](docs/root/GRAPH.md) exists, it provides visual architecture and component connections
 - complementary to code-level graphs from graphify tool
 - shows how agents, rules, skills, hooks, scripts, schemas, and docs connect
 - if `graphify-out/GRAPH_REPORT.md` exists, read it before broad architecture or codebase analysis
@@ -42,13 +44,13 @@ If they are missing or incomplete, prefer completing them before major implement
 
 ## Traceability
 
-- use `CONTEXT.md` as durable project memory across sessions
-- use `PLAN.md` as the active execution tracker
+- use [docs/root/CONTEXT.md](docs/root/CONTEXT.md) as durable project memory across sessions
+- use [docs/root/PLAN.md](docs/root/PLAN.md) as the active execution tracker
 
 ## Obsidian
 
 - if project architecture docs live in an Obsidian vault, prefer linked markdown navigation over broad raw-file search
-- open `GRAPH.md` in Obsidian to see component connections and network topology
+- open [docs/root/GRAPH.md](docs/root/GRAPH.md) in Obsidian to see component connections and network topology
 - use Obsidian Graph View (Ctrl+G) to visualize backlinks and relationships
 - keep root design notes cross-linked so Obsidian Graph and Local Graph stay useful as low-token navigation tools
 

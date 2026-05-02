@@ -13,5 +13,5 @@ Use them through the local runtime in `scripts/dotagent.ps1` or copy/adapt them 
 
 - [README.md](../README.md#local-runtime)
 - [skills/README.md](../skills/README.md)
-- [docs/IMPLEMENTATION_INDEX.md](../docs/IMPLEMENTATION_INDEX.md)
+- [docs/design/README.md](../docs/design/README.md)
 

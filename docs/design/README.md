@@ -8,7 +8,7 @@ This directory contains the project design artifacts that used to live in the re
 - [DD.md](DD.md)
 - [milestone.md](milestone.md)
 
-`AGENTS.md`, `CONTEXT.md`, and `PLAN.md` remain in the root because they are the operational entry documents for the agent and for active project tracking.
+`AGENTS.md` and `README.md` remain in the repository root. Source-pack operational docs live under `docs/root/` so the root stays minimal while agent context remains linked.
 
 ## Reading Order
 
@@ -22,5 +22,5 @@ This directory contains the project design artifacts that used to live in the re
 
 - [README.md](../../README.md)
 - [AGENTS.md](../../AGENTS.md)
-- [CONTEXT.md](../../CONTEXT.md)
-- [PLAN.md](../../PLAN.md)
+- [CONTEXT.md](../root/CONTEXT.md)
+- [PLAN.md](../root/PLAN.md)

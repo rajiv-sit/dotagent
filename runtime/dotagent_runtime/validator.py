@@ -62,6 +62,19 @@ class Validator:
             if not ok:
                 corrective.append(f"Missing required documents for discovery: {', '.join(missing)}")
 
+        if "documents_required_any" in acceptance:
+            documents = output.get("documents", {})
+            missing_groups = []
+            for group in acceptance["documents_required_any"]:
+                options = [str(doc) for doc in group]
+                if not any(documents.get(doc) for doc in options):
+                    missing_groups.append(options)
+            ok = not missing_groups
+            checks.append({"name": "documents_required_any", "missing_groups": missing_groups, "ok": ok})
+            if not ok:
+                formatted = [" or ".join(group) for group in missing_groups]
+                corrective.append(f"Missing one required document from each group: {', '.join(formatted)}")
+
         if acceptance.get("summary_required"):
             summary = str(output.get("summary", "")).strip()
             ok = bool(summary)

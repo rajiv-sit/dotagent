@@ -31,5 +31,5 @@ This directory contains the reusable source templates that `dotagent` installs o
 ## Related Docs
 
 - [docs/starter-templates.md](../docs/starter-templates.md)
-- [docs/IMPLEMENTATION_INDEX.md](../docs/IMPLEMENTATION_INDEX.md)
+- [docs/design/README.md](../docs/design/README.md)
 - [README.md](../README.md)

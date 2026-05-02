@@ -106,8 +106,11 @@ function Test-FileNotEmpty {
 
 Write-Host "1. Core Documentation Files" -ForegroundColor Yellow
 $null = Test-FileNotEmpty "$projectRoot\AGENTS.md" "AGENTS.md exists and has content"
-$null = Test-FileNotEmpty "$projectRoot\CONTEXT.md" "CONTEXT.md exists and has content"
-$null = Test-FileNotEmpty "$projectRoot\PLAN.md" "PLAN.md exists and has content"
+$contextPath = Resolve-LayoutPath -InstalledRelative "CONTEXT.md" -SourcePackRelative "docs\root\CONTEXT.md"
+$planPath = Resolve-LayoutPath -InstalledRelative "PLAN.md" -SourcePackRelative "docs\root\PLAN.md"
+$contributingPath = Resolve-LayoutPath -InstalledRelative "CONTRIBUTING.md" -SourcePackRelative "docs\root\CONTRIBUTING.md"
+$null = Test-FileNotEmpty $contextPath "CONTEXT.md exists and has content"
+$null = Test-FileNotEmpty $planPath "PLAN.md exists and has content"
 
 Write-Host "`n2. Agent Configuration" -ForegroundColor Yellow
 $null = Test-DirectoryExists "$projectRoot\.agent" ".agent directory exists"
@@ -181,7 +184,7 @@ if (Test-Path $scriptsDir) {
 Write-Host "`n8. Documentation" -ForegroundColor Yellow
 $null = Test-DirectoryExists "$projectRoot\docs" "Documentation directory exists" $false
 $null = Test-FileExists "$projectRoot\README.md" "README.md exists"
-$null = Test-FileExists "$projectRoot\CONTRIBUTING.md" "CONTRIBUTING.md exists" $false
+$null = Test-FileExists $contributingPath "CONTRIBUTING.md exists" $false
 
 Write-Host "`n"
 Write-Host "SUMMARY" -ForegroundColor Cyan

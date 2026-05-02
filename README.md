@@ -20,6 +20,13 @@ It is not the same thing as your global `C:\Users\<you>\.agent` folder.
 
 Your assistant should use the project-local `AGENTS.md` and `your-project\.agent\...` files for project behavior. The `dotagent/` folder is the source that installs those files into the active project layout.
 
+In this source repo, the root stays intentionally small:
+
+- `AGENTS.md` is the entry point for assistant behavior and traceability.
+- `README.md` is the human-facing project overview.
+- source-pack operational notes live under `docs/root/`.
+- installed consumer projects still receive root-level `CONTEXT.md` and `PLAN.md`.
+
 ## Prerequisites
 
 - Windows with PowerShell
@@ -30,7 +37,7 @@ Your assistant should use the project-local `AGENTS.md` and `your-project\.agent
 Optional:
 
 - `graphify` for graph-based repo summaries
-- Obsidian for linked markdown navigation (see [Obsidian Integration Guide](docs/obsidian-integration.md))
+- Obsidian for linked markdown navigation (see [Obsidian Integration Guide](docs/obsidian-integration.md)); dotagent does not install Obsidian automatically
 - GitHub, GitLab, Azure DevOps, Jira, Confluence, Zephyr, or similar team systems
 
 `dotagent` does not require Jira, Confluence, or Zephyr to work. Those systems are integration targets around the workflow, not hard dependencies of the pack.
@@ -70,27 +77,27 @@ Optional:
 
 **Design docs hub** -> [docs/design/README.md](docs/design/README.md)
 
-**Contributing** -> [CONTRIBUTING.md](CONTRIBUTING.md)
+**Contributing** -> [docs/root/CONTRIBUTING.md](docs/root/CONTRIBUTING.md)
 
 **Maintainer indexes**:
 - [agents/README.md](agents/README.md)
 - [rules/README.md](rules/README.md)
 - [skills/README.md](skills/README.md)
 - [prompts/README.md](prompts/README.md)
-- [docs/IMPLEMENTATION_INDEX.md](docs/IMPLEMENTATION_INDEX.md)
+- [docs/design/README.md](docs/design/README.md)
 
 ---
 
 ## Staying Updated
 
-**What Changed?** -> [CHANGELOG.md](CHANGELOG.md) - Version history, new docs, breaking changes
+**What Changed?** -> [docs/root/CHANGELOG.md](docs/root/CHANGELOG.md) - Version history, new docs, breaking changes
 
-**Component Graph** -> [GRAPH.md](GRAPH.md) - Visual architecture showing connections (works with Obsidian graph view)
+**Component Graph** -> [docs/root/GRAPH.md](docs/root/GRAPH.md) - Visual architecture showing connections (works with Obsidian graph view)
 
 ![Obsidian Graph Visualization](docs/obsidian.png)
-*Interactive graph view in Obsidian showing dotagent component connections. Open GRAPH.md in Obsidian and press Ctrl+G to see this live - click nodes to navigate, drag to pan, scroll to zoom.*
+*Interactive graph view in Obsidian showing dotagent component connections. Open docs/root/GRAPH.md in Obsidian and press Ctrl+G to see this live - click nodes to navigate, drag to pan, scroll to zoom.*
 
-**Weekly Reminder** -> GitHub Action runs every Monday reminding teams to update PLAN.md
+**Weekly Reminder** -> GitHub Action runs every Monday reminding teams to update `PLAN.md` in installed projects.
 
 ---
 
@@ -168,16 +175,19 @@ At that point your assistant can treat `novax` as a project with stable local in
 
 The installer copies:
 
-- `dotagent/AGENTS.md` -> `./AGENTS.md`
-- `dotagent/CONTEXT.md` -> `./CONTEXT.md`
-- `dotagent/PLAN.md` -> `./PLAN.md`
-- `dotagent/hooks.json` -> `./.agent/hooks.json`
-- `dotagent/agents/*` -> `./.agent/agents/*`
-- `dotagent/hooks/*` -> `./.agent/hooks/*`
-- `dotagent/rules/*` -> `./.agent/rules/*`
-- `dotagent/schemas/*` -> `./.agent/schemas/*`
-- `dotagent/scripts/*` -> `./.agent/scripts/*`
-- `dotagent/skills/*` -> `./.agent/skills/*`
+- `dotagent/templates/root-docs/AGENTS.md` -> `./AGENTS.md`
+- `dotagent/templates/root-docs/CONTEXT.md` -> `./CONTEXT.md`
+- `dotagent/templates/root-docs/PLAN.md` -> `./PLAN.md`
+- `dotagent/templates/runtime/hooks.json` -> `./.agent/hooks.json`
+- `dotagent/templates/runtime/agents/*` -> `./.agent/agents/*`
+- `dotagent/templates/runtime/hooks/*` -> `./.agent/hooks/*`
+- `dotagent/templates/runtime/rules/*` -> `./.agent/rules/*`
+- `dotagent/templates/runtime/schemas/*` -> `./.agent/schemas/*`
+- `dotagent/templates/runtime/scripts/*` -> `./.agent/scripts/*`
+- `dotagent/templates/runtime/skills/*` -> `./.agent/skills/*`
+- `dotagent/runtime/dotagent_runtime/*` -> `./.agent/runtime/dotagent_runtime/*`
+- `dotagent/templates/root-docs/*` -> `./.agent/templates/root-docs/*`
+- `dotagent/templates/workflows/*` -> `./.agent/workflows/*`
 
 Default behavior:
 
@@ -272,7 +282,7 @@ Lifecycle states:
 
 - **default-agent** (everyday work)
   - Use for implementation, milestone completion, and architecture-aligned development
-  - Reads operational root docs and `docs/design/` first, applies project rules, updates CONTEXT.md and PLAN.md
+  - Reads operational root docs and `docs/design/` first, applies project rules, updates `CONTEXT.md` and `PLAN.md`
   
 - **code-reviewer** (pre-merge validation)
   - Use for PRs, code changes, and behavioral regressions
@@ -305,25 +315,6 @@ Lifecycle states:
 - GitHub Copilot Chat: supported for doc/rule-driven work, but hooks and automatic local runtime behavior may be limited
 - Other assistants: supported if they can follow repo-local markdown instructions and optionally consume prepared prompts
 
-## When to Use Each Skill
-
-- **setupdotagent**
-  - Run after installing dotagent to document build, test, lint commands and refine project rules
-  
-- **tdd** (test-driven development)
-  - Use to drive changes through small failing tests and minimum implementation
-  
-- **debug-fix** (defect investigation)
-  - Use when a bug is reported; reproduce -> trace root cause -> fix -> test
-  
-- **refactor** (structural improvement)
-  - Use to improve code structure when behavior must remain stable
-  - Establish safety net with tests first
-  
-- **explain** (code understanding)
-  - Use to document existing code before making changes
-  - Explains purpose, data flow, non-obvious behavior, modification risks
-  
 ## When to Use Each Skill
 
 - **setupdotagent**
@@ -510,6 +501,8 @@ The Python runtime can:
 - prepare review prompts
 - track local job records
 - optionally execute prepared plans directly through its local tool registry
+- validate document presence, graph reachability expectations, and runtime artifacts
+- store deterministic local execution records under `.dotagent-state/`
 
 Notes:
 
@@ -530,8 +523,10 @@ If you use `graphify`:
 
 If you use Obsidian:
 
-- keep root operational docs and `docs/design/` linked together
+- in this source repo, keep `AGENTS.md`, `README.md`, `docs/root/`, and `docs/design/` linked together
+- in installed projects, keep root operational docs and `docs/design/` linked together
 - use Graph view for architecture navigation
+- install and manage Obsidian yourself; dotagent only keeps Markdown links and graph-friendly docs
 
 Both integrations are optional.
 

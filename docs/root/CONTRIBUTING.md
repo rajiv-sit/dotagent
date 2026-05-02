@@ -2,8 +2,8 @@
 
 Use the project-local workflow before changing behavior.
 
-1. Read [AGENTS.md](AGENTS.md), [CONTEXT.md](CONTEXT.md), and [PLAN.md](PLAN.md).
-2. Read the design docs under [docs/design](docs/design/README.md).
+1. Read [AGENTS.md](../../AGENTS.md), [CONTEXT.md](CONTEXT.md), and [PLAN.md](PLAN.md).
+2. Read the design docs under [docs/design](../design/README.md).
 3. Make changes one milestone at a time.
 4. Keep PowerShell as a compatibility layer and Python as the canonical runtime.
 5. Run validation before handing off:

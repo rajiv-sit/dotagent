@@ -230,7 +230,7 @@ class Planner:
                 name="Collect context and constraints",
                 kind="DISCOVER",
                 tool="document_reader",
-                acceptance={"documents_required": ["AGENTS.md", "PLAN.md"]},
+                acceptance={"documents_required": ["AGENTS.md"], "documents_required_any": [["PLAN.md", "docs/root/PLAN.md"]]},
                 priority=10,
                 agent_role="memory_agent",
             ),

@@ -38,6 +38,32 @@ class TestValidator(unittest.TestCase):
         self.assertEqual(result.status, "FAIL")
         self.assertTrue(any(check["name"] == "fast_enough" for check in result.checks))
 
+    def test_documents_required_any_accepts_source_pack_plan_location(self):
+        validator = Validator()
+        result = validator.validate_step_result(
+            {
+                "id": "discover",
+                "acceptance": {
+                    "documents_required": ["AGENTS.md"],
+                    "documents_required_any": [["PLAN.md", "docs/root/PLAN.md"]],
+                },
+                "attempts": 1,
+                "max_attempts": 1,
+            },
+            {
+                "tool": "document_reader",
+                "ok": True,
+                "output": {
+                    "documents": {
+                        "AGENTS.md": "# Agents",
+                        "PLAN.md": "",
+                        "docs/root/PLAN.md": "# Plan",
+                    }
+                },
+            },
+        )
+        self.assertEqual(result.status, "PASS")
+
 
 if __name__ == "__main__":
     unittest.main()

@@ -46,7 +46,7 @@ All guides organized by purpose:
 | [Case Study](case-study.md) | Real team metrics and results | Leaders | 5 min |
 | [Obsidian Integration](obsidian-integration.md) | Use Obsidian vault for navigation | Knowledge workers | 10 min |
 | [Starter Templates](starter-templates.md) | Copy-paste templates for all key docs | New projects | 5 min |
-| [CHANGELOG](../CHANGELOG.md) | Version history and what changed | Everyone | 5 min |
+| [CHANGELOG](root/CHANGELOG.md) | Version history and what changed | Everyone | 5 min |
 
 ## Documentation Organization
 
@@ -121,10 +121,10 @@ The main project documentation lives in the root folder:
 
 | File | Purpose |
 |------|---------|
-| [GRAPH.md](../GRAPH.md) | Component architecture and how everything connects |
-| [CHANGELOG.md](../CHANGELOG.md) | Version history, what changed, when |
-| [CONTEXT.md](../CONTEXT.md) | Durable project memory (purpose, architecture, decisions) |
-| [PLAN.md](../PLAN.md) | Active execution tracker (completed, in-progress, next steps) |
+| [GRAPH.md](root/GRAPH.md) | Component architecture and how everything connects |
+| [CHANGELOG.md](root/CHANGELOG.md) | Version history, what changed, when |
+| [CONTEXT.md](root/CONTEXT.md) | Durable project memory (purpose, architecture, decisions) |
+| [PLAN.md](root/PLAN.md) | Active execution tracker (completed, in-progress, next steps) |
 | [AGENTS.md](../AGENTS.md) | Project setup and assistant instructions |
 | [README.md](../README.md) | Project overview and getting started |
 
@@ -148,7 +148,7 @@ If you are extending dotagent itself, use these indexes:
 - [Skills Index](../skills/README.md)
 - [Prompts Index](../prompts/README.md)
 - [Templates Index](../templates/README.md)
-- [Implementation Index](IMPLEMENTATION_INDEX.md)
+- [Design Docs](design/README.md)
 
 ## Next Steps
 

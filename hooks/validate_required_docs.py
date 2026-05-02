@@ -2,8 +2,8 @@ from pathlib import Path
 
 REQUIRED = [
     "AGENTS.md",
-    "CONTEXT.md",
-    "PLAN.md",
+    "docs/root/CONTEXT.md",
+    "docs/root/PLAN.md",
     "docs/design/Requirement.md",
     "docs/design/Architecture.md",
     "docs/design/HLD.md",

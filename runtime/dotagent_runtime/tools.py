@@ -76,7 +76,9 @@ class DocumentReaderTool:
             [
                 "AGENTS.md",
                 "CONTEXT.md",
+                "docs/root/CONTEXT.md",
                 "PLAN.md",
+                "docs/root/PLAN.md",
                 "docs/design/Requirement.md",
                 "docs/design/Architecture.md",
                 "docs/design/HLD.md",

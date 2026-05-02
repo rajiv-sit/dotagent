@@ -55,13 +55,12 @@ The active enhancement is to raise the runtime from a simple prompt wrapper into
 
 ## Linked Docs
 
-- [docs/design/README.md](docs/design/README.md)
-- [docs/design/Requirement.md](docs/design/Requirement.md)
-- [docs/design/Architecture.md](docs/design/Architecture.md)
-- [docs/design/HLD.md](docs/design/HLD.md)
-- [docs/design/DD.md](docs/design/DD.md)
-- [docs/design/milestone.md](docs/design/milestone.md)
-- [docs/ARCHITECTURE_HONEST_DESIGN.md](docs/ARCHITECTURE_HONEST_DESIGN.md)
+- [docs/design/README.md](../design/README.md)
+- [docs/design/Requirement.md](../design/Requirement.md)
+- [docs/design/Architecture.md](../design/Architecture.md)
+- [docs/design/HLD.md](../design/HLD.md)
+- [docs/design/DD.md](../design/DD.md)
+- [docs/design/milestone.md](../design/milestone.md)
 - [PLAN.md](PLAN.md)
 
 ## Architecture Decision (April 16, 2026)
@@ -73,7 +72,7 @@ The active enhancement is to raise the runtime from a simple prompt wrapper into
 
 **Why**: Each layer does one thing well instead of pretending to do everything
 
-See [docs/ARCHITECTURE_HONEST_DESIGN.md](docs/ARCHITECTURE_HONEST_DESIGN.md) for detailed rationale and design.
+See [docs/design/Architecture.md](../design/Architecture.md), [docs/design/HLD.md](../design/HLD.md), and [docs/design/DD.md](../design/DD.md) for the current architecture and implementation design.
 
 ### Production-Ready Components
 

@@ -217,7 +217,7 @@ You know what you want to do, just need the how-to.
 | [Case Study](case-study.md) | 15 min | Learning by example |
 | [Starter Templates](starter-templates.md) | 10 min | Copying example docs |
 | [Design Docs Hub](design/README.md) | 5 min | Anyone creating project design artifacts |
-| [Implementation Index](IMPLEMENTATION_INDEX.md) | 10 min | Maintainers and contributors |
+| [Design Docs](design/README.md) | 10 min | Maintainers and contributors |
 
 ---
 
@@ -250,7 +250,7 @@ You know what you want to do, just need the how-to.
 - [Skills index](../skills/README.md)
 - [Prompts index](../prompts/README.md)
 - [Templates index](../templates/README.md)
-- [Implementation index](IMPLEMENTATION_INDEX.md)
+- [Design docs](design/README.md)
 
 ---
 
