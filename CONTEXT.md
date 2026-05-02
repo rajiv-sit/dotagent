@@ -6,7 +6,7 @@
 
 ## Architecture Snapshot
 
-The current system is a local, file-backed PowerShell runtime. `scripts/install-dotagent.ps1` installs the source pack into a consumer repo, `scripts/init-project-docs.ps1` bootstraps required design docs, and `scripts/dotagent.ps1` prepares or executes task/review workflows while persisting state in `.dotagent-state/`.
+The current system is a local, file-backed Python runtime with Windows-first PowerShell compatibility wrappers. `scripts/install-dotagent.ps1` installs the source pack into a consumer repo, `scripts/init-project-docs.ps1` bootstraps required design docs, and `scripts/dotagent.ps1` forwards task/review/run/status/result/cancel commands into `python -m dotagent_runtime.cli` while runtime state is persisted in `.dotagent-state/`.
 
 The active enhancement is to raise the runtime from a simple prompt wrapper into a production-grade local orchestrator with formal job records, explicit lifecycle states, workflow dependencies, and artifact indexing.
 
@@ -83,4 +83,4 @@ See [docs/ARCHITECTURE_HONEST_DESIGN.md](docs/ARCHITECTURE_HONEST_DESIGN.md) for
 - ✅ **Feedback Collector**: Comprehensive error reporting to external LLM
 - ✅ **Orchestrator**: Reliable coordination of jobs and workflows
 
-All components tested and integrated into `scripts/run-agent.ps1`
+All components are tested through the Python runtime, with `scripts/run-agent.ps1` acting as the compatibility entrypoint.

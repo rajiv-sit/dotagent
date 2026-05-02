@@ -117,6 +117,29 @@ class TestOrchestrator(unittest.TestCase):
             )
         )
 
+    def test_tool_dispatch_failure_is_persisted_with_evidence(self):
+        root = self._make_test_root()
+        self._seed_required_docs(root)
+        setup_runtime(str(root))
+        orch = Orchestrator(str(root))
+        prepared = orch.prepare_task("unknown tool")
+
+        plan = orch.store.load_plan(prepared["plan"]["id"])
+        execute_step = next(step for step in plan["steps"] if step["id"] == "execute")
+        execute_step["tool"] = "not_registered"
+        execute_step["max_attempts"] = 1
+        orch.store.update_plan(plan["id"], **plan)
+
+        result = orch.execute_plan(prepared["job"]["id"], prepared["plan"]["id"])
+        updated_plan = orch.store.load_plan(prepared["plan"]["id"])
+        updated_execute = next(step for step in updated_plan["steps"] if step["id"] == "execute")
+
+        self.assertEqual(result["job"]["status"], "FAILED")
+        self.assertEqual(updated_execute["status"], "FAILED")
+        self.assertIn("Tool not registered", updated_execute["last_error"])
+        self.assertTrue(Path(result["evidence_path"]).exists())
+        self.assertTrue(Path(result["telemetry_path"]).exists())
+
 
 if __name__ == "__main__":
     unittest.main()

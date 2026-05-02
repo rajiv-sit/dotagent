@@ -23,7 +23,11 @@ class Validator:
         execution_ok = bool(result.get("ok", False))
         checks.append({"name": "execution_ok", "ok": execution_ok})
         if not execution_ok:
-            corrective.append(f"Investigate failing step {step.get('id')} using tool {result.get('tool')}")
+            stderr = str(output.get("stderr", "")).strip()
+            if stderr:
+                corrective.append(f"Step {step.get('id')} failed using tool {result.get('tool')}: {stderr}")
+            else:
+                corrective.append(f"Investigate failing step {step.get('id')} using tool {result.get('tool')}")
 
         if "returncode" in acceptance:
             actual = output.get("returncode")
@@ -94,7 +98,12 @@ class Validator:
 
         status = "PASS" if all(c["ok"] for c in checks) else "FAIL"
         retryable = status == "FAIL" and int(step.get("attempts", 0)) < int(step.get("max_attempts", 1))
-        summary = "All checks passed." if status == "PASS" else "One or more checks failed."
+        if status == "PASS":
+            summary = "All checks passed."
+        elif corrective:
+            summary = "; ".join(corrective[:2])
+        else:
+            summary = "One or more checks failed."
         return ValidationResult(
             status=status,
             summary=summary,

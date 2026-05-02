@@ -70,6 +70,8 @@ Optional:
 
 **Design docs hub** -> [docs/design/README.md](docs/design/README.md)
 
+**Contributing** -> [CONTRIBUTING.md](CONTRIBUTING.md)
+
 **Maintainer indexes**:
 - [agents/README.md](agents/README.md)
 - [rules/README.md](rules/README.md)
@@ -210,6 +212,13 @@ Execute a task through the local assistant CLI:
 
 ```powershell
 powershell -ExecutionPolicy Bypass -File .\.agent\scripts\dotagent.ps1 task "Implement authentication retry handling" -Execute
+```
+
+Forward an explicit runtime command or execution target:
+
+```powershell
+powershell -ExecutionPolicy Bypass -File .\.agent\scripts\dotagent.ps1 task "Run smoke validation" -RuntimeCommand "python --version" -Execute
+powershell -ExecutionPolicy Bypass -File .\.agent\scripts\dotagent.ps1 run "Plan cluster validation" -RuntimeCommand "python --version" -ExecutionTarget slurm -Serial
 ```
 
 Prepare a review:
@@ -506,6 +515,9 @@ Notes:
 
 - prepare-only mode is the safe default
 - `cancel` updates local job and plan state only; it does not terminate an already running external process
+- `-RuntimeCommand`, `-ExecutionTarget`, and `-Serial` are forwarded by the PowerShell wrapper to the Python runtime for `task` and `run`
+- `-Model` and `-Sandbox` are accepted by the wrapper for compatibility but do not control Python runtime behavior
+- the wrapper sets `PYTHONDONTWRITEBYTECODE=1` while invoking Python so installed consumer runtimes do not accumulate `__pycache__` or `.pyc` files during normal dotagent commands
 
 ## Optional Graph And Wiki Support
 

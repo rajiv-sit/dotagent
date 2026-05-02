@@ -3,7 +3,7 @@ from __future__ import annotations
 from concurrent.futures import ThreadPoolExecutor
 from typing import Any, Dict, List
 
-from .models import ExecutionResult
+from .models import ExecutionResult, utc_now
 from .tools import ToolRegistry
 
 
@@ -18,11 +18,35 @@ class StepExecutor:
         context: Dict[str, Any] | None = None,
     ) -> ExecutionResult:
         tool_name = step.get("tool") or "shell"
-        tool = self.registry.get(tool_name)
         payload = dict(step.get("payload", {}))
-        payload["step_id"] = step["id"]
+        payload["step_id"] = step.get("id", "unknown")
         payload["context"] = context or {}
-        return tool.execute(project_root, payload)
+        attempt = int(payload.get("context", {}).get("attempt", step.get("attempts", 1)))
+
+        try:
+            tool = self.registry.get(tool_name)
+            return tool.execute(project_root, payload)
+        except Exception as exc:
+            now = utc_now()
+            return ExecutionResult(
+                step_id=payload["step_id"],
+                tool=tool_name,
+                ok=False,
+                output={
+                    "stdout": "",
+                    "stderr": f"{type(exc).__name__}: {exc}",
+                    "returncode": 1,
+                    "metrics": {"duration_ms": 0},
+                },
+                started_at=now,
+                ended_at=now,
+                attempt=attempt,
+                metadata={
+                    "mode": "tool_error",
+                    "error_type": type(exc).__name__,
+                    "error": str(exc),
+                },
+            )
 
     def execute_steps(
         self,

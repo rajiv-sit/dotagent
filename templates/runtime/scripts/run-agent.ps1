@@ -9,6 +9,10 @@ param(
     [string]$Target,
     [string]$Id,
     [switch]$Execute,
+    [string]$RuntimeCommand,
+    [ValidateSet("local", "slurm", "kubernetes")]
+    [string]$ExecutionTarget = "local",
+    [switch]$Serial,
     [string]$Model,
     [ValidateSet("read-only", "workspace-write", "danger-full-access")]
     [string]$Sandbox = "workspace-write"
@@ -49,12 +53,14 @@ function Invoke-DotagentPythonCli {
 
     $runtimeRoot = Resolve-RuntimeRoot
     $previousPyPath = $env:PYTHONPATH
+    $previousNoBytecode = $env:PYTHONDONTWRITEBYTECODE
     try {
         if ($previousPyPath) {
             $env:PYTHONPATH = "$runtimeRoot;$previousPyPath"
         } else {
             $env:PYTHONPATH = $runtimeRoot
         }
+        $env:PYTHONDONTWRITEBYTECODE = "1"
 
         & python -m dotagent_runtime.cli @CliArgs
         if ($LASTEXITCODE -ne 0) {
@@ -62,6 +68,7 @@ function Invoke-DotagentPythonCli {
         }
     } finally {
         $env:PYTHONPATH = $previousPyPath
+        $env:PYTHONDONTWRITEBYTECODE = $previousNoBytecode
     }
 }
 
@@ -76,6 +83,17 @@ switch ($Command) {
         $cliArgs += $Text
         if ($Execute) {
             $cliArgs += "--execute"
+        }
+        if ($RuntimeCommand) {
+            $cliArgs += "--command"
+            $cliArgs += $RuntimeCommand
+        }
+        if ($ExecutionTarget -ne "local") {
+            $cliArgs += "--execution-target"
+            $cliArgs += $ExecutionTarget
+        }
+        if ($Serial) {
+            $cliArgs += "--serial"
         }
     }
     "review" {
@@ -96,6 +114,17 @@ switch ($Command) {
         $cliArgs += $Text
         if ($Execute) {
             $cliArgs += "--execute"
+        }
+        if ($RuntimeCommand) {
+            $cliArgs += "--command"
+            $cliArgs += $RuntimeCommand
+        }
+        if ($ExecutionTarget -ne "local") {
+            $cliArgs += "--execution-target"
+            $cliArgs += $ExecutionTarget
+        }
+        if ($Serial) {
+            $cliArgs += "--serial"
         }
     }
     "result" {

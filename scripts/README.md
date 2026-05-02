@@ -13,6 +13,7 @@ This folder contains the install and runtime scripts for `dotagent`.
   - creates the required design documents under `docs/design/` for a new project from `templates/root-docs/`
 - `run-agent.ps1`
   - thin PowerShell wrapper over the Python runtime for setup, preparation, execution, and status queries
+  - forwards supported `task` and `run` options such as `-RuntimeCommand`, `-ExecutionTarget`, and `-Serial`
 - `dotagent.ps1`
   - compatibility wrapper for `run-agent.ps1`
 - `adapters/`
@@ -45,5 +46,6 @@ Lifecycle states:
 - `CANCELLED`
 
 The installed Python package is copied into `.agent/runtime/dotagent_runtime/` by `install-pack.ps1`, which keeps consumer repos self-contained.
+Generated Python cache artifacts such as `__pycache__` directories and `.pyc` files are skipped during install, and `run-agent.ps1` sets `PYTHONDONTWRITEBYTECODE=1` while invoking the runtime to keep installed runtime trees clean during normal dotagent commands.
 
 

@@ -238,7 +238,7 @@ Current scripts (documented in [scripts/README.md](scripts/README.md)):
 - [init-project-docs.ps1](scripts/init-project-docs.ps1) - Initialize documentation (creates [CONTEXT.md](CONTEXT.md), [PLAN.md](PLAN.md))
 - [health-check.ps1](.agent/scripts/health-check.ps1) - Validate setup (checks [.agent/](agents/) exists)
 - [validate-links.ps1](.agent/scripts/validate-links.ps1) - Check markdown links (validates [docs/](docs/README.md))
-- [dotagent.ps1](scripts/dotagent.ps1) - Main orchestrator
+- [dotagent.ps1](scripts/dotagent.ps1) - PowerShell compatibility entrypoint over the Python CLI
 
 **Validate using**: [schemas/](schemas/)  
 **Documented in**: [scripts/README.md](scripts/README.md)  
@@ -249,7 +249,7 @@ Current prompts:
 - [task.md](prompts/task.md) - Task execution template (follows [PLAN.md](PLAN.md) format)
 - [review.md](prompts/review.md) - Review template (output validated by [schemas/review-output.schema.json](schemas/review-output.schema.json))
 
-**Used by**: [dotagent.ps1](scripts/dotagent.ps1) for single-job flows and staged `run` workflows
+**Used by**: [runtime/dotagent_runtime/cli.py](runtime/dotagent_runtime/cli.py) through the [dotagent.ps1](scripts/dotagent.ps1) compatibility entrypoint for task, review, run, status, result, and cancel flows
 
 **Guide**: [skills/](skills/) execution  
 **Referenced in**: [docs/using-skills.md](docs/using-skills.md)  

@@ -48,15 +48,20 @@ function Copy-ManagedDirectory {
 
     Get-ChildItem -LiteralPath $Source -Recurse -File | ForEach-Object {
         $relative = $_.FullName.Substring($Source.Length).TrimStart('\', '/')
-        $target = Join-Path $Destination $relative
-        $targetParent = Split-Path -Parent $target
-        Ensure-Dir $targetParent
-
-        if ((Test-Path -LiteralPath $target) -and -not $Force) {
-            Write-Output "Skipped existing file: $target"
+        $relativeParts = $relative -split '[\\/]'
+        if ($relativeParts -contains "__pycache__" -or $_.Extension -in @(".pyc", ".pyo")) {
+            Write-Output "Skipped generated file: $relative"
         } else {
-            Copy-Item -LiteralPath $_.FullName -Destination $target -Force
-            Write-Output "Installed file: $target"
+            $target = Join-Path $Destination $relative
+            $targetParent = Split-Path -Parent $target
+            Ensure-Dir $targetParent
+
+            if ((Test-Path -LiteralPath $target) -and -not $Force) {
+                Write-Output "Skipped existing file: $target"
+            } else {
+                Copy-Item -LiteralPath $_.FullName -Destination $target -Force
+                Write-Output "Installed file: $target"
+            }
         }
     }
 }

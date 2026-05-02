@@ -11,23 +11,27 @@ Consolidate `dotagent` onto the Python runtime as the single orchestration engin
 - Confirmed the Python runtime has the right module boundaries for planner, executor, validator, memory, and orchestrator work.
 - Updated the design documents to target an explicit `PLAN -> EXECUTE -> VALIDATE -> REPLAN` control loop.
 - Fixed the Python runtime registry break and link-validation drift.
+- Added Milestone 6 robustness scope for wrapper parity, clean installs, and structured tool failure persistence.
+- Hardened tool dispatch so missing or failing tools become persisted failed steps with evidence and telemetry.
+- Updated PowerShell wrappers to forward runtime command, execution target, and serial execution controls for `task` and `run`.
+- Updated the installer to skip generated Python cache files when copying the runtime into consumer repos.
+- Updated PowerShell wrappers to suppress Python bytecode generation during runtime invocation.
+- Marked legacy PowerShell-era integration reports as historical and pointed readers to the Python-canonical runtime.
+- Updated `GRAPH.md` and `CONTEXT.md` to describe PowerShell as a compatibility layer over the Python CLI.
+- Verified the installed consumer runtime works end-to-end after installer changes.
 
 ## In Progress
 
-- Replacing the duplicated PowerShell orchestration path with a thin wrapper over `python -m dotagent_runtime.cli`.
-- Updating the installer so consumer repos receive the Python runtime under `.agent/runtime/`.
-- Aligning docs and templates to the Python-canonical architecture.
+- No active blockers.
 
 ## Next
 
-- Verify the PowerShell wrapper and installed runtime work end-to-end through smoke commands.
-- Update core documentation to describe PowerShell as a compatibility layer rather than a second runtime.
-- Decide whether to remove or archive the remaining legacy orchestration helper scripts after wrapper migration.
-- Continue closing runtime gaps around semantic memory, distributed execution targets, and policy enforcement.
+- Optional: decide whether historical implementation reports should remain in `docs/` or move under a dedicated archive folder.
+- Optional: decide whether to add more consumer smoke coverage for non-Windows shells if cross-platform wrappers are introduced.
 
 ## Blockers
 
-- Consumer-repo smoke validation still depends on verifying the installed `.agent/runtime/` layout after the installer changes.
+- None.
 
 ## Verification
 
@@ -37,8 +41,18 @@ Consolidate `dotagent` onto the Python runtime as the single orchestration engin
   - `$env:PYTHONPATH='runtime'; python -m unittest discover -s runtime/tests -v`
   - `powershell -ExecutionPolicy Bypass -File .\.agent\scripts\validate-links.ps1 -Path .`
   - `powershell -ExecutionPolicy Bypass -File .\.agent\scripts\health-check.ps1`
+  - `powershell -ExecutionPolicy Bypass -File .\scripts\run-agent.ps1 task "wrapper command smoke" -RuntimeCommand 'python --version' -ExecutionTarget slurm -Serial`
+  - `powershell -ExecutionPolicy Bypass -File .\scripts\install-pack.ps1 -ProjectRoot <workspace-temp>`
+- latest results:
+  - runtime unit tests: 17 passed
+  - markdown link validation: 622 valid links, 0 broken links
+  - health check: passed with 15 checks and 0 warnings
+  - wrapper smoke: command forwarding, Slurm target selection, and serial mode reached the Python plan
+  - installer smoke: installed runtime contained `cli.py` and excluded `__pycache__` plus `.pyc` files
+  - installed consumer smoke: install, init docs, setup, task execute, review prepare, run prepare, status, and result succeeded
+  - runtime cache smoke: installed runtime remained free of `__pycache__` and `.pyc` after wrapper execution
+  - stale PowerShell orchestration reference search: no current-doc matches
 - manual checks:
   - inspected the PowerShell shim, Python runtime modules, installer, schemas, docs, templates, and validation scripts
 - known gaps:
-  - there are still legacy docs that describe `scripts/run-agent.ps1` as the orchestration engine instead of the Python CLI
-  - compatibility flags accepted by the PowerShell wrapper are not yet meaningful runtime controls
+  - none currently tracked
